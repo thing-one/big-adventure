@@ -1270,6 +1270,130 @@ button {
   .reveal-go { animation: none; }
 }
 
+/* ============================================================
+   NEXT SPRINT — echo tiles, frame scenes, journal close, perf
+   ============================================================ */
+
+/* echo-trace tiles (Say It Back) */
+.echo-tiles { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.echo-tile {
+  min-width: var(--tap);
+  min-height: var(--tap);
+  padding: 10px 18px;
+  border-radius: 16px;
+  font-size: 24px;
+  font-weight: 800;
+  font-family: inherit;
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid var(--glass-edge);
+  opacity: 0.55;
+  transition: opacity 0.2s ease, transform 0.2s ease, background 0.25s ease;
+}
+.echo-tile.lit { opacity: 1; background: rgba(255, 209, 102, 0.35); border-color: var(--gold); transform: scale(1.08); }
+.echo-tile.ready { opacity: 1; border-color: var(--gold); animation: cck-next-pulse 1.4s ease-in-out infinite; }
+.echo-tile.placed { opacity: 1; background: linear-gradient(160deg, var(--white), #ddd6ff); color: var(--ink); transform: none; animation: none; }
+
+/* retrieval frame scenes */
+.frame-banner.frame-reply { background: linear-gradient(135deg, rgba(255, 244, 214, 0.95), rgba(255, 230, 200, 0.92)); color: #4a3a28; }
+.card-reply { box-shadow: 0 0 0 10px rgba(255, 244, 214, 0.16), var(--shadow-deep); }
+.card-reply::after {
+  content: '';
+  position: absolute;
+  top: 12px; right: 18px;
+  width: 52px; height: 30px;
+  border-radius: 50%;
+  background: rgba(120, 140, 200, 0.18);
+  filter: blur(5px);
+  pointer-events: none;
+}
+.frame-dispute { display: flex; flex-direction: column; gap: 8px; background: none; border: none; padding: 0 0 4px; }
+.fd-bubble {
+  align-self: flex-start;
+  max-width: 80%;
+  padding: 10px 16px;
+  border-radius: 18px 18px 18px 4px;
+  background: var(--white);
+  color: var(--ink);
+  font-size: 18px;
+  font-weight: 700;
+}
+.fd-bubble.fd-b2 { align-self: flex-end; border-radius: 18px 18px 4px 18px; background: #ffe9c4; }
+.fd-emoji { font-size: 24px; margin-right: 6px; }
+.frame-banner.frame-caption { background: linear-gradient(135deg, rgba(247, 245, 255, 0.95), rgba(221, 214, 255, 0.92)); color: #33254f; border: 6px solid #fff; }
+
+/* journal close landing */
+.close-body { display: flex; align-items: center; justify-content: center; }
+.screen-close .step-card { max-width: 680px; width: 100%; max-height: 100%; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.close-page { width: 100%; }
+.tell-dad { width: 100%; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px; }
+.dad-picks { display: flex; flex-direction: column; gap: 10px; }
+.dad-pick { font-size: 18px; line-height: 1.3; white-space: normal; text-align: left; }
+
+/* grouped journal */
+.journal-group-head { display: flex; align-items: center; gap: 12px; padding: 16px 6px 8px; }
+.journal-group-head .step-emoji { font-size: 30px; }
+.ink-chip {
+  margin-left: auto;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 209, 102, 0.25);
+  border: 1.5px solid var(--gold);
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--gold-soft);
+  white-space: nowrap;
+  align-self: center;
+}
+.crumbs-flock { text-align: center; padding-top: 10px; }
+.crumbs-bomb { font-size: 24px; }
+
+/* showtime: flash, crumbs, freeze, portrait fixes */
+.st-flash {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  opacity: 0;
+  z-index: 7;
+  pointer-events: none;
+  transition: opacity 0.12s ease;
+}
+.st-flash.on { opacity: 0.9; }
+.st-crumbs {
+  position: absolute;
+  left: 16%;
+  bottom: 16%;
+  font-size: 44px;
+  z-index: 4;
+  transform: scaleX(-1);
+}
+.photo-taken .st-animal, .photo-taken .av-rig, .photo-taken .st-sun { animation: none !important; }
+.step-emoji.bob { animation: cck-bob 2.4s ease-in-out infinite; }
+.showtime-mode .ch-avatar { display: none; }
+.st-landmark { font-size: clamp(64px, 13vw, 120px); }
+@media (orientation: portrait) {
+  .showtime-stage .avatar { width: 150px; height: 200px; }
+}
+
+/* living map perf + thread draw-in */
+.rm-dest[data-state='locked'] .rm-float { animation: none; }
+.rm-dest:nth-of-type(3n) .rm-float { animation-delay: -1.9s; }
+.rm-dest:nth-of-type(3n+1) .rm-float { animation-delay: -3.7s; }
+.rm-thread-new {
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
+  animation: cba-thread-in 2.4s ease-out forwards;
+}
+@keyframes cba-thread-in {
+  to { stroke-dashoffset: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .echo-tile.ready, .step-emoji.bob, .rm-thread-new { animation: none; }
+  .rm-thread-new { stroke-dasharray: none; stroke-dashoffset: 0; }
+  .echo-tile, .st-flash { transition: none; }
+}
+
 /* === src/ui/juice.css === */
 /* juice.css — toasts, press states, shake/dim. Twilight glass aesthetic:
    indigo base, crystal teal edges, star-gold accents. No external refs. */
@@ -6857,6 +6981,9 @@ const Persist = (() => {
             friends: s.friends,
             photos,
             settings: s.settings,
+            // optional companions of the save (older saves simply lack them)
+            crumbs: s.crumbs || { met: false, bombed: [] },
+            threadsSeen: Array.isArray(s.threadsSeen) ? s.threadsSeen : [],
           }));
           return true;
         } catch (e) {
@@ -7023,6 +7150,7 @@ const Visit = (() => {
       : composeSteps(ctx, dest, kind, visit.returns);
 
     const runIds = new Set();
+    const presentedFacts = []; // facts she met this run (journal-close + tell-Dad)
     let pos = 0;
     let curServed = null;
     let attempts = 0;
@@ -7058,6 +7186,7 @@ const Visit = (() => {
       if (step.type === 'fact') {
         // box-0: presentation activates the fact; cap-deferred facts skip
         step.skipped = !ctx.scheduler.introduce(step.fact.id, ctx.session);
+        if (!step.skipped) presentedFacts.push(step.fact);
       } else if (step.type === 'phrase' && step.phrase) {
         const p = (ctx.state.phrases[step.phrase.id] = ctx.state.phrases[step.phrase.id] || { heard: 0, built: 0 });
         p.heard += 1;
@@ -7199,8 +7328,12 @@ const Visit = (() => {
       return outcome;
     }
 
-    function recordPhoto(moves) {
-      ctx.state.photos.push({ dest: destId, moves: (moves || []).slice(0, 4), day: ctx.dayKey });
+    function recordPhoto(moves, extra) {
+      const photo = Object.assign(
+        { dest: destId, moves: (moves || []).slice(0, 4), day: ctx.dayKey },
+        extra || {}
+      );
+      ctx.state.photos.push(photo);
       ctx.save();
     }
 
@@ -7232,7 +7365,10 @@ const Visit = (() => {
       return (curServed && curServed.hint) || '';
     }
 
-    return { destId, kind, current, submit, advance, hint, recordPhoto, steps };
+    return {
+      destId, kind, current, submit, advance, hint, recordPhoto, steps,
+      presentedFacts: () => presentedFacts.slice(),
+    };
   }
 
   return { createRun, serve, shuffleTiles };
@@ -7272,6 +7408,8 @@ const Engine = (() => {
       friends: [],
       photos: [],
       settings: { muted: false, look: 'crystal' },
+      crumbs: { met: false, bombed: [] },
+      threadsSeen: [],
     };
   }
 
@@ -7324,6 +7462,11 @@ const Engine = (() => {
       if (typeof loaded.settings.muted === 'boolean') s.settings.muted = loaded.settings.muted;
       if (typeof loaded.settings.look === 'string' && loaded.settings.look) s.settings.look = loaded.settings.look;
     }
+    if (loaded.crumbs && typeof loaded.crumbs === 'object') {
+      s.crumbs.met = !!loaded.crumbs.met;
+      if (Array.isArray(loaded.crumbs.bombed)) s.crumbs.bombed = loaded.crumbs.bombed.filter((x) => typeof x === 'string');
+    }
+    if (Array.isArray(loaded.threadsSeen)) s.threadsSeen = loaded.threadsSeen.filter((x) => typeof x === 'string');
     return s;
   }
 
@@ -7365,6 +7508,35 @@ const Engine = (() => {
       setMuted(m) {
         state.settings.muted = !!m;
         game.save();
+      },
+      // she built a phrase from tiles (echo-trace or Hello Book)
+      phraseBuilt(phraseId) {
+        const p = (state.phrases[phraseId] = state.phrases[phraseId] || { heard: 0, built: 0 });
+        p.built += 1;
+        game.save();
+        return p.built;
+      },
+      // caption the newest photo of a destination ("what should we tell Dad?")
+      captionLastPhoto(destId, caption) {
+        for (let i = state.photos.length - 1; i >= 0; i--) {
+          if (state.photos[i].dest === destId) {
+            state.photos[i].caption = String(caption || '').slice(0, 160);
+            game.save();
+            return true;
+          }
+        }
+        return false;
+      },
+      // golden threads she has already watched draw in (no re-celebration)
+      markThreadsSeen(pairIds) {
+        let changed = false;
+        for (const id of pairIds || []) {
+          if (state.threadsSeen.indexOf(id) === -1) {
+            state.threadsSeen.push(id);
+            changed = true;
+          }
+        }
+        if (changed) game.save();
       },
       destStatus(destId) {
         const v = state.visits[destId] || { done: false, returns: 0 };
@@ -7565,6 +7737,9 @@ const Speech = (() => {
       } catch (e) {
         if (o.onSilent) o.onSilent();
         return;
+      }
+      if (o.onChunk) {
+        try { o.onChunk(idx, chunks[idx]); } catch (e) { /* UI hook only */ }
       }
       idx += 1;
       u.rate = o.slow ? RATE_SLOW : RATE_NORMAL;
@@ -8342,7 +8517,7 @@ const RouteMap = (() => {
       (locked ? lockIcon() : '') +
       '<text class="rm-name" x="0" y="42" text-anchor="middle" font-size="19" fill="#f7f5ff" stroke="#12103a" stroke-width="4" paint-order="stroke">' + dest.name + '</text>' +
       (dest.unlocked
-        ? '<text class="rm-time" x="0" y="63" text-anchor="middle" font-size="14" fill="#ffe9a8" stroke="#12103a" stroke-width="3" paint-order="stroke">🕐 ' + localTimeText(dest.utcOffset, now) + '</text>'
+        ? '<text class="rm-time" data-utc="' + dest.utcOffset + '" x="0" y="63" text-anchor="middle" font-size="14" fill="#ffe9a8" stroke="#12103a" stroke-width="3" paint-order="stroke">🕐 ' + localTimeText(dest.utcOffset, now) + '</text>'
         : '') +
       '</g>' +
       '<rect x="-92" y="-92" width="184" height="172" fill="none" pointer-events="all"/>' +
@@ -8368,15 +8543,17 @@ const RouteMap = (() => {
 
   function threadLines(pairs, idsInOrder) {
     let s = '';
-    for (const [a, b] of pairs || []) {
-      const ia = idsInOrder.indexOf(a);
-      const ib = idsInOrder.indexOf(b);
+    for (const pair of pairs || []) {
+      const ids = pair.ids || pair;
+      const ia = idsInOrder.indexOf(ids[0]);
+      const ib = idsInOrder.indexOf(ids[1]);
       if (ia < 0 || ib < 0) continue;
       const pa = SPOT_LIST[ia];
       const pb = SPOT_LIST[ib];
       const mx = (pa.x + pb.x) / 2;
       const my = Math.min(pa.y, pb.y) - 70;
-      s += '<path class="rm-thread" d="M' + pa.x + ' ' + (pa.y - 24) + ' Q' + mx + ' ' + my + ' ' + pb.x + ' ' + (pb.y - 24) +
+      s += '<path class="rm-thread' + (pair.fresh ? ' rm-thread-new' : '') + '" d="M' + pa.x + ' ' + (pa.y - 24) +
+        ' Q' + mx + ' ' + my + ' ' + pb.x + ' ' + (pb.y - 24) +
         '" fill="none" stroke="#ffd166" stroke-width="2.5" stroke-linecap="round" opacity="0.75"/>';
     }
     return s;
@@ -8633,21 +8810,42 @@ const Screens = (() => {
       '</div>';
   }
 
-  function stepPhrase(host, step) {
-    const p = step.phrase;
-    host.innerHTML =
-      '<div class="card step-card">' +
+  // Echo-trace tiles: the phrase's words light as the voice speaks them,
+  // then she taps them back IN ORDER (only the pulsing next tile responds —
+  // no wrong placement is possible; arrival is never a test).
+  function echoTilesHtml(p) {
+    const words = String(p.text).split(/\s+/).filter(Boolean);
+    let s = '<div class="echo-tiles" data-echo>';
+    words.forEach((w, i) => {
+      s += '<button class="echo-tile" data-echo-tile="' + i + '" data-press>' + esc(w) + '</button>';
+    });
+    return s + '</div>';
+  }
+
+  function phraseCard(p, opts) {
+    const o = opts || {};
+    return (
+      '<div class="card step-card" data-phrase-card>' +
       '<span class="step-emoji">🗣️</span>' +
       '<h2 class="step-title">Say it back!</h2>' +
       '<p class="phrase-big">' + esc(p.text) + '</p>' +
       '<div class="respell" data-respell>' + esc(p.respell) + '</div>' +
       '<p class="step-sub">' + esc(p.gloss) + '</p>' +
+      echoTilesHtml(p) +
       '<div class="say-btns">' +
       '<button class="btn" data-action="say" data-press>🔊 Hear it</button>' +
       '<button class="btn" data-action="say-slow" data-press>🐢 Slowly</button>' +
+      '<button class="btn" data-action="say-echo" data-press>🗣️ Say it with me!</button>' +
       '</div>' +
-      '<button class="btn btn-primary" data-action="step-next" data-press>Into my Hello Book! ➜</button>' +
-      '</div>';
+      '<button class="btn btn-primary" data-action="' + (o.backTab ? 'journal-tab' : 'step-next') + '"' +
+      (o.backTab ? ' data-tab="hello"' : '') + ' data-press>' +
+      (o.backTab ? '↩ Back to my Hello Book' : 'Into my Hello Book! ➜') + '</button>' +
+      '</div>'
+    );
+  }
+
+  function stepPhrase(host, step) {
+    host.innerHTML = phraseCard(step.phrase);
   }
 
   function stepWonder(host, step) {
@@ -8723,8 +8921,25 @@ const Screens = (() => {
   }
 
   // ---------- challenge (skill + retrieval share the kingdom card) ----------
-  function dotsFrame(cur, frameText) {
-    return frameText ? '<div class="frame-banner">' + esc(frameText) + '</div>' : '';
+  // Retrieval frames render as SCENES, not just an intro line: a rain-smudged
+  // letter, two friends mid-squabble, the next host kid asking, her own
+  // polaroid waiting for its caption.
+  function dotsFrame(cur, fc) {
+    if (!fc || !fc.frame) return '';
+    if (fc.frame === 'dispute' && fc.animals && fc.animals.length === 2) {
+      return (
+        '<div class="frame-banner frame-dispute">' +
+        '<span class="fd-bubble"><span class="fd-emoji">' + esc(fc.animals[0]) + '</span> I remember it MY way…</span>' +
+        '<span class="fd-bubble fd-b2"><span class="fd-emoji">' + esc(fc.animals[1]) + '</span> No, no! You were THERE — help us!</span>' +
+        '</div>'
+      );
+    }
+    const icon = fc.frame === 'reply' ? '💌' : fc.frame === 'brief' ? '🧳' : fc.frame === 'caption' ? '📸' : '📬';
+    return (
+      '<div class="frame-banner frame-' + esc(fc.frame) + '">' + icon + ' ' + esc(fc.intro) +
+      (fc.sender ? ' <strong>— ' + esc(fc.sender) + '</strong>' : '') +
+      '</div>'
+    );
   }
 
   function tilesHtml(item) {
@@ -8760,12 +8975,13 @@ const Screens = (() => {
     return s + '</div>';
   }
 
-  function challenge(host, cur, frameText) {
+  function challenge(host, cur, frameCtx) {
     const item = cur.item;
+    const frameCls = frameCtx && frameCtx.frame ? ' card-' + frameCtx.frame : '';
     host.innerHTML =
-      dotsFrame(cur, frameText) +
+      dotsFrame(cur, frameCtx) +
       (item.passage ? '<div class="card passage-card" data-passage>' + esc(item.passage) + '</div>' : '') +
-      '<div class="card challenge-card" data-card>' +
+      '<div class="card challenge-card' + frameCls + '" data-card>' +
       '<p class="prompt">' + esc(item.prompt) + '</p>' +
       (item.type === 'tiles' ? tilesHtml(item) : choicesHtml(item)) +
       '<div class="feedback" data-feedback hidden></div>' +
@@ -8819,6 +9035,8 @@ const Screens = (() => {
       '<div class="st-landmark" aria-hidden="true">' + esc(dest.mapEmoji || '🌍') + '</div>' +
       '<div data-avatar></div>' +
       '<div class="st-animal" data-st-animal>' + esc(animal.emoji) + '</div>' +
+      '<div class="st-crumbs" data-crumbs hidden aria-hidden="true">🐦</div>' +
+      '<div class="st-flash" data-flash aria-hidden="true"></div>' +
       '<div class="polaroid-frame" data-polaroid>' +
       '<div class="polaroid-caption">' + esc(dest.showtime ? (isReturn ? dest.showtime.returnBackdrop : dest.showtime.backdrop) : dest.name) + '</div>' +
       '</div>' +
@@ -8829,10 +9047,64 @@ const Screens = (() => {
       '<button class="btn" data-press data-move="stuck">🙌 Big finish</button>' +
       '<button class="btn" data-press data-move="animal">' + esc(animal.emoji) + ' ' + esc(animal.move || 'Together!') + '</button>' +
       '</div>' +
+      '<div class="say-btns" data-shutter hidden>' +
+      '<button class="btn btn-primary btn-big" data-action="take-photo" data-press>📸 Take the photo!</button>' +
+      '</div>' +
       '<div class="say-btns" data-after hidden>' +
       '<div class="respell" data-farewell></div>' +
       '<button class="btn btn-primary btn-big" data-action="step-next" data-press>📬 Mail it! ➜</button>' +
       '</div>';
+  }
+
+  // ---------- journal close: the landing every session deserves ----------
+  // view: { kind, destName, emoji, shine, facts: [{emoji,text}],
+  //         tellDad: [{i, text}] | null, chosenDad: string | null }
+  function journalClose(el, view) {
+    let pages = '';
+    for (const f of view.facts || []) {
+      pages +=
+        '<div class="card fact-page close-page">' +
+        '<span class="step-emoji">' + esc(f.emoji) + '</span>' +
+        '<div class="fact-ink">' + esc(f.text) + '</div>' +
+        '</div>';
+    }
+    let dad = '';
+    if (view.chosenDad) {
+      dad =
+        '<div class="card tell-dad" data-tell-dad>' +
+        '<p class="step-sub">📬 On the back of the postcard:</p>' +
+        '<p class="step-text">' + esc(view.chosenDad) + '</p>' +
+        '<p class="step-sub">Show Dad tonight!</p>' +
+        '</div>';
+    } else if (view.tellDad && view.tellDad.length) {
+      let picks = '';
+      for (const t of view.tellDad) {
+        picks += '<button class="btn dad-pick" data-action="tell-dad" data-fact-i="' + t.i + '" data-press>' + esc(t.text) + '</button>';
+      }
+      dad =
+        '<div class="card tell-dad" data-tell-dad>' +
+        '<p class="step-text"><strong>What should we tell Dad?</strong></p>' +
+        '<p class="step-sub">Pick one for the back of your postcard:</p>' +
+        '<div class="dad-picks">' + picks + '</div>' +
+        '</div>';
+    }
+    const title = view.kind === 'first'
+      ? esc(view.destName) + ' is stamped!'
+      : view.kind === 'mailbag'
+        ? 'The mail is answered!'
+        : 'Your stamp got shinier!';
+    el.innerHTML =
+      '<section class="screen screen-journal screen-close">' +
+      '<div class="journal-body close-body">' +
+      '<div class="card step-card">' +
+      '<div class="stamp-ring shine-' + (view.shine || 1) + '" data-close-stamp>' + esc(view.emoji || '🌍') + '</div>' +
+      '<h2 class="step-title">' + title + '</h2>' +
+      (pages ? '<p class="step-sub">New pages for your journal:</p>' + pages : '') +
+      dad +
+      '<button class="btn btn-primary btn-big" data-action="close-landing" data-press>🌍 Back to the map ➜</button>' +
+      '</div>' +
+      '</div>' +
+      '</section>';
   }
 
   // ---------- journal ----------
@@ -8856,35 +9128,56 @@ const Screens = (() => {
       }
       body += '</div>';
     } else if (view.tab === 'facts') {
+      // grouped by visited destination — never a wall of blank cards
       body = '';
-      for (const f of view.facts) {
+      for (const g of view.factGroups || []) {
         body +=
-          '<div class="card fact-page ' + f.state + '">' +
-          '<span class="step-emoji">' + esc(f.emoji) + '</span>' +
-          '<div><div class="friend-name">' + esc(f.destName) + '</div>' +
-          '<div class="fact-ink">' + esc(f.line) + '</div></div>' +
+          '<div class="journal-group-head">' +
+          '<span class="step-emoji">' + esc(g.emoji) + '</span>' +
+          '<span class="friend-name">' + esc(g.destName) + '</span>' +
+          '<span class="friends-count">' + g.inked + ' of ' + g.total + ' pages inked</span>' +
           '</div>';
+        for (const f of g.rows) {
+          body +=
+            '<div class="card fact-page ' + f.state + '">' +
+            '<span class="step-emoji">' + esc(f.emoji) + '</span>' +
+            '<div><div class="fact-ink">' + esc(f.line) + '</div></div>' +
+            (f.fresh ? '<span class="ink-chip">✨ New ink!</span>' : '') +
+            '</div>';
+        }
+      }
+      if (view.teaserCount) {
+        body += '<div class="card fact-page blank"><span class="step-emoji">✈️</span>' +
+          '<div class="fact-ink">' + view.teaserCount + ' more lands wait for your visit…</div></div>';
       }
     } else if (view.tab === 'photos') {
       body = '<div class="stamp-row">';
       for (const p of view.photos) {
         body +=
           '<div class="card photo-card">' +
-          '<span class="photo-strip">' + esc(p.strip) + '</span>' +
+          '<span class="photo-strip">' + esc(p.strip) + (p.crumbs ? ' <span class="crumbs-bomb">🐦</span>' : '') + '</span>' +
           '<span class="friend-name">' + esc(p.title) + '</span>' +
+          (p.caption ? '<span class="step-sub">📬 ' + esc(p.caption) + '</span>' : '') +
           '<span class="step-sub">' + esc(p.sub) + '</span>' +
           '</div>';
       }
       body += (view.photos.length ? '' : '<p class="step-sub">Your Showtime photos will live here!</p>') + '</div>';
+      if (view.crumbsCount) {
+        body += '<p class="step-sub crumbs-flock">🐦 Crumbs the pigeon snuck into ' + view.crumbsCount +
+          (view.crumbsCount === 1 ? ' photo' : ' photos') + '!</p>';
+      }
+    } else if (view.tab === 'hello' && view.build) {
+      body = phraseCard(view.build, { backTab: true });
     } else {
       body = '';
       for (const h of view.hellos) {
         body +=
           '<div class="card hello-row" data-hello="' + esc(h.id) + '">' +
-          '<span class="hello-word">' + esc(h.text) + '</span>' +
+          '<span class="hello-word">' + esc(h.text) + (h.built ? ' <span class="ink-chip">⭐ Built!</span>' : '') + '</span>' +
           '<span class="respell">' + esc(h.respell) + '</span>' +
           '<button class="btn" data-action="hello-say" data-id="' + esc(h.id) + '" data-press>🔊</button>' +
           '<button class="btn" data-action="hello-slow" data-id="' + esc(h.id) + '" data-press>🐢</button>' +
+          '<button class="btn" data-action="hello-build" data-id="' + esc(h.id) + '" data-press>🧩 Build it!</button>' +
           '</div>';
       }
       if (!view.hellos.length) body = '<p class="step-sub">Greetings you learn will live here!</p>';
@@ -8994,7 +9287,7 @@ const Screens = (() => {
   return {
     title, route, visitShell, setProgress,
     stepArrival, stepPhrase, stepWonder, stepWonderAnswer, stepFact, stepFriend, stepSouvenir, stepLandmark,
-    challenge, showtime, journal, settings, leaveConfirm,
+    challenge, showtime, journal, journalClose, settings, leaveConfirm, phraseCard,
     setSlot, fillSlotsWith, showFeedback, showHint, showReveal, clearNotes, markChoiceAnswer,
     muteIcon,
   };
@@ -9023,8 +9316,15 @@ const Main = (() => {
   let settingsEl = null;
   let leaveEl = null;        // mid-visit leave confirmation overlay
   let journalTab = 'stamps';
+  let buildPhrase = null;    // Hello Book "Build it!" target
+  let echoState = null;      // echo-trace progress {phrase, total, next, active}
   let trailUntil = 0;
   let lastTs = 0;
+  let rafActive = false;     // the rAF loop sleeps when there is nothing to draw
+  let runInked = [];         // factIds inked during the active run (journal close)
+  const sessionInked = new Set(); // inked this session ("New ink!" chips)
+  let closeView = null;      // pending journal-close screen data
+  let pendingChapterToast = '';
 
   const timers = [];
   function timer(ms, fn) {
@@ -9112,8 +9412,24 @@ const Main = (() => {
     Juice.pressify(app);
     app.addEventListener('click', onTap);
 
-    requestAnimationFrame(loop);
+    kick();
     showTitle();
+  }
+
+  // The rAF loop runs only while there is visible work (particles alive or a
+  // sparkle trail pending), then sleeps — no 60fps canvas clears during 25
+  // minutes of reading. Every effect site calls kick() to wake it.
+  function kick() {
+    if (!rafActive) {
+      rafActive = true;
+      lastTs = 0;
+      requestAnimationFrame(loop);
+    }
+  }
+
+  function burstFx(kind, x, y, opts) {
+    Particles.burst(kind, x, y, opts);
+    kick();
   }
 
   function loop(ts) {
@@ -9124,7 +9440,11 @@ const Main = (() => {
       if (c) Particles.sparkleTrail(c.x + (Math.random() - 0.5) * 50, c.y + (Math.random() - 0.5) * 60);
     }
     Particles.tick(dt);
-    requestAnimationFrame(loop);
+    if (Particles.count() > 0 || performance.now() < trailUntil) {
+      requestAnimationFrame(loop);
+    } else {
+      rafActive = false;
+    }
   }
 
   // ---------------- input ----------------
@@ -9143,6 +9463,11 @@ const Main = (() => {
     const actBtn = t && t.closest ? t.closest('[data-action]') : null;
     if (actBtn) {
       handleAction(actBtn.getAttribute('data-action'), actBtn);
+      return;
+    }
+    const echoTile = t && t.closest ? t.closest('[data-echo-tile]') : null;
+    if (echoTile) {
+      tapEcho(echoTile);
       return;
     }
     if (screen !== 'visit' || busy || !run) return;
@@ -9172,8 +9497,8 @@ const Main = (() => {
     else if (action === 'leave-stay') closeLeave();
     else if (action === 'leave-go') { closeLeave(); clearTimers(); run = null; showMap(); }
     else if (action === 'reveal-continue') advanceNow();
-    else if (action === 'journal') showJournal(journalTab);
-    else if (action === 'journal-tab') showJournal(btn.getAttribute('data-tab'));
+    else if (action === 'journal') { buildPhrase = null; showJournal(journalTab); }
+    else if (action === 'journal-tab') { buildPhrase = null; showJournal(btn.getAttribute('data-tab')); }
     else if (action === 'settings') openSettings();
     else if (action === 'close-settings') closeSettings();
     else if (action === 'toggle-mute') toggleMute();
@@ -9181,9 +9506,21 @@ const Main = (() => {
     else if (action === 'mailbag') startMailbag();
     else if (action === 'step-next') advanceNow();
     else if (action === 'landmark-next') { landmarkBeat += 1; renderStep(); }
-    else if (action === 'say' || action === 'say-slow') {
-      if (curView && curView.step && curView.step.phrase) sayPhrase(curView.step.phrase, action === 'say-slow');
+    else if (action === 'take-photo') takePhoto();
+    else if (action === 'tell-dad') tellDad(btn);
+    else if (action === 'close-landing') { closeView = null; showMap(); }
+    else if (action === 'hello-build') {
+      const p = allPhrases().find((x) => x.id === btn.getAttribute('data-id'));
+      if (p) {
+        buildPhrase = p;
+        showJournal('hello');
+      }
     }
+    else if (action === 'say' || action === 'say-slow') {
+      const p = activePhrase();
+      if (p) sayPhrase(p, action === 'say-slow');
+    }
+    else if (action === 'say-echo') sayEcho();
     else if (action === 'say-fact') {
       if (curView && curView.step && curView.step.fact) {
         Speech.speak(curView.step.fact.text, { lang: 'en-US', onSilent: () => {} });
@@ -9214,6 +9551,78 @@ const Main = (() => {
     return out;
   }
 
+  function activePhrase() {
+    if (buildPhrase) return buildPhrase;
+    return curView && curView.step && curView.step.phrase ? curView.step.phrase : null;
+  }
+
+  // ---------------- echo-trace: hear it, then build it back ----------------
+  function initEcho(phrase) {
+    const total = String(phrase.text).split(/\s+/).filter(Boolean).length;
+    echoState = { phrase, total, next: 0, active: false };
+  }
+
+  function echoTileEl(i) {
+    return app.querySelector('[data-echo-tile="' + i + '"]');
+  }
+
+  function sayEcho() {
+    const p = activePhrase();
+    if (!p || !echoState) return;
+    echoState.active = false;
+    echoState.next = 0;
+    for (let i = 0; i < echoState.total; i++) {
+      const el = echoTileEl(i);
+      if (el) el.classList.remove('lit', 'ready', 'placed');
+    }
+    const useReal = p.lang && Speech.canSpeak(p.lang);
+    const armed = () => {
+      echoState.active = true;
+      const first = echoTileEl(0);
+      if (first) first.classList.add('ready');
+    };
+    const spoke = Speech.speak(useReal ? p.text : p.respell, {
+      lang: useReal ? p.lang : 'en-US',
+      slow: true,
+      onChunk: (i) => {
+        const prev = echoTileEl(i - 1);
+        if (prev) prev.classList.remove('lit');
+        const el = echoTileEl(Math.min(i, echoState.total - 1));
+        if (el) el.classList.add('lit');
+      },
+      onDone: () => {
+        const last = echoTileEl(echoState.total - 1);
+        if (last) last.classList.remove('lit');
+        armed();
+      },
+      onSilent: armed, // no voice? she can still build it
+    });
+    if (!spoke) armed();
+  }
+
+  function tapEcho(tileEl) {
+    if (!echoState || !echoState.active) return;
+    const idx = parseInt(tileEl.getAttribute('data-echo-tile'), 10);
+    if (idx !== echoState.next) return; // only the pulsing next tile responds
+    tileEl.classList.remove('ready', 'lit');
+    tileEl.classList.add('placed');
+    AudioKit.tapNote(idx);
+    echoState.next += 1;
+    if (echoState.next >= echoState.total) {
+      echoState.active = false;
+      const built = game.phraseBuilt(echoState.phrase.id);
+      AudioKit.play('levelup');
+      try { Juice.toast(built === 1 ? '⭐ You said it AND built it!' : '⭐ Built it again!'); } catch (e) { /* toast only */ }
+      if (!reduced()) {
+        const c = centerOf(app.querySelector('[data-echo]'));
+        burstFx('sparkle', c.x, c.y, { count: 14 });
+      }
+    } else {
+      const nxt = echoTileEl(echoState.next);
+      if (nxt) nxt.classList.add('ready');
+    }
+  }
+
   // ---------------- routing ----------------
   function showTitle() {
     clearTimers();
@@ -9241,15 +9650,40 @@ const Main = (() => {
           shine: st.shine, utcOffset: d.utcOffset, palette: d.palette, mapEmoji: d.mapEmoji,
         };
       });
-    const threadPairs = game.litThreads().map((pairId) =>
-      Destinations.threads[pairId].map((fid) => Destinations.factIndex[fid].dest.id)
-    );
+    const lit = game.litThreads();
+    const threadPairs = lit.map((pairId) => ({
+      ids: Destinations.threads[pairId].map((fid) => Destinations.factIndex[fid].dest.id),
+      fresh: game.state.threadsSeen.indexOf(pairId) === -1,
+    }));
     RouteMap.render(container, {
       dests,
       threadPairs,
       hour: new Date().getHours(),
       now: new Date(),
     }, startVisit);
+    // a brand-new golden thread draws itself in, once
+    if (threadPairs.some((t) => t.fresh)) {
+      AudioKit.play('hatch');
+      game.markThreadsSeen(lit);
+    }
+    if (pendingChapterToast) {
+      const msg = pendingChapterToast;
+      pendingChapterToast = '';
+      try { Juice.toast(msg, 3600); } catch (e) { /* toast only */ }
+    }
+    // the little clocks tick while she looks at the world
+    scheduleClockTick();
+  }
+
+  function scheduleClockTick() {
+    timer(30000, () => {
+      if (screen !== 'map') return;
+      for (const el of app.querySelectorAll('[data-utc]')) {
+        const off = parseFloat(el.getAttribute('data-utc'));
+        if (!isNaN(off)) el.textContent = '🕐 ' + RouteMap.localTimeText(off, new Date());
+      }
+      scheduleClockTick();
+    });
   }
 
   function showJournal(tab) {
@@ -9266,19 +9700,31 @@ const Main = (() => {
             : 'Stamped! Memories make it shine.';
       return { name: d.name, emoji: d.mapEmoji || '🌍', shine: st.shine, note };
     });
-    const facts = [];
-    for (const d of Destinations.list) {
-      for (const f of d.facts) {
+    // pages grouped by VISITED destination; unvisited lands are one quiet
+    // teaser row, never a wall of blanks
+    const factGroups = [];
+    let teaserCount = 0;
+    for (const id of Engine.ROUTE) {
+      const d = Destinations.byId[id];
+      if (!d) continue;
+      if (!game.destStatus(d.id).done) {
+        teaserCount += 1;
+        continue;
+      }
+      let inked = 0;
+      const rows = d.facts.map((f) => {
         const s = sch.strengthOf(f.id);
         const met = sch.isIntroduced(f.id);
-        facts.push({
-          destName: d.name,
+        if (met && s >= 1) inked += 1;
+        return {
           emoji: f.tiles.emoji,
           state: !met ? 'blank' : s >= 1 ? '' : 'faint',
-          line: !met ? 'A blank page waits for your travels…'
+          fresh: sessionInked.has(f.id),
+          line: !met ? 'This page waits for a return trip…'
             : s >= 1 ? f.text : 'You met this one — remember it to ink it in!',
-        });
-      }
+        };
+      });
+      factGroups.push({ destName: d.name, emoji: d.mapEmoji, inked, total: d.facts.length, rows });
     }
     const photos = (game.state.photos || []).slice().reverse().map((p) => {
       const d = Destinations.byId[p.dest];
@@ -9287,10 +9733,17 @@ const Main = (() => {
         strip: (p.moves || []).map((m) => moveEmoji[m] || '✨').join(' '),
         title: d ? d.name : p.dest,
         sub: 'Showtime! ' + (p.day || ''),
+        caption: p.caption || '',
+        crumbs: !!p.crumbs,
       };
     });
-    const hellos = allPhrases().filter((p) => game.state.phrases[p.id] && game.state.phrases[p.id].heard > 0);
-    Screens.journal(app, { tab: journalTab, stamps, facts, photos, hellos });
+    const crumbsCount = (game.state.photos || []).filter((p) => p.crumbs).length;
+    const hellos = allPhrases()
+      .filter((p) => game.state.phrases[p.id] && game.state.phrases[p.id].heard > 0)
+      .map((p) => Object.assign({ built: (game.state.phrases[p.id].built | 0) }, p));
+    const build = journalTab === 'hello' ? buildPhrase : null;
+    Screens.journal(app, { tab: journalTab, stamps, factGroups, teaserCount, photos, crumbsCount, hellos, build });
+    if (build) initEcho(build);
   }
 
   function openSettings() {
@@ -9319,6 +9772,7 @@ const Main = (() => {
     }
     clearTimers();
     visitDest = Destinations.byId[destId];
+    runInked = [];
     run = game.startVisit(destId);
     screen = 'visit';
     const cheer = game.state.friends.indexOf(visitDest.animal.id) > -1 ? visitDest.animal.emoji : '';
@@ -9335,6 +9789,7 @@ const Main = (() => {
     }
     clearTimers();
     visitDest = null;
+    runInked = [];
     run = mb;
     screen = 'visit';
     Screens.visitShell(app, { destName: 'Mailbag', muted: isMuted(), cheer: '📬' });
@@ -9360,10 +9815,26 @@ const Main = (() => {
     Screens.setProgress(app, cur.index, cur.total);
     const host = stepHost();
     if (!host) return;
+    const sect = app.querySelector('.screen-challenge');
+    if (sect) sect.classList.toggle('showtime-mode', cur.type === 'showtime');
 
     if (cur.type === 'skill' || cur.type === 'retrieval') {
-      const frameText = cur.type === 'retrieval' ? Copy.frameIntro(cur.item.frame) : '';
-      Screens.challenge(host, cur, frameText);
+      let frameCtx = null;
+      if (cur.type === 'retrieval') {
+        const entry = Destinations.factIndex[cur.step.factId];
+        const fdest = entry ? entry.dest : null;
+        const frame = cur.item.frame;
+        frameCtx = {
+          frame,
+          intro: Copy.frameIntro(frame),
+          sender: fdest && frame === 'reply' ? fdest.hostKid.name
+            : frame === 'brief' ? nextKidName() : '',
+          // squabbling friends fit choice cards only; others get the banner
+          animals: fdest && frame === 'dispute' && cur.item.type === 'choice'
+            ? [fdest.animal.emoji, fdest.shyAnimal.emoji] : null,
+        };
+      }
+      Screens.challenge(host, cur, frameCtx);
       if (cur.item.type === 'tiles' && cur.item.prefill) {
         prefillCount = cur.item.prefill;
         for (let i = 0; i < prefillCount; i++) slotsArr.push({ letter: cur.item.word[i], el: null });
@@ -9378,6 +9849,7 @@ const Main = (() => {
     }
     else if (cur.type === 'phrase') {
       Screens.stepPhrase(host, cur.step);
+      initEcho(cur.step.phrase);
       timer(450, () => sayPhrase(cur.step.phrase, false)); // the host kid greets her
     } else if (cur.type === 'wonder') Screens.stepWonder(host, cur.step);
     else if (cur.type === 'fact') {
@@ -9388,7 +9860,7 @@ const Main = (() => {
       AudioKit.play('hatch');
       if (!reduced()) {
         const c = centerOf(host);
-        Particles.burst('hatch', c.x, c.y - 40);
+        burstFx('hatch', c.x, c.y - 40);
       }
     } else if (cur.type === 'souvenir') {
       Screens.stepSouvenir(host, cur.step);
@@ -9408,10 +9880,7 @@ const Main = (() => {
   }
 
   // ---------------- showtime choreography ----------------
-  function onMove(move) {
-    if (photoTaken || showMoves.length >= 3) return;
-    showMoves.push(move);
-    AudioKit.play('correct');
+  function playMove(move) {
     if (move === 'animal') {
       const a = app.querySelector('[data-st-animal]');
       if (a && !reduced()) {
@@ -9422,33 +9891,90 @@ const Main = (() => {
     } else {
       Avatar.trick(move === 'cartwheel' ? 1 : move === 'flip' ? 2 : 3);
       trailUntil = performance.now() + 900;
+      kick();
     }
-    if (showMoves.length >= 3) timer(1300, takePhoto);
+  }
+
+  function onMove(move) {
+    if (photoTaken || showMoves.length >= 3) return;
+    showMoves.push(move);
+    AudioKit.play('correct');
+    playMove(move);
+    if (showMoves.length >= 3) {
+      // her whole routine replays against the destination's motif,
+      // then SHE takes the photo
+      const moves = app.querySelector('[data-moves]');
+      if (moves) moves.hidden = true;
+      timer(1100, () => {
+        if (visitDest && visitDest.motif) AudioKit.tune(visitDest.motif.notes, visitDest.motif.bpm);
+        showMoves.forEach((m, i) => timer(200 + i * 1100, () => playMove(m)));
+        timer(200 + showMoves.length * 1100, () => {
+          const shutter = app.querySelector('[data-shutter]');
+          if (shutter) shutter.hidden = false;
+        });
+      });
+    }
+  }
+
+  // Crumbs the pigeon: meets her in New York, then sneaks into the first
+  // photo at each new destination after that. Deterministic, never random.
+  function crumbsBomb() {
+    const c = game.state.crumbs;
+    const dest = visitDest ? visitDest.id : '';
+    if (!dest) return false;
+    if (!c.met) {
+      if (dest !== 'nyc') return false;
+      c.met = true;
+      c.bombed.push(dest);
+      game.save();
+      try { Juice.toast('🐦 A pigeon stowed away! Crumbs joins the journey!', 3600); } catch (e) { /* toast only */ }
+      return true;
+    }
+    if (c.bombed.indexOf(dest) > -1) return false;
+    c.bombed.push(dest);
+    game.save();
+    try { Juice.toast('🐦 Crumbs photobombed your picture!', 3000); } catch (e) { /* toast only */ }
+    return true;
   }
 
   function takePhoto() {
-    if (photoTaken) return;
+    if (photoTaken || !run) return;
     photoTaken = true;
-    run.recordPhoto(showMoves);
-    AudioKit.play('levelup');
     const stage = app.querySelector('[data-stage]');
-    const pol = app.querySelector('[data-polaroid]');
-    if (pol) pol.classList.add('show');
-    if (!reduced() && stage) {
-      const c = centerOf(stage);
-      Particles.burst('confetti', c.x, c.y - 40);
+    // shutter flash, then the polaroid develops around the frozen stage
+    const flash = app.querySelector('[data-flash]');
+    if (flash && !reduced()) {
+      flash.classList.add('on');
+      timer(360, () => flash.classList.remove('on'));
     }
-    const fw = visitDest && visitDest.showtime ? visitDest.showtime.farewell : null;
-    const fwEl = app.querySelector('[data-farewell]');
-    if (fw && fwEl) {
-      fwEl.textContent = fw.text + '  (' + fw.respell + ')';
-      const useReal = fw.lang && Speech.canSpeak(fw.lang);
-      timer(700, () => Speech.speak(useReal ? fw.text : fw.respell, { lang: useReal ? fw.lang : 'en-US', onSilent: () => {} }));
+    AudioKit.play('pop');
+    const bombed = crumbsBomb();
+    if (bombed) {
+      const cr = app.querySelector('[data-crumbs]');
+      if (cr) cr.hidden = false;
     }
-    const after = app.querySelector('[data-after]');
-    if (after) after.hidden = false;
-    const moves = app.querySelector('[data-moves]');
-    if (moves) moves.hidden = true;
+    run.recordPhoto(showMoves, bombed ? { crumbs: true } : null);
+    timer(420, () => {
+      AudioKit.play('levelup');
+      const pol = app.querySelector('[data-polaroid]');
+      if (pol) pol.classList.add('show');
+      if (stage) stage.classList.add('photo-taken');
+      if (!reduced() && stage) {
+        const c = centerOf(stage);
+        burstFx('confetti', c.x, c.y - 40);
+      }
+      const fw = visitDest && visitDest.showtime ? visitDest.showtime.farewell : null;
+      const fwEl = app.querySelector('[data-farewell]');
+      if (fw && fwEl) {
+        fwEl.textContent = fw.text + '  (' + fw.respell + ')';
+        const useReal = fw.lang && Speech.canSpeak(fw.lang);
+        timer(700, () => Speech.speak(useReal ? fw.text : fw.respell, { lang: useReal ? fw.lang : 'en-US', onSilent: () => {} }));
+      }
+      const shutter = app.querySelector('[data-shutter]');
+      if (shutter) shutter.hidden = true;
+      const after = app.querySelector('[data-after]');
+      if (after) after.hidden = false;
+    });
   }
 
   // ---------------- tiles / choices (kingdom mechanics) ----------------
@@ -9543,8 +10069,11 @@ const Main = (() => {
     let inked = null;
     let thread = false;
     for (const ev of out.events || []) {
-      if (ev.type === 'inked') inked = ev;
-      else if (ev.type === 'thread') thread = true;
+      if (ev.type === 'inked') {
+        inked = ev;
+        runInked.push(ev.factId);
+        sessionInked.add(ev.factId);
+      } else if (ev.type === 'thread') thread = true;
     }
 
     if (out.status === 'correct') {
@@ -9560,7 +10089,7 @@ const Main = (() => {
         }
       } else {
         const c = centerOf(card);
-        Particles.burst(inked ? 'hatch' : 'shatter', c.x, c.y - 30);
+        burstFx(inked ? 'hatch' : 'shatter', c.x, c.y - 30);
       }
       if (thread) {
         timer(600, () => {
@@ -9593,6 +10122,66 @@ const Main = (() => {
     }
   }
 
+  // the host kid of the next stop on the route (for the 'brief' frame)
+  function nextKidName() {
+    for (const id of Engine.ROUTE) {
+      const st = game.destStatus(id);
+      if (st.unlocked && !st.done && Destinations.byId[id]) {
+        return Destinations.byId[id].hostKid.name;
+      }
+    }
+    return 'Your next friend';
+  }
+
+  function tellDad(btn) {
+    if (!closeView || !closeView.tellDad) return;
+    const i = parseInt(btn.getAttribute('data-fact-i'), 10);
+    const pick = closeView.tellDad.find((t) => t.i === i);
+    if (!pick) return;
+    game.captionLastPhoto(closeView.destId, pick.text);
+    closeView.chosenDad = pick.text;
+    closeView.tellDad = null;
+    AudioKit.play('hatch');
+    Screens.journalClose(app, closeView);
+  }
+
+  // Every session lands somewhere: the journal close shows the stamp, the
+  // new pages, and (after a first visit) the postcard caption for Dad.
+  function showJournalClose(res, presented) {
+    clearTimers();
+    Speech.stop();
+    screen = 'close';
+    const dest = Destinations.byId[res.destId];
+    const st = res.kind === 'mailbag' ? null : game.destStatus(res.destId);
+    const inkedFacts = runInked
+      .map((id) => Destinations.factIndex[id])
+      .filter(Boolean)
+      .map((e) => ({ emoji: e.fact.tiles.emoji, text: e.fact.text }));
+    const newPages = (presented || []).map((f) => ({ emoji: f.tiles.emoji, text: f.text }));
+    const facts = res.kind === 'mailbag' ? inkedFacts : newPages.concat(inkedFacts).slice(0, 5);
+    closeView = {
+      kind: res.kind,
+      destId: res.destId,
+      destName: dest ? dest.name : 'The mailbag',
+      emoji: dest ? dest.mapEmoji : '📬',
+      shine: st ? Math.max(1, st.shine) : 2,
+      facts,
+      tellDad: res.kind === 'first' && newPages.length
+        ? newPages.slice(0, 3).map((f, i) => ({ i, text: f.text }))
+        : null,
+      chosenDad: null,
+    };
+    Screens.journalClose(app, closeView);
+    AudioKit.play(res.kind === 'first' ? 'fanfare' : 'hatch');
+    if (!reduced()) {
+      const stamp = app.querySelector('[data-close-stamp]');
+      timer(300, () => {
+        const c = centerOf(stamp);
+        burstFx(res.kind === 'first' ? 'confetti' : 'sparkle', c.x, c.y, { count: res.kind === 'first' ? 50 : 16 });
+      });
+    }
+  }
+
   function advanceNow() {
     clearTimers();
     if (!run) {
@@ -9602,16 +10191,17 @@ const Main = (() => {
     landmarkBeat = 0;
     const res = run.advance();
     if (res && res.finished) {
+      const presented = run.presentedFacts ? run.presentedFacts() : [];
       if (res.kind === 'first') {
         const next = game.nextAfter(res.destId);
         if (next && next.chapterStart && next.chapter) {
-          try { Juice.toast('✈️ A new continent opens: ' + next.chapter.name + '!', 3600); } catch (e) { /* toast only */ }
+          pendingChapterToast = '✈️ A new continent opens: ' + next.chapter.name + '!';
         } else {
-          try { Juice.toast('🛂 A new stamp in your passport!', 3200); } catch (e) { /* toast only */ }
+          pendingChapterToast = '🛂 A new stamp in your passport!';
         }
       }
       run = null;
-      showMap();
+      showJournalClose(res, presented);
     } else if (res) {
       renderStep();
     } else {
