@@ -1248,6 +1248,28 @@ button {
   .polaroid-frame { transition: none; }
 }
 
+/* showtime landmark glyph + scalable map polish */
+.st-landmark {
+  position: absolute;
+  left: 10%;
+  bottom: 18%;
+  font-size: 120px;
+  line-height: 1;
+  opacity: 0.85;
+  z-index: 2;
+  filter: drop-shadow(0 8px 18px rgba(8, 6, 30, 0.35));
+  pointer-events: none;
+}
+
+/* the reveal page-turn is hers: a visible button, no clock */
+.reveal-go {
+  margin-top: 12px;
+  animation: cck-rise-in 0.5s ease 0.4s both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal-go { animation: none; }
+}
+
 /* === src/ui/juice.css === */
 /* juice.css — toasts, press states, shake/dim. Twilight glass aesthetic:
    indigo base, crystal teal edges, star-gold accents. No external refs. */
@@ -1681,6 +1703,7 @@ const DestTCI = {
   id: 'tci',
   name: 'Turks and Caicos',
   utcOffset: -5,
+  mapEmoji: '🏝️',
   palette: { a: '#36d1c4', b: '#ffd166' },
   motif: { source: 'ripsaw rhythm (carpenter saw scrape)', bpm: 96, notes: ['D4', 'F4', 'A4', 'D5'] },
 
@@ -2068,6 +2091,7 @@ const DestNYC = {
   id: 'nyc',
   name: 'New York City',
   utcOffset: -5,
+  mapEmoji: '🗽',
   palette: { a: '#fbbf24', b: '#818cf8' },
   motif: { source: 'brushed-snare jazz (swing)', bpm: 120, notes: ['C4', 'E4', 'G4', 'B4'] },
 
@@ -2111,6 +2135,7 @@ const DestNYC = {
       id: 'nyc-liberty',
       stage: 0,
       text: 'The Statue of Liberty is made of copper and slowly turned green, like an old penny.',
+      thread: { pairId: 'liberty' },
       recognition: {
         prompt: 'What is the Statue of Liberty made of?',
         choices: ['copper', 'green stone', 'sea glass'],
@@ -2139,6 +2164,7 @@ const DestNYC = {
       id: 'nyc-subway',
       stage: 0,
       text: 'New York has more subway stations than any other city in the world.',
+      thread: { pairId: 'bigmetros' },
       recognition: {
         prompt: 'Which city has the most subway stations?',
         choices: ['New York', 'Paris', 'Tokyo'],
@@ -2444,11 +2470,3889 @@ const DestNYC = {
   },
 };
 
+// === src/content/destinations/mex.js ===
+// src/content/destinations/mex.js - Mexico City.
+// Facts verified against two sources each (one local); `src` annotations are
+// stripped at build time and never ship. Timeless phrasing enforced by the
+// validator (no exact big counts, no named individual animals).
+const DestMex = {
+  id: 'mex',
+  name: 'Mexico City',
+  utcOffset: -6,
+  mapEmoji: 'ðŸ°',
+  palette: { a: '#f97362', b: '#2dd4bf' },
+  motif: { source: 'mariachi trumpet melody', bpm: 112, notes: ['G4', 'C5', 'E5', 'G5'] },
+
+  hostKid: {
+    name: 'Lupita',
+    age: 7,
+    neighborhood: 'Coyoacan, Mexico City',
+    intro: 'Hola! I am Lupita. Welcome to my city!',
+    life: [
+      'I ride the Metro and spot the picture sign at every station.',
+      'Saturdays mean esquites and fruit cups at Mercado de Coyoacan.',
+      'On Sunday mornings we bike down Reforma when cars take a rest.',
+      'I practice cartwheels under the trees at Viveros de Coyoacan.',
+      'My favorite treat is a warm concha from our corner panaderia.',
+    ],
+  },
+
+  animal: {
+    id: 'mex-xochi',
+    name: 'Xochi the Axolotl',
+    species: 'Mexican axolotl',
+    emoji: 'ðŸ¦Ž',
+    line: 'I never grow up, and I never stop smiling!',
+    move: 'gill-wiggle',
+  },
+  shyAnimal: {
+    id: 'mex-brinco',
+    name: 'Brinco the Chapulin',
+    species: 'chapulin grasshopper',
+    emoji: 'ðŸ¦—',
+    line: 'I hop all over grasshopper hill, just like my name!',
+  },
+
+  wonder: {
+    q: 'How can gardens float on a lake?',
+    a: 'Farmers piled mud and water plants on mats until little islands grew.',
+  },
+
+  facts: [
+    {
+      id: 'mex-metro',
+      stage: 0,
+      text: 'The Metro in Mexico City is one of the busiest anywhere, and every station has its own picture symbol.',
+      thread: { pairId: 'bigmetros' },
+      recognition: {
+        prompt: 'What does every Metro station have?',
+        choices: ['its own picture symbol', 'a tiny swimming pool', 'a roller coaster'],
+        answerIndex: 0,
+        hint: 'Lupita spots them from the train.',
+        explain: 'Every station has its own picture symbol.',
+      },
+      cued: { prompt: 'The Metro here is one of the busiest in the...', answer: 'WORLD' },
+      tiles: { word: 'METRO', emoji: 'ðŸš‡', clue: 'The underground train with picture signs.' },
+    },
+    {
+      id: 'mex-axolotl',
+      stage: 0,
+      text: 'The axolotl is a salamander that never grows up. It keeps its feathery gills and lives in the canals of Xochimilco.',
+      recognition: {
+        prompt: 'What does the axolotl keep its whole life?',
+        choices: ['its feathery gills', 'its sharp antlers', 'its striped wings'],
+        answerIndex: 0,
+        hint: 'Look at the fluffy parts by its head.',
+        explain: 'Axolotls keep their feathery gills forever.',
+      },
+      cued: { prompt: 'The axolotl never grows up and keeps its feathery...', answer: 'GILLS' },
+      tiles: { word: 'AXOLOTL', emoji: 'ðŸ¦Ž', clue: 'The smiling salamander of Xochimilco.' },
+    },
+    {
+      id: 'mex-castle',
+      stage: 0,
+      text: 'Chapultepec Castle is a real castle on a hilltop, right inside one of the biggest city parks anywhere.',
+      recognition: {
+        prompt: 'Where does Chapultepec Castle stand?',
+        choices: ['on a hilltop in a park', 'under the canal water', 'out in the desert'],
+        answerIndex: 0,
+        hint: 'Think high up and green all around.',
+        explain: 'The castle tops a hill inside the park.',
+      },
+      cued: { prompt: 'Chapultepec Castle stands high on a...', answer: 'HILL' },
+      tiles: { word: 'CASTLE', emoji: 'ðŸ°', clue: 'A real one tops the park hill.' },
+    },
+    {
+      id: 'mex-chapulin',
+      stage: 0,
+      text: 'Chapultepec means grasshopper hill in Nahuatl, a Mexican language still spoken today.',
+      recognition: {
+        prompt: 'What does Chapultepec mean?',
+        choices: ['grasshopper hill', 'river of stars', 'sleepy bear cave'],
+        answerIndex: 0,
+        hint: 'Think of a tiny hopping friend.',
+        explain: 'Chapultepec means grasshopper hill in Nahuatl.',
+      },
+      cued: { prompt: 'In Nahuatl, Chapultepec means hill of the...', answer: 'GRASSHOPPER' },
+      tiles: { word: 'CHAPULIN', emoji: 'ðŸ¦—', clue: 'A little grasshopper with a big name.' },
+    },
+    {
+      id: 'mex-bici',
+      stage: 1,
+      text: 'On Sunday mornings the grand Paseo de la Reforma closes to cars, and families bike and skate down the middle.',
+      recognition: {
+        prompt: 'What happens on Reforma on Sunday mornings?',
+        choices: ['families bike where cars usually drive', 'it turns into a river', 'all the shops float away'],
+        answerIndex: 0,
+        hint: 'The street takes a rest from cars.',
+        explain: 'Families bike and skate down the closed street.',
+      },
+      cued: { prompt: 'On Sundays, families ride down Reforma on their...', answer: 'BIKES' },
+      tiles: { word: 'BICI', emoji: 'ðŸš²', clue: 'The Spanish nickname for a bicycle.' },
+    },
+    {
+      id: 'mex-pastor',
+      stage: 1,
+      text: 'Tacos al pastor are carved from a tall spinning tower of meat, with a sweet slice of pineapple on top.',
+      recognition: {
+        prompt: 'How is al pastor meat cooked?',
+        choices: ['on a tall spinning tower', 'inside a snowbank', 'under a pile of leaves'],
+        answerIndex: 0,
+        hint: 'It twirls while it cooks.',
+        explain: 'The meat roasts on a spinning tower.',
+      },
+      cued: { prompt: 'On top of a pastor taco goes sweet...', answer: 'PINEAPPLE' },
+      tiles: { word: 'TACO', emoji: 'ðŸŒ®', clue: 'Al pastor comes with pineapple on top.' },
+    },
+    {
+      id: 'mex-chinampa',
+      stage: 2,
+      text: 'Long ago, farmers built floating gardens called chinampas. Families in Xochimilco still grow flowers and vegetables on them today.',
+      recognition: {
+        prompt: 'What are the floating gardens called?',
+        choices: ['chinampas', 'pyramids', 'trampolines'],
+        answerIndex: 0,
+        hint: 'The word starts with chin.',
+        explain: 'The floating gardens are called chinampas.',
+      },
+      cued: { prompt: 'The floating gardens of Xochimilco are called...', answer: 'CHINAMPAS' },
+      tiles: { word: 'CANAL', emoji: 'ðŸ›¶', clue: 'A water road through the floating gardens.' },
+    },
+    {
+      id: 'mex-lake',
+      stage: 2,
+      text: 'Mexico City stands where a great lake once spread. The Aztec city of Tenochtitlan rose on an island in that lake.',
+      recognition: {
+        prompt: 'What was here before the city?',
+        choices: ['a great lake', 'a frozen glacier', 'a deep canyon'],
+        answerIndex: 0,
+        hint: 'Tenochtitlan rose on an island.',
+        explain: 'A great lake once spread here.',
+      },
+      cued: { prompt: 'The Aztec island city was called...', answer: 'TENOCHTITLAN' },
+      tiles: { word: 'LAKE', emoji: 'ðŸŒŠ', clue: 'The city grew where one once spread.' },
+    },
+  ],
+
+  phrases: [
+    { id: 'mex-hola', text: 'Hola', lang: 'es-MX', respell: 'OH-lah', gloss: 'Hello!' },
+    { id: 'mex-gracias', text: 'Gracias', lang: 'es-MX', respell: 'GRAH-syahs', gloss: 'Thank you.' },
+    { id: 'mex-vamonos', text: 'Vamonos', lang: 'es-MX', respell: 'VAH-moh-nohs', gloss: 'Let us go!' },
+  ],
+
+  words: [
+    { tier: 1, word: 'ZOO', emoji: 'ðŸ¦', clue: 'Chapultepec park has a big one.' },
+    { tier: 1, word: 'BUS', emoji: 'ðŸšŒ', clue: 'It rolls down the wide avenues.' },
+    { tier: 1, word: 'SKY', emoji: 'ðŸª', clue: 'Kites dance in it over the park.' },
+    { tier: 2, word: 'PARK', emoji: 'ðŸŒ³', clue: 'Chapultepec is a giant green one.' },
+    { tier: 2, word: 'FRUIT', emoji: 'ðŸ‰', clue: 'Cups of it get a chile sprinkle.' },
+    { tier: 2, word: 'BREAD', emoji: 'ðŸ¥', clue: 'A concha is a sweet shell-shaped one.' },
+    { tier: 3, word: 'GARDEN', emoji: 'ðŸŒ¼', clue: 'Some in Xochimilco float on water.' },
+    { tier: 3, word: 'MARKET', emoji: 'ðŸ§º', clue: 'Lupita gets fruit cups at one.' },
+    { tier: 3, word: 'MUSEUM', emoji: 'ðŸ›ï¸', clue: 'The castle on the hill is one.' },
+    { tier: 4, word: 'MARIACHI', emoji: 'ðŸŽº', clue: 'A band with trumpets and violins.' },
+    { tier: 4, word: 'PYRAMID', emoji: 'ðŸ”º', clue: 'Ancient ones rise near the city.' },
+    { tier: 5, word: 'PINEAPPLE', emoji: 'ðŸ', clue: 'The sweet top of a pastor taco.' },
+    { tier: 5, word: 'BUTTERFLY', emoji: 'ðŸ¦‹', clue: 'Monarchs rest in mountain forests nearby.' },
+  ],
+
+  rhymes: [
+    {
+      prompt: 'Which word rhymes with park?',
+      choices: ['shark', 'tree', 'grass'],
+      answerIndex: 0,
+      hint: 'Say the endings out loud.',
+      explain: 'Shark rhymes with park, both end with -ark.',
+    },
+    {
+      prompt: 'Which word rhymes with hill?',
+      choices: ['mill', 'hop', 'stone'],
+      answerIndex: 0,
+      hint: 'Trust your ears, not your eyes.',
+      explain: 'Mill rhymes with hill, both say "ill".',
+    },
+    {
+      prompt: 'Which word rhymes with sweet?',
+      choices: ['street', 'sugar', 'candy'],
+      answerIndex: 0,
+      hint: 'Say each word and match the endings.',
+      explain: 'Street rhymes with sweet, both say "eet".',
+    },
+    {
+      prompt: 'Tap the TWO words that rhyme!',
+      choices: ['hop', 'park', 'top', 'bell'],
+      answerIndices: [0, 2],
+      hint: 'Say each word and match the endings.',
+      explain: 'Hop and top rhyme, both say "op".',
+    },
+    {
+      prompt: 'Which word does NOT rhyme with the others?',
+      choices: ['cake', 'lake', 'snake', 'boat'],
+      answerIndex: 3,
+      hint: 'Three endings match and one does not.',
+      explain: 'Boat does not end with -ake.',
+    },
+    {
+      prompt: 'I rhyme with wings, and mariachi violins have these.',
+      choices: ['strings', 'trumpets', 'drums'],
+      answerIndex: 0,
+      hint: 'The answer must rhyme AND fit the clue.',
+      explain: 'Strings! Strings rhymes with wings.',
+    },
+  ],
+
+  patterns: [
+    {
+      artisan: 'Don Rafa',
+      name: 'Paper alebrije',
+      items: [
+        {
+          prompt: 'ðŸ‰ ðŸ¦‹ ðŸ‰ ðŸ¦‹ ðŸ‰ ... what comes next?',
+          choices: ['ðŸ¦‹', 'ðŸ‰', 'ðŸŸ', 'ðŸŒŸ'],
+          answerIndex: 0,
+          hint: 'Say the pattern out loud and listen.',
+          explain: 'Butterfly! The parade goes dragon, butterfly, dragon, butterfly.',
+          bigChoices: true,
+        },
+        {
+          prompt: 'ðŸ‰ ðŸ‰ ðŸ¦‰ ðŸ‰ ðŸ‰ ðŸ¦‰ ðŸ‰ ðŸ‰ ... what comes next?',
+          choices: ['ðŸ¦‰', 'ðŸ‰', 'ðŸ¦‹', 'ðŸ '],
+          answerIndex: 0,
+          hint: 'Chant the pattern and feel the beat.',
+          explain: 'Owl! The beat is dragon, dragon, owl.',
+          bigChoices: true,
+        },
+        {
+          prompt: '3, 6, 9, 12 ... what comes next?',
+          choices: ['15', '13', '18', '16'],
+          answerIndex: 0,
+          hint: 'Check how much the numbers jump each time.',
+          explain: '15 comes next, counting up by 3.',
+        },
+        {
+          prompt: 'Brush is to paint as scissors are to ...?',
+          choices: ['cut', 'glue', 'sing', 'sleep'],
+          answerIndex: 0,
+          hint: 'Think how the first two go together.',
+          explain: 'Cut! You paint with brushes and cut with scissors.',
+        },
+      ],
+    },
+    {
+      artisan: 'Dona Lupe',
+      name: 'Papel picado banners',
+      items: [
+        {
+          prompt: 'ðŸ’— ðŸ’œ ðŸ’— ðŸ’œ ðŸ’— ... what comes next?',
+          choices: ['ðŸ’œ', 'ðŸ’—', 'ðŸ’š', 'ðŸ¤'],
+          answerIndex: 0,
+          hint: 'Say the pattern out loud and listen.',
+          explain: 'Purple! The banner goes pink, purple, pink, purple.',
+          bigChoices: true,
+        },
+        {
+          prompt: 'ðŸ’š ðŸ’š ðŸ§¡ ðŸ’š ðŸ’š ðŸ§¡ ðŸ’š ðŸ’š ... what comes next?',
+          choices: ['ðŸ§¡', 'ðŸ’š', 'ðŸ’™', 'ðŸ¤Ž'],
+          answerIndex: 0,
+          hint: 'Chant the pattern and feel the beat.',
+          explain: 'Orange! The snip beat goes green, green, orange.',
+          bigChoices: true,
+        },
+        {
+          prompt: '4, 8, 12, 16 ... what comes next?',
+          choices: ['20', '18', '24', '17'],
+          answerIndex: 0,
+          hint: 'Check how much the numbers jump each time.',
+          explain: '20 comes next, counting up by 4.',
+        },
+        {
+          prompt: 'Snip is to paper as stir is to ...?',
+          choices: ['soup', 'rock', 'song', 'shoe'],
+          answerIndex: 0,
+          hint: 'Think how the first two go together.',
+          explain: 'Soup! You snip paper and stir soup.',
+        },
+      ],
+    },
+  ],
+
+  passages: [
+    {
+      passage: 'Lupita and her mama rode the Metro to the big park. At every stop, Lupita spotted the little picture sign. When the grasshopper sign appeared, she knew it was time to hop off.',
+      questions: [
+        {
+          prompt: 'What did Lupita spot at every stop?',
+          choices: ['the little picture signs', 'the grasshopper snack carts', 'shiny gold coins', 'maps of the sea'],
+          answerIndex: 0,
+          hint: 'Look at the second sentence.',
+          explain: 'She spotted the little picture sign at each stop.',
+        },
+        {
+          prompt: 'Which sign told Lupita to hop off?',
+          choices: ['the grasshopper sign', 'the little red bird sign', 'a golden castle door', 'the dancing fish flag'],
+          answerIndex: 0,
+          hint: 'Reread the last sentence.',
+          explain: 'The grasshopper sign meant time to hop off.',
+        },
+      ],
+    },
+    {
+      passage: 'Xochi the axolotl drifted through a quiet canal in Xochimilco. Her feathery gills waved like tiny pink ferns. A colorful boat floated by, and Xochi wiggled happily in the cool green water.',
+      questions: [
+        {
+          prompt: 'What waved like tiny pink ferns?',
+          choices: ['her feathery gills', 'the colorful boat flags', 'her long blue scarf', 'a swirl of leaves'],
+          answerIndex: 0,
+          hint: 'Reread the second sentence.',
+          explain: 'Her feathery gills waved like ferns.',
+        },
+        {
+          prompt: 'What did Xochi do when the boat passed?',
+          choices: ['wiggled happily', 'paddled to the quiet shore', 'jumped onto the boat', 'hid under a rock'],
+          answerIndex: 0,
+          hint: 'Find the very last sentence.',
+          explain: 'Xochi wiggled happily in the water.',
+        },
+      ],
+    },
+    {
+      passage: 'Lupita led Charlie up the hill to Chapultepec Castle. From the high balcony they could see the whole city below. Lupita did a cartwheel on the path, and the chapulines chirped along.',
+      questions: [
+        {
+          prompt: 'What could they see from the balcony?',
+          choices: ['the whole city', 'the castle kitchen', 'a deep dark cave', 'the open sea'],
+          answerIndex: 0,
+          hint: 'Reread the second sentence.',
+          explain: 'They saw the whole city below.',
+        },
+        {
+          prompt: 'What did Lupita do on the path?',
+          choices: ['a cartwheel', 'climbed the castle wall', 'a long quiet nap', 'built a tall tower'],
+          answerIndex: 0,
+          hint: 'Find the very last sentence.',
+          explain: 'She did a cartwheel on the path.',
+        },
+      ],
+    },
+  ],
+
+  souvenirs: [
+    { id: 'mex-alebrije', name: 'Tiny paper alebrije', emoji: 'ðŸ²' },
+    { id: 'mex-loteria', name: 'Loteria game card', emoji: 'ðŸŽ´' },
+  ],
+
+  landmark: {
+    name: 'Chapultepec Castle',
+    beats: [
+      'Lupita leads Charlie up the winding path to Chapultepec Castle.',
+      'They tiptoe past stained-glass windows and peek over the high balcony.',
+      'Below them the whole city begins to twinkle. Showtime!',
+    ],
+  },
+
+  showtime: {
+    backdrop: 'Chapultepec Castle balcony at sunset',
+    returnBackdrop: 'Castle terrace under twinkling city lights',
+    farewell: { text: 'Hasta luego, Charlie!', lang: 'es-MX', respell: 'AHS-tah LWEH-goh' },
+  },
+};
+
+// === src/content/destinations/rio.js ===
+// src/content/destinations/rio.js â€” Rio de Janeiro.
+// Facts verified against two sources each (one local); `src` annotations are
+// stripped at build time and never ship. Timeless phrasing enforced by the
+// validator (no exact big counts, no named individual animals).
+const DestRio = {
+  id: 'rio',
+  name: 'Rio de Janeiro',
+  utcOffset: -3,
+  mapEmoji: 'â›°ï¸',
+  palette: { a: '#34d399', b: '#fbbf24' },
+  motif: { source: 'bossa nova clave (soft guitar tap rhythm)', bpm: 104, notes: ['D4', 'F4', 'A4', 'C5'] },
+
+  hostKid: {
+    name: 'Lara',
+    age: 7,
+    neighborhood: 'Ipanema, Rio de Janeiro',
+    intro: 'Oi! I am Lara. Welcome to Rio!',
+    life: [
+      'I play altinha, our beach keepy-uppy game, on Ipanema after school.',
+      'My capoeira class meets near Posto Nove on Saturdays.',
+      'I am learning the au, the capoeira cartwheel!',
+      'My favorite snack is warm pao de queijo from our bakery.',
+      'I watch Flamengo games with my cousins on weekends.',
+    ],
+  },
+
+  animal: {
+    id: 'rio-mango',
+    name: 'Mango the Golden Lion Tamarin',
+    species: 'golden lion tamarin',
+    emoji: 'ðŸ’',
+    line: 'I flash my golden mane as I leap through trees!',
+    move: 'branch-leap',
+  },
+  shyAnimal: {
+    id: 'rio-pip',
+    name: 'Bico the Toco Toucan',
+    species: 'toco toucan',
+    emoji: 'ðŸ¦œ',
+    line: 'My big beak keeps me cool up in the treetops!',
+  },
+
+  wonder: {
+    q: 'Why is the mountain called Sugarloaf?',
+    a: 'Its smooth shape looks like an old-time loaf of sugar.',
+  },
+
+  facts: [
+    {
+      id: 'rio-au',
+      stage: 0,
+      text: 'Capoeira, an Afro-Brazilian art, mixes music, dance, and flips, and a cartwheel is called an au.',
+      recognition: {
+        prompt: 'What is a cartwheel called in capoeira?',
+        choices: ['an au', 'a samba', 'a goal'],
+        answerIndex: 0,
+        hint: 'It is a tiny two-letter word.',
+        explain: 'Capoeira players call a cartwheel an au.',
+      },
+      cued: { prompt: 'In capoeira, a cartwheel is called an...', answer: 'AU' },
+      tiles: { word: 'CARTWHEEL', emoji: 'ðŸ¤¸', clue: 'Charlie does these, capoeira kids do too!' },
+    },
+    {
+      id: 'rio-beaches',
+      stage: 0,
+      text: 'Copacabana and Ipanema are world-famous beaches right inside the big city.',
+      thread: { pairId: 'beaches' },
+      recognition: {
+        prompt: 'Where are Copacabana and Ipanema beaches?',
+        choices: ['right inside the city', 'far out at sea', 'on top of a mountain'],
+        answerIndex: 0,
+        hint: 'Lara walks there right from her street.',
+        explain: 'The famous beaches sit right inside the city.',
+      },
+      cued: { prompt: 'Copacabana and Ipanema are famous city...', answer: 'BEACHES' },
+      tiles: { word: 'BEACH', emoji: 'ðŸ–ï¸', clue: 'Ipanema is a famous one.' },
+    },
+    {
+      id: 'rio-tamarin',
+      stage: 0,
+      text: 'Golden lion tamarins are tiny monkeys with golden manes, living wild only in the Atlantic Forest.',
+      recognition: {
+        prompt: 'Where do golden lion tamarins live wild?',
+        choices: ['the Atlantic Forest', 'the icy mountains', 'the open desert'],
+        answerIndex: 0,
+        hint: 'It is a forest near the Atlantic Ocean.',
+        explain: 'They live wild only in the Atlantic Forest.',
+      },
+      cued: { prompt: 'The tiny golden monkey lives in the Atlantic...', answer: 'FOREST' },
+      tiles: { word: 'TAMARIN', emoji: 'ðŸ’', clue: 'A tiny golden monkey like Mango.' },
+    },
+    {
+      id: 'rio-cablecar',
+      stage: 0,
+      text: 'The Sugarloaf cable car climbs the mountain in two hops, resting on a smaller hill halfway.',
+      recognition: {
+        prompt: 'How does the cable car reach Sugarloaf?',
+        choices: ['in two hops', 'in one giant leap', 'through a tunnel'],
+        answerIndex: 0,
+        hint: 'It rests on a smaller hill first.',
+        explain: 'The cable car climbs in two hops.',
+      },
+      cued: { prompt: 'The Sugarloaf cable car climbs in two...', answer: 'HOPS' },
+      tiles: { word: 'CABLE', emoji: 'ðŸš ', clue: 'The car glides along this strong wire.' },
+    },
+    {
+      id: 'rio-tijuca',
+      stage: 1,
+      text: 'Tijuca Forest is a real rainforest growing right inside the city of Rio.',
+      recognition: {
+        prompt: 'What is Tijuca Forest?',
+        choices: ['a rainforest inside the city', 'a sandy desert park', 'an underwater garden'],
+        answerIndex: 0,
+        hint: 'Think green, leafy, and rainy.',
+        explain: 'Tijuca is a rainforest inside the city.',
+      },
+      cued: { prompt: 'Tijuca is a rainforest inside the...', answer: 'CITY' },
+      tiles: { word: 'FOREST', emoji: 'ðŸŒ³', clue: 'Tijuca is one, right inside Rio.' },
+    },
+    {
+      id: 'rio-toucan',
+      stage: 1,
+      text: 'The toco toucan uses its big orange beak to cool off, like a built-in fan.',
+      recognition: {
+        prompt: 'What does the big beak help the toucan do?',
+        choices: ['cool off', 'dig holes', 'swim fast'],
+        answerIndex: 0,
+        hint: 'Think of a fan on a hot day.',
+        explain: 'The big beak lets heat out to cool the toucan.',
+      },
+      cued: { prompt: 'The big beak helps the toucan stay...', answer: 'COOL' },
+      tiles: { word: 'TOUCAN', emoji: 'ðŸ¦œ', clue: 'The bird with the giant orange beak.' },
+    },
+    {
+      id: 'rio-samba',
+      stage: 2,
+      text: 'Each year at Carnival, samba schools parade through Rio with giant colorful floats.',
+      recognition: {
+        prompt: 'Who parades with giant floats at Carnival?',
+        choices: ['samba schools', 'soccer teams', 'cable car drivers'],
+        answerIndex: 0,
+        hint: 'They drum and dance all year to get ready.',
+        explain: 'Samba schools parade with giant floats.',
+      },
+      cued: { prompt: 'The parading dance groups are called samba...', answer: 'SCHOOLS' },
+      tiles: { word: 'SAMBA', emoji: 'ðŸ¥', clue: 'The heartbeat music of Carnival.' },
+    },
+    {
+      id: 'rio-statue',
+      stage: 2,
+      text: 'The Christ the Redeemer statue stands with open arms on Corcovado mountain above Rio.',
+      recognition: {
+        prompt: 'How does the statue on Corcovado hold its arms?',
+        choices: ['wide open', 'folded up', 'waving one hand'],
+        answerIndex: 0,
+        hint: 'Like a giant welcome hug.',
+        explain: 'The statue stands with open arms.',
+      },
+      cued: { prompt: 'The Corcovado statue stands with open...', answer: 'ARMS' },
+      tiles: { word: 'STATUE', emoji: 'ðŸ™Œ', clue: 'It welcomes Rio with open arms.' },
+    },
+  ],
+
+  phrases: [
+    { id: 'rio-oi', text: 'Oi!', lang: 'pt-BR', respell: 'oy', gloss: 'Hi in Portuguese.' },
+    { id: 'rio-legal', text: 'Legal!', lang: 'pt-BR', respell: 'leh-GOW', gloss: 'Cool! Rio kids say it all the time.' },
+    { id: 'rio-obrigada', text: 'Obrigada', lang: 'pt-BR', respell: 'oh-bree-GAH-dah', gloss: 'Thank you, said by girls and women.' },
+  ],
+
+  words: [
+    { tier: 1, word: 'SUN', emoji: 'â˜€ï¸', clue: 'It warms the beach sand all day.' },
+    { tier: 1, word: 'SEA', emoji: 'ðŸŒŠ', clue: 'The big blue beside Ipanema.' },
+    { tier: 1, word: 'NET', emoji: 'ðŸ', clue: 'Futevolei players send the ball over it.' },
+    { tier: 2, word: 'BALL', emoji: 'âš½', clue: 'Keep it up with feet, chest, and head.' },
+    { tier: 2, word: 'WAVE', emoji: 'ðŸ„', clue: 'Surfers ride it to the shore.' },
+    { tier: 3, word: 'MONKEY', emoji: 'ðŸ’', clue: 'Mango is a tiny golden one.' },
+    { tier: 3, word: 'GUITAR', emoji: 'ðŸŽ¸', clue: 'Bossa nova players strum it softly.' },
+    { tier: 4, word: 'CARNIVAL', emoji: 'ðŸŽ‰', clue: 'The giant parade party of Rio.' },
+    { tier: 4, word: 'JUNGLE', emoji: 'ðŸŒ´', clue: 'Thick green forest, like Tijuca.' },
+    { tier: 4, word: 'COCONUT', emoji: 'ðŸ¥¥', clue: 'A hairy nut full of sweet water.' },
+    { tier: 5, word: 'BUTTERFLY', emoji: 'ðŸ¦‹', clue: 'A bright blue one flutters in Tijuca.' },
+    { tier: 5, word: 'WATERFALL', emoji: 'ðŸ’¦', clue: 'Water tumbling down forest rocks.' },
+  ],
+
+  rhymes: [
+    {
+      prompt: 'Which word rhymes with beach?',
+      choices: ['reach', 'sand', 'wave'],
+      answerIndex: 0,
+      hint: 'Say the endings out loud.',
+      explain: 'Reach rhymes with beach, both say each.',
+    },
+    {
+      prompt: 'Which word rhymes with flip?',
+      choices: ['skip', 'flap', 'jump'],
+      answerIndex: 0,
+      hint: 'Trust your ears, not your eyes.',
+      explain: 'Skip rhymes with flip, both say ip.',
+    },
+    {
+      prompt: 'Which word rhymes with kick?',
+      choices: ['stick', 'kite', 'ball'],
+      answerIndex: 0,
+      hint: 'Say each word and match the endings.',
+      explain: 'Stick rhymes with kick, both say ick.',
+    },
+    {
+      prompt: 'Tap the TWO words that rhyme!',
+      choices: ['drum', 'beak', 'strum', 'wave'],
+      answerIndices: [0, 2],
+      hint: 'Say each word and match the endings.',
+      explain: 'Drum and strum rhyme, both say um.',
+    },
+    {
+      prompt: 'Which word does NOT rhyme with the others?',
+      choices: ['beak', 'peak', 'week', 'drum'],
+      answerIndex: 3,
+      hint: 'Three endings match, one does not.',
+      explain: 'Drum does not say eek.',
+    },
+    {
+      prompt: 'I rhyme with bar, and I shine at night.',
+      choices: ['star', 'moon', 'cloud'],
+      answerIndex: 0,
+      hint: 'The answer must rhyme AND fit the clue.',
+      explain: 'A star! Star rhymes with bar.',
+    },
+  ],
+
+  patterns: [
+    {
+      artisan: 'Senhor Paulo',
+      name: 'Wave mosaic sidewalk',
+      items: [
+        {
+          prompt: 'â¬› â¬œ â¬› â¬œ â¬› â€” what comes next?',
+          choices: ['â¬œ', 'â¬›', 'ðŸŸ¨', 'ðŸŸ¦'],
+          answerIndex: 0,
+          hint: 'Say the pattern out loud â€” what repeats?',
+          explain: 'White stone! The sidewalk goes black, white, black, white.',
+          bigChoices: true,
+        },
+        {
+          prompt: 'â¬› â¬› â¬œ â¬› â¬› â¬œ â¬› â¬› â€” what comes next?',
+          choices: ['â¬œ', 'â¬›', 'ðŸŸ©', 'ðŸŸ§'],
+          answerIndex: 0,
+          hint: 'Chant the pattern and feel the beat.',
+          explain: 'White! The wave goes black, black, white.',
+          bigChoices: true,
+        },
+        {
+          prompt: '3, 6, 9, 12 â€” what comes next?',
+          choices: ['15', '13', '18', '16'],
+          answerIndex: 0,
+          hint: 'Check how much the numbers jump each time.',
+          explain: '15 comes next â€” the stones count up by 3.',
+        },
+        {
+          prompt: 'Sea is to wave as sky is to â€¦ ?',
+          choices: ['cloud', 'stone', 'door', 'shoe'],
+          answerIndex: 0,
+          hint: 'Think how the first two go together.',
+          explain: 'Cloud! Waves fill the sea, clouds fill the sky.',
+        },
+      ],
+    },
+    {
+      artisan: 'Dona Cecilia',
+      name: 'Berimbau bow',
+      items: [
+        {
+          prompt: 'ðŸŽµ ðŸ‘ ðŸŽµ ðŸ‘ ðŸŽµ â€” what comes next?',
+          choices: ['ðŸ‘', 'ðŸŽµ', 'ðŸ¥', 'ðŸ””'],
+          answerIndex: 0,
+          hint: 'Say the pattern out loud â€” what repeats?',
+          explain: 'Clap! The circle goes twang, clap, twang, clap.',
+          bigChoices: true,
+        },
+        {
+          prompt: 'ðŸŽµ ðŸŽµ ðŸ¥ ðŸŽµ ðŸŽµ ðŸ¥ ðŸŽµ ðŸŽµ â€” what comes next?',
+          choices: ['ðŸ¥', 'ðŸŽµ', 'ðŸ‘', 'ðŸŽº'],
+          answerIndex: 0,
+          hint: 'Chant the pattern and feel the beat.',
+          explain: 'Drum! The beat is twang, twang, drum.',
+          bigChoices: true,
+        },
+        {
+          prompt: '1, 3, 5, 7 â€” what comes next?',
+          choices: ['9', '8', '11', '10'],
+          answerIndex: 0,
+          hint: 'Check how much the numbers jump each time.',
+          explain: '9 comes next â€” the beats count up by 2.',
+        },
+        {
+          prompt: 'Berimbau is to twang as drum is to â€¦ ?',
+          choices: ['boom', 'splash', 'squeak', 'chirp'],
+          answerIndex: 0,
+          hint: 'Think how the first two go together.',
+          explain: 'Boom! A berimbau twangs and a drum booms.',
+        },
+      ],
+    },
+  ],
+
+  passages: [
+    {
+      passage: 'Lara kicks the ball high on Ipanema beach. She counts her keepy-uppy taps out loud. Then she does a capoeira cartwheel called an au, and all her friends clap. After, they share a purple acai bowl by the sea.',
+      questions: [
+        {
+          prompt: 'What does Lara count out loud?',
+          choices: ['her keepy-uppy taps', 'her capoeira ribbons', 'the seagulls overhead'],
+          answerIndex: 0,
+          hint: 'Look back at the counting sentence.',
+          explain: 'She counts her keepy-uppy taps.',
+        },
+        {
+          prompt: 'What is the capoeira cartwheel called?',
+          choices: ['an au', 'a beach hop', 'a samba kick', 'a big flip'],
+          answerIndex: 0,
+          hint: 'Find the cartwheel sentence.',
+          explain: 'A cartwheel in capoeira is called an au.',
+        },
+      ],
+    },
+    {
+      passage: 'Mango the tamarin leaps from branch to branch in the Atlantic Forest. His golden mane glows in the morning light. He stops to nibble a sweet little fruit.',
+      questions: [
+        {
+          prompt: 'Where does Mango leap and play?',
+          choices: ['the Atlantic Forest', 'the golden beach sand', 'a quiet city library'],
+          answerIndex: 0,
+          hint: 'The first sentence names the place.',
+          explain: 'Mango leaps through the Atlantic Forest.',
+        },
+        {
+          prompt: 'What does Mango stop to nibble?',
+          choices: ['a sweet little fruit', 'a crunchy branch of leaves', 'a salty sea snack'],
+          answerIndex: 0,
+          hint: 'Reread the very last sentence.',
+          explain: 'He nibbles a sweet little fruit.',
+        },
+      ],
+    },
+    {
+      passage: 'Lara and Charlie ride the glass cable car up Sugarloaf Mountain. It climbs in two hops, resting on a smaller hill first. At the top, the whole sparkling city spreads out below.',
+      questions: [
+        {
+          prompt: 'How does the cable car climb?',
+          choices: ['in two hops', 'in seven hops', 'in one long hop'],
+          answerIndex: 0,
+          hint: 'Check the second sentence.',
+          explain: 'The cable car climbs in two hops.',
+        },
+        {
+          prompt: 'What spreads out below at the top?',
+          choices: ['the sparkling city', 'the sparkling green forest', 'a row of beach umbrellas'],
+          answerIndex: 0,
+          hint: 'The last sentence paints the view.',
+          explain: 'The whole sparkling city spreads below.',
+        },
+      ],
+    },
+  ],
+
+  souvenirs: [
+    { id: 'rio-flipflops', name: 'Beach flip-flops', emoji: 'ðŸ©´' },
+    { id: 'rio-ball', name: 'Futevolei ball', emoji: 'âš½' },
+  ],
+
+  landmark: {
+    name: 'Sugarloaf Mountain cable car',
+    beats: [
+      'Lara packs chocolate brigadeiros and leads Charlie to the cable car.',
+      'The glass car rises in two hops, over forest and sea.',
+      'Up top, the city lights twinkle on, just in time for Showtime!',
+    ],
+  },
+
+  showtime: {
+    backdrop: 'Sugarloaf summit at sunset',
+    returnBackdrop: 'Sugarloaf at night, city lights twinkling below',
+    farewell: { text: 'Tchau, Charlie!', lang: 'pt-BR', respell: 'chow' },
+  },
+};
+
+// === src/content/destinations/par.js ===
+// src/content/destinations/par.js - Paris.
+// Facts verified against two sources each (one local); `src` annotations are
+// stripped at build time and never ship. Timeless phrasing enforced by the
+// validator (no exact big counts, no named individual animals).
+const DestPar = {
+  id: 'par',
+  name: 'Paris',
+  utcOffset: 1,
+  mapEmoji: 'ðŸ—¼',
+  palette: { a: '#818cf8', b: '#f9a8d4' },
+  motif: { source: 'musette accordion waltz', bpm: 96, notes: ['E4', 'G4', 'B4', 'E5'] },
+
+  hostKid: {
+    name: 'Camille',
+    age: 7,
+    neighborhood: 'Latin Quarter, near the Luxembourg Gardens',
+    intro: 'Bonjour! I am Camille. Welcome to my Paris!',
+    life: [
+      'I sail a rented toy boat across the Luxembourg Gardens fountain.',
+      'I carry the baguette home and nibble the crusty end.',
+      'I ride the Metro to school with my big sister.',
+      'On Sundays we watch the puppet show in the park.',
+      'I take gymnastics on Wednesday afternoons, when school lets out early.',
+    ],
+  },
+
+  animal: {
+    id: 'par-coco',
+    name: 'Coco the Mute Swan',
+    species: 'mute swan',
+    emoji: 'ðŸ¦¢',
+    line: 'Glide tall and proud, like a fountain queen!',
+    move: 'royal glide',
+  },
+  shyAnimal: {
+    id: 'par-pippin',
+    name: 'Pippin the Hedgehog',
+    species: 'European hedgehog',
+    emoji: 'ðŸ¦”',
+    line: 'I trundle out when the garden goes quiet.',
+  },
+
+  wonder: {
+    q: 'Why does the Eiffel Tower sparkle at night?',
+    a: 'Tiny flashing lamps all over the tower blink together, like camera flashes.',
+  },
+
+  facts: [
+    {
+      id: 'par-sparkle',
+      stage: 0,
+      text: 'Every night, the Eiffel Tower sparkles with tiny flashing lights, like a giant glittering toy.',
+      recognition: {
+        prompt: 'What does the Eiffel Tower do at night?',
+        choices: ['sparkle with tiny lights', 'fold itself up', 'turn upside down'],
+        answerIndex: 0,
+        hint: 'Think glitter in the dark.',
+        explain: 'The tower sparkles with tiny flashing lights.',
+      },
+      cued: { prompt: 'At night the Eiffel Tower starts to...', answer: 'SPARKLE' },
+      tiles: { word: 'SPARKLE', emoji: 'âœ¨', clue: 'What the tower does after dark.' },
+    },
+    {
+      id: 'par-baguette',
+      stage: 0,
+      text: 'In France, a true baguette may hold only four things: flour, water, yeast, and salt.',
+      recognition: {
+        prompt: 'How many things can go in a true baguette?',
+        choices: ['four', 'forty', 'fourteen'],
+        answerIndex: 0,
+        hint: 'Flour, water, yeast, salt.',
+        explain: 'Just four: flour, water, yeast, and salt.',
+      },
+      cued: { prompt: 'The long crusty French bread is called a...', answer: 'BAGUETTE' },
+      tiles: { word: 'BAGUETTE', emoji: 'ðŸ¥–', clue: 'The long crusty loaf of Paris.' },
+    },
+    {
+      id: 'par-boats',
+      stage: 0,
+      text: 'At the Luxembourg Gardens fountain, kids rent little wooden sailboats and push them with long sticks.',
+      recognition: {
+        prompt: 'What do kids sail at the Luxembourg Gardens?',
+        choices: ['little wooden sailboats', 'paper airplanes', 'rubber ducks'],
+        answerIndex: 0,
+        hint: 'Camille rents one with a stick.',
+        explain: 'Kids rent little wooden sailboats at the fountain.',
+      },
+      cued: { prompt: 'At the fountain, kids sail little wooden...', answer: 'BOATS' },
+      tiles: { word: 'BOAT', emoji: 'â›µ', clue: 'Rent one, push it across the fountain.' },
+    },
+    {
+      id: 'par-pyramid',
+      stage: 0,
+      text: 'The Louvre, the biggest art museum in the world, has a giant glass pyramid for a front door.',
+      recognition: {
+        prompt: 'What shape is the Louvre front entrance?',
+        choices: ['a glass pyramid', 'a stone cube', 'a golden ball'],
+        answerIndex: 0,
+        hint: 'Think of Egypt, but see-through.',
+        explain: 'You enter the Louvre through a glass pyramid.',
+      },
+      cued: { prompt: 'You enter the Louvre through a glass...', answer: 'PYRAMID' },
+      tiles: { word: 'PYRAMID', emoji: 'ðŸ”º', clue: 'The glass front door of the Louvre.' },
+    },
+    {
+      id: 'par-liberty',
+      stage: 1,
+      text: 'The Statue of Liberty was built in a Paris workshop, then sent across the sea as a gift to America.',
+      thread: { pairId: 'liberty' },
+      recognition: {
+        prompt: 'Where was the Statue of Liberty built?',
+        choices: ['in a Paris workshop', 'on a New York island', 'inside a castle'],
+        answerIndex: 0,
+        hint: 'She crossed the ocean afterward.',
+        explain: 'She was built in Paris, then shipped to America.',
+      },
+      cued: { prompt: 'France sent the statue across the sea as a...', answer: 'GIFT' },
+      tiles: { word: 'LIBERTY', emoji: 'ðŸ—½', clue: 'The statue Paris built for America.' },
+    },
+    {
+      id: 'par-iron',
+      stage: 1,
+      text: 'On hot summer days the Eiffel Tower grows a little taller, because heat makes its iron stretch.',
+      recognition: {
+        prompt: 'What happens to the tower on hot days?',
+        choices: ['it grows a little taller', 'it melts into a puddle', 'it turns bright white'],
+        answerIndex: 0,
+        hint: 'Heat makes iron stretch.',
+        explain: 'Heat stretches the iron, so the tower grows taller.',
+      },
+      cued: { prompt: 'Summer heat makes the iron tower grow...', answer: 'TALLER' },
+      tiles: { word: 'IRON', emoji: 'ðŸ—¼', clue: 'The metal the tower is made of.' },
+    },
+    {
+      id: 'par-opera',
+      stage: 2,
+      text: 'Inside the Palais Garnier opera house, a painted ceiling swirls with colorful dancers and musicians high above the seats.',
+      thread: { pairId: 'opera' },
+      recognition: {
+        prompt: 'What covers the ceiling of the Palais Garnier?',
+        choices: ['a swirling colorful painting', 'a plain white sheet', 'a map of the Metro'],
+        answerIndex: 0,
+        hint: 'Look up at the dancers.',
+        explain: 'A colorful painting of dancers covers the ceiling.',
+      },
+      cued: { prompt: 'High above the opera seats swirls a painted...', answer: 'CEILING' },
+      tiles: { word: 'OPERA', emoji: 'ðŸŽ­', clue: 'Singing stories at the Palais Garnier.' },
+    },
+    {
+      id: 'par-books',
+      stage: 2,
+      text: 'Along the Seine river, booksellers open green metal boxes full of old books, like an outdoor bookshop.',
+      recognition: {
+        prompt: 'What do the green boxes by the Seine hold?',
+        choices: ['old books', 'fresh fish', 'garden tools'],
+        answerIndex: 0,
+        hint: 'You can read what they sell.',
+        explain: 'The green boxes are full of old books.',
+      },
+      cued: { prompt: 'The green boxes by the river are full of...', answer: 'BOOKS' },
+      tiles: { word: 'BOOKS', emoji: 'ðŸ“š', clue: 'Sold from green boxes by the Seine.' },
+    },
+  ],
+
+  phrases: [
+    { id: 'par-bonjour', text: 'Bonjour', lang: 'fr-FR', respell: 'bohn-ZHOOR', gloss: 'Hello, any time of day.' },
+    { id: 'par-merci', text: 'Merci', lang: 'fr-FR', respell: 'mair-SEE', gloss: 'Thank you.' },
+    { id: 'par-ouistiti', text: 'Ouistiti', lang: 'fr-FR', respell: 'wee-stee-TEE', gloss: 'French kids say it for photos, like cheese!' },
+  ],
+
+  words: [
+    { tier: 1, word: 'ART', emoji: 'ðŸŽ¨', clue: 'The Louvre is packed with it.' },
+    { tier: 1, word: 'OUI', emoji: 'ðŸ’¬', clue: 'French for yes. Say wee!' },
+    { tier: 2, word: 'SWAN', emoji: 'ðŸ¦¢', clue: 'Coco glides like a fountain queen.' },
+    { tier: 2, word: 'TOWER', emoji: 'ðŸ—¼', clue: 'It sparkles over Paris every night.' },
+    { tier: 2, word: 'CAFE', emoji: 'â˜•', clue: 'A cozy spot for hot chocolate.' },
+    { tier: 2, word: 'BOAT', emoji: 'â›µ', clue: 'Push it across the fountain.' },
+    { tier: 3, word: 'MUSEUM', emoji: 'ðŸ›ï¸', clue: 'A building full of treasures.' },
+    { tier: 3, word: 'GARDEN', emoji: 'ðŸŒ·', clue: 'Pippin hides in one all day.' },
+    { tier: 4, word: 'BAGUETTE', emoji: 'ðŸ¥–', clue: 'The long crusty loaf Camille carries.' },
+    { tier: 4, word: 'PYRAMID', emoji: 'ðŸ”º', clue: 'The glass door of the Louvre.' },
+    { tier: 4, word: 'PAINTER', emoji: 'ðŸ–Œï¸', clue: 'An artist with a brush.' },
+    { tier: 5, word: 'ACCORDION', emoji: 'ðŸª—', clue: 'The squeeze-box that plays Paris waltzes.' },
+    { tier: 5, word: 'HEDGEHOG', emoji: 'ðŸ¦”', clue: 'A prickly garden friend like Pippin.' },
+  ],
+
+  rhymes: [
+    {
+      prompt: 'Which word rhymes with bread?',
+      choices: ['red', 'loaf', 'crust'],
+      answerIndex: 0,
+      hint: 'Say the endings out loud.',
+      explain: 'Red rhymes with bread, both end with -ed.',
+    },
+    {
+      prompt: 'Which word rhymes with tower?',
+      choices: ['flower', 'spark', 'tall'],
+      answerIndex: 0,
+      hint: 'Trust your ears, not your eyes.',
+      explain: 'Flower rhymes with tower, both say -ower.',
+    },
+    {
+      prompt: 'Which word rhymes with night?',
+      choices: ['light', 'dark', 'star'],
+      answerIndex: 0,
+      hint: 'Say each word and match the endings.',
+      explain: 'Light rhymes with night, both say -ight.',
+    },
+    {
+      prompt: 'Tap the TWO words that rhyme!',
+      choices: ['boat', 'swan', 'float', 'bread'],
+      answerIndices: [0, 2],
+      hint: 'Say each word and match the endings.',
+      explain: 'Boat and float rhyme, both say -oat.',
+    },
+    {
+      prompt: 'Which word does NOT rhyme with the others?',
+      choices: ['cake', 'lake', 'rake', 'loaf'],
+      answerIndex: 3,
+      hint: 'Three endings match, one does not.',
+      explain: 'Loaf does not end with -ake.',
+    },
+    {
+      prompt: 'I rhyme with far, and I roll on Metro rails.',
+      choices: ['car', 'train', 'bus'],
+      answerIndex: 0,
+      hint: 'The answer must rhyme AND fit the clue.',
+      explain: 'A car! Car rhymes with far.',
+    },
+  ],
+
+  patterns: [
+    {
+      artisan: 'Madame Colette',
+      name: 'Chouquette box',
+      items: [
+        {
+          prompt: 'ðŸ¥ ðŸ“ ðŸ¥ ðŸ“ ðŸ¥, what comes next?',
+          choices: ['ðŸ“', 'ðŸ¥', 'ðŸ§', 'ðŸ‹'],
+          answerIndex: 0,
+          hint: 'Say the pattern out loud, what repeats?',
+          explain: 'Berry! The box goes pastry, berry, pastry, berry.',
+          bigChoices: true,
+        },
+        {
+          prompt: 'ðŸ§ ðŸ¥ ðŸ¥ ðŸ§ ðŸ¥ ðŸ¥ ðŸ§, what comes next?',
+          choices: ['ðŸ¥', 'ðŸ§', 'ðŸ“', 'ðŸ‹'],
+          answerIndex: 0,
+          hint: 'Chant the pattern and feel the beat.',
+          explain: 'Pastry! The beat is cake, pastry, pastry.',
+          bigChoices: true,
+        },
+        {
+          prompt: '3, 6, 9, 12, what comes next?',
+          choices: ['15', '13', '18', '16'],
+          answerIndex: 0,
+          hint: 'Check how much the numbers jump each time.',
+          explain: '15 comes next, the chouquettes count up by 3.',
+        },
+        {
+          prompt: 'Oven is to bake as fridge is to ... ?',
+          choices: ['chill', 'warm', 'slice', 'pour'],
+          answerIndex: 0,
+          hint: 'Think how the first two go together.',
+          explain: 'Chill! Ovens bake and fridges chill.',
+        },
+      ],
+    },
+    {
+      artisan: 'Monsieur Theo',
+      name: 'Toy boat fleet',
+      items: [
+        {
+          prompt: 'â›µ ðŸ¦¢ â›µ ðŸ¦¢ â›µ, what comes next?',
+          choices: ['ðŸ¦¢', 'â›µ', 'ðŸŒŠ', 'ðŸŸ'],
+          answerIndex: 0,
+          hint: 'Say the pattern out loud, what repeats?',
+          explain: 'Swan! The fountain goes boat, swan, boat, swan.',
+          bigChoices: true,
+        },
+        {
+          prompt: 'â›µ â›µ ðŸŒŠ â›µ â›µ ðŸŒŠ â›µ â›µ, what comes next?',
+          choices: ['ðŸŒŠ', 'â›µ', 'ðŸ¦¢', 'ðŸ‚'],
+          answerIndex: 0,
+          hint: 'Chant the pattern and feel the beat.',
+          explain: 'Wave! The beat is boat, boat, wave.',
+          bigChoices: true,
+        },
+        {
+          prompt: '4, 8, 12, 16, what comes next?',
+          choices: ['20', '18', '24', '17'],
+          answerIndex: 0,
+          hint: 'Check how much the numbers jump each time.',
+          explain: '20 comes next, the boats count up by 4.',
+        },
+        {
+          prompt: 'Boat is to water as train is to ... ?',
+          choices: ['rails', 'clouds', 'sand', 'wind'],
+          answerIndex: 0,
+          hint: 'Think how the first two go together.',
+          explain: 'Rails! Boats ride water and trains ride rails.',
+        },
+      ],
+    },
+  ],
+
+  passages: [
+    {
+      passage: 'Camille rents a little green sailboat at the Luxembourg Gardens fountain. She gives it a push with a long wooden stick. The wind carries her boat all the way across the water.',
+      questions: [
+        {
+          prompt: 'What does Camille use to push her boat?',
+          choices: ['a long wooden stick', 'a little green paddle', 'a strong gust of wind', 'her shiny rain boots'],
+          answerIndex: 0,
+          hint: 'Look back at the push sentence.',
+          explain: 'She pushes the boat with a long wooden stick.',
+        },
+        {
+          prompt: 'What carries her boat across the water?',
+          choices: ['the wind', 'the long wooden stick', 'a friendly white swan', 'the fountain keeper'],
+          answerIndex: 0,
+          hint: 'Find the sentence about the wind.',
+          explain: 'The wind carries her boat across the water.',
+        },
+      ],
+    },
+    {
+      passage: 'Coco the swan glides past the toy sailboats like a queen. She dips her long neck to look for snacks under the water. The little boats rock gently in her wake.',
+      questions: [
+        {
+          prompt: 'How does Coco look for snacks?',
+          choices: ['she dips her long neck', 'she flaps her wide wings', 'she asks the toy sailboats', 'she honks at the queen'],
+          answerIndex: 0,
+          hint: 'The snack sentence tells you.',
+          explain: 'She dips her long neck under the water.',
+        },
+        {
+          prompt: 'What do the little boats do in her wake?',
+          choices: ['rock gently', 'sink under the water', 'race the swan away', 'flip right over'],
+          answerIndex: 0,
+          hint: 'Find the very last sentence.',
+          explain: 'The little boats rock gently in her wake.',
+        },
+      ],
+    },
+    {
+      passage: 'Pippin the hedgehog waits until the garden grows dark and quiet. Then he trundles out to hunt for snails near the rose beds. Camille leaves a shallow dish of water by the gate for him.',
+      questions: [
+        {
+          prompt: 'When does Pippin trundle out?',
+          choices: ['when the garden is dark', 'when the bakery opens up', 'when the garden gets crowded', 'right at lunchtime'],
+          answerIndex: 0,
+          hint: 'The first sentence tells when.',
+          explain: 'Pippin waits for the dark, quiet garden.',
+        },
+        {
+          prompt: 'What does Camille leave by the gate?',
+          choices: ['a dish of water', 'a bowl of warm milk', 'a pile of snail shells', 'a little garden lantern'],
+          answerIndex: 0,
+          hint: 'Reread the last sentence.',
+          explain: 'She leaves a shallow dish of water.',
+        },
+      ],
+    },
+  ],
+
+  souvenirs: [
+    { id: 'par-charm', name: 'Tiny Eiffel Tower charm', emoji: 'ðŸ—¼' },
+    { id: 'par-toyboat', name: 'Little wooden toy sailboat', emoji: 'â›µ' },
+  ],
+
+  landmark: {
+    name: 'The Eiffel Tower',
+    beats: [
+      'Camille leads Charlie across the grass of the Champ de Mars.',
+      'They ride the lifts up until Paris looks like a toy city.',
+      'Night falls, and the iron tower bursts into sparkles. Showtime!',
+    ],
+  },
+
+  showtime: {
+    backdrop: 'the Eiffel Tower glowing gold at dusk',
+    returnBackdrop: 'the Eiffel Tower sparkling over the nighttime Seine',
+    farewell: { text: 'Au revoir, Charlie!', lang: 'fr-FR', respell: 'oh ruh-VWAHR' },
+  },
+};
+
+// === src/content/destinations/rey.js ===
+// src/content/destinations/rey.js - Reykjavik.
+// Facts verified against two sources each (one local); `src` annotations are
+// stripped at build time and never ship. Timeless phrasing enforced by the
+// validator (no exact big counts, no named individual animals).
+const DestRey = {
+  id: 'rey',
+  name: 'Reykjavik',
+  utcOffset: 0,
+  mapEmoji: 'ðŸŒ‹',
+  palette: { a: '#7dd3fc', b: '#a78bfa' },
+  motif: { source: 'Icelandic vogguvisa lullaby (Sofdu unga astin min)', bpm: 80, notes: ['A3', 'C4', 'E4', 'A4'] },
+
+  hostKid: {
+    name: 'Birta',
+    age: 7,
+    neighborhood: 'Vesturbaer, Reykjavik',
+    intro: 'Hi! I am Birta. Welcome to Reykjavik!',
+    life: [
+      'I swim at Vesturbaejarlaug pool after school, even when it snows.',
+      'My gymnastics class meets at the Armann club on Tuesdays.',
+      'Amma tells huldufolk stories, tales of hidden folk in the rocks.',
+      'My favorite snack is skyr with blueberries.',
+      'We bike the seaside path past the Sun Voyager sculpture.',
+    ],
+  },
+
+  animal: {
+    id: 'rey-pip',
+    name: 'Pip the Puffin',
+    species: 'Atlantic puffin',
+    emoji: 'ðŸ§',
+    line: 'My wings whirr faster than you can clap!',
+    move: 'wing-whirr',
+  },
+  shyAnimal: {
+    id: 'rey-stjarna',
+    name: 'Stjarna the Icelandic Horse',
+    species: 'Icelandic horse',
+    emoji: 'ðŸ´',
+    line: 'I am a horse, never a pony, thank you!',
+  },
+
+  wonder: {
+    q: 'Why is the swimming pool warm even when it snows?',
+    a: 'Hot water from volcanic rock deep underground warms the pools.',
+  },
+
+  facts: [
+    {
+      id: 'rey-hotwater',
+      stage: 0,
+      text: 'Hot water from volcanic rock deep underground heats homes and swimming pools all over Reykjavik.',
+      thread: { pairId: 'hotsprings' },
+      recognition: {
+        prompt: 'What heats homes and pools in Reykjavik?',
+        choices: ['hot water from underground', 'big coal fires', 'cold sea water'],
+        answerIndex: 0,
+        hint: 'Think about what volcanoes warm up.',
+        explain: 'Volcanic hot water heats homes and pools.',
+      },
+      cued: { prompt: 'Reykjavik pools stay warm with volcanic hot...', answer: 'WATER' },
+      tiles: { word: 'STEAM', emoji: 'â™¨ï¸', clue: 'It rises from warm pools on cold days.' },
+    },
+    {
+      id: 'rey-puffin',
+      stage: 0,
+      text: 'A puffin can line up many little fish crosswise in its colorful beak.',
+      recognition: {
+        prompt: 'What does a puffin carry in its beak?',
+        choices: ['many little fish', 'smooth beach pebbles', 'bits of seaweed'],
+        answerIndex: 0,
+        hint: 'Think about puffin dinnertime.',
+        explain: 'Puffins line up little fish in their beaks.',
+      },
+      cued: { prompt: 'A puffin fills its beak with little...', answer: 'FISH' },
+      tiles: { word: 'PUFFIN', emoji: 'ðŸ§', clue: 'The seabird with the colorful beak.' },
+    },
+    {
+      id: 'rey-tolt',
+      stage: 0,
+      text: 'Icelandic horses have a special gliding gait called the tolt, smooth as floating.',
+      recognition: {
+        prompt: 'What is the special Icelandic horse gait called?',
+        choices: ['the tolt', 'the bounce', 'the zigzag'],
+        answerIndex: 0,
+        hint: 'It feels smooth, like gliding.',
+        explain: 'The tolt is the smooth gliding gait.',
+      },
+      cued: { prompt: 'The Icelandic horse glides in a gait called the...', answer: 'TOLT' },
+      tiles: { word: 'TOLT', emoji: 'ðŸ´', clue: 'The smooth gliding horse gait.' },
+    },
+    {
+      id: 'rey-pylsur',
+      stage: 0,
+      text: 'Hot dogs called pylsur are a Reykjavik favorite, often ordered with everything on top.',
+      recognition: {
+        prompt: 'What do people in Reykjavik call hot dogs?',
+        choices: ['pylsur', 'kleinur', 'skyr'],
+        answerIndex: 0,
+        hint: 'Birta orders one with everything.',
+        explain: 'Icelandic hot dogs are called pylsur.',
+      },
+      cued: { prompt: 'Icelandic hot dogs are called...', answer: 'PYLSUR' },
+      tiles: { word: 'PYLSUR', emoji: 'ðŸŒ­', clue: 'Iceland-style hot dogs.' },
+    },
+    {
+      id: 'rey-skyr',
+      stage: 1,
+      text: 'Skyr is a thick, creamy Icelandic treat that families have made since Viking times.',
+      recognition: {
+        prompt: 'What is skyr?',
+        choices: ['a thick creamy treat', 'a woolly winter hat', 'a little fishing boat'],
+        answerIndex: 0,
+        hint: 'Birta eats it with blueberries.',
+        explain: 'Skyr is a thick creamy treat.',
+      },
+      cued: { prompt: 'The creamy treat from Viking times is...', answer: 'SKYR' },
+      tiles: { word: 'SKYR', emoji: 'ðŸ¥£', clue: 'Thick and creamy, yummy with berries.' },
+    },
+    {
+      id: 'rey-aurora',
+      stage: 1,
+      text: 'On dark clear winter nights, the northern lights dance green across the Reykjavik sky.',
+      recognition: {
+        prompt: 'What dances across the dark winter sky?',
+        choices: ['the northern lights', 'giant green kites', 'glowing fireflies'],
+        answerIndex: 0,
+        hint: 'They glow green at night.',
+        explain: 'The northern lights dance across the sky.',
+      },
+      cued: { prompt: 'The green sky dancers are the northern...', answer: 'LIGHTS' },
+      tiles: { word: 'AURORA', emoji: 'ðŸŒŒ', clue: 'Another name for the northern lights.' },
+    },
+    {
+      id: 'rey-fireice',
+      stage: 2,
+      text: 'Iceland is called the land of fire and ice, where volcanoes and glaciers live side by side.',
+      recognition: {
+        prompt: 'Why is Iceland the land of fire and ice?',
+        choices: ['volcanoes and glaciers share the island', 'fireworks pop over the snow', 'the sun never sets'],
+        answerIndex: 0,
+        hint: 'Think hot mountains and frozen rivers.',
+        explain: 'Volcanoes and glaciers share the same island.',
+      },
+      cued: { prompt: 'Iceland has icy glaciers and fiery...', answer: 'VOLCANOES' },
+      tiles: { word: 'VOLCANO', emoji: 'ðŸŒ‹', clue: 'A mountain that can breathe fire.' },
+    },
+    {
+      id: 'rey-althing',
+      stage: 2,
+      text: 'Long ago, Icelanders met outdoors at Thingvellir to make laws together at the Althing.',
+      recognition: {
+        prompt: 'What did Icelanders start at Thingvellir long ago?',
+        choices: ['a meeting to make laws', 'a giant fish market', 'a sled racing track'],
+        answerIndex: 0,
+        hint: 'People gathered to decide rules together.',
+        explain: 'They made laws together at the Althing.',
+      },
+      cued: { prompt: 'The old Icelandic law meeting was called the...', answer: 'ALTHING' },
+      tiles: { word: 'LAWS', emoji: 'ðŸ›ï¸', clue: 'Rules that people make together.' },
+    },
+  ],
+
+  phrases: [
+    { id: 'rey-hallo', text: 'hallo', lang: '', respell: 'HAH-loh', gloss: 'Hello in Icelandic.' },
+    { id: 'rey-takk', text: 'takk', lang: '', respell: 'tahk', gloss: 'Thank you in Icelandic.' },
+    { id: 'rey-bless', text: 'bless', lang: '', respell: 'bless', gloss: 'Goodbye in Icelandic.' },
+  ],
+
+  words: [
+    { tier: 1, word: 'ICE', emoji: 'ðŸ§Š', clue: 'Frozen water, and half of the name Iceland.' },
+    { tier: 1, word: 'EGG', emoji: 'ðŸ¥š', clue: 'A puffin lays one in its burrow.' },
+    { tier: 1, word: 'FOX', emoji: 'ðŸ¦Š', clue: 'Some Arctic foxes wear a snow-white winter coat.' },
+    { tier: 2, word: 'SNOW', emoji: 'â„ï¸', clue: 'Soft white flakes falling on warm pool swimmers.' },
+    { tier: 2, word: 'POOL', emoji: 'ðŸŠ', clue: 'Warm water for after-school swims all year.' },
+    { tier: 2, word: 'LAVA', emoji: 'ðŸŒ‹', clue: 'Hot melted rock from a volcano.' },
+    { tier: 3, word: 'GEYSER', emoji: 'â›²', clue: 'A hot spring that shoots water up high.' },
+    { tier: 3, word: 'WINTER', emoji: 'ðŸ§¤', clue: 'The season of snow and northern lights.' },
+    { tier: 4, word: 'GLACIER', emoji: 'ðŸ”ï¸', clue: 'A huge, slow river of ice.' },
+    { tier: 4, word: 'SWEATER', emoji: 'ðŸ§¶', clue: 'A cozy wool lopapeysa keeps you warm.' },
+    { tier: 5, word: 'WATERFALL', emoji: 'ðŸ’¦', clue: 'Iceland has one around almost every bend.' },
+    { tier: 5, word: 'REINDEER', emoji: 'ðŸ¦Œ', clue: 'They roam wild in east Iceland.' },
+  ],
+
+  rhymes: [
+    {
+      prompt: 'Which word rhymes with ice?',
+      choices: ['mice', 'snow', 'pool'],
+      answerIndex: 0,
+      hint: 'Say the endings out loud.',
+      explain: 'Mice rhymes with ice, both say ice.',
+    },
+    {
+      prompt: 'Which word rhymes with pool?',
+      choices: ['cool', 'warm', 'swim'],
+      answerIndex: 0,
+      hint: 'Trust your ears, not your eyes.',
+      explain: 'Cool rhymes with pool, both say ool.',
+    },
+    {
+      prompt: 'Which word rhymes with snow?',
+      choices: ['glow', 'ice', 'wind'],
+      answerIndex: 0,
+      hint: 'Say each word and match the endings.',
+      explain: 'Glow rhymes with snow, both say oh.',
+    },
+    {
+      prompt: 'Tap the TWO words that rhyme!',
+      choices: ['horse', 'puffin', 'course', 'pool'],
+      answerIndices: [0, 2],
+      hint: 'Say each word and match the endings.',
+      explain: 'Horse and course rhyme, both say orse.',
+    },
+    {
+      prompt: 'Which word does NOT rhyme with the others?',
+      choices: ['steam', 'dream', 'cream', 'rock'],
+      answerIndex: 3,
+      hint: 'Three endings match, one does not.',
+      explain: 'Rock does not end with the eem sound.',
+    },
+    {
+      prompt: 'I rhyme with mountain, and water leaps from me in city squares.',
+      choices: ['fountain', 'geyser', 'waterfall'],
+      answerIndex: 0,
+      hint: 'The answer must rhyme AND fit the clue.',
+      explain: 'A fountain! Fountain rhymes with mountain.',
+    },
+  ],
+
+  patterns: [
+    {
+      artisan: 'Amma Sigrun',
+      name: 'Lopapeysa wool sweater',
+      items: [
+        {
+          prompt: 'ðŸ§¶ â„ï¸ ðŸ§¶ â„ï¸ ðŸ§¶ ... what comes next?',
+          choices: ['â„ï¸', 'ðŸ§¶', 'ðŸ‘', 'â­'],
+          answerIndex: 0,
+          hint: 'Say the pattern out loud, what repeats?',
+          explain: 'Snowflake! The row goes yarn, snowflake, yarn, snowflake.',
+          bigChoices: true,
+        },
+        {
+          prompt: 'ðŸ‘ ðŸ‘ â„ï¸ ðŸ‘ ðŸ‘ â„ï¸ ðŸ‘ ðŸ‘ ... what comes next?',
+          choices: ['â„ï¸', 'ðŸ‘', 'ðŸ§¶', 'â­'],
+          answerIndex: 0,
+          hint: 'Chant the pattern and feel the beat.',
+          explain: 'Snowflake! The round goes sheep, sheep, snowflake.',
+          bigChoices: true,
+        },
+        {
+          prompt: '3, 6, 9, 12 ... what comes next?',
+          choices: ['15', '13', '18', '14'],
+          answerIndex: 0,
+          hint: 'Check how much the numbers jump each time.',
+          explain: '15 comes next, the stitches count up by 3.',
+        },
+        {
+          prompt: 'Sheep is to wool as puffin is to ... ?',
+          choices: ['feathers', 'milk', 'yarn', 'wood'],
+          answerIndex: 0,
+          hint: 'Think how the first two go together.',
+          explain: 'Feathers! Sheep grow wool and puffins grow feathers.',
+        },
+      ],
+    },
+    {
+      artisan: 'Afi Gunnar',
+      name: 'Lava bead bracelet',
+      items: [
+        {
+          prompt: 'âš« ðŸ”µ âš« ðŸ”µ âš« ... what comes next?',
+          choices: ['ðŸ”µ', 'âš«', 'â­', 'ðŸŒ‹'],
+          answerIndex: 0,
+          hint: 'Say the pattern out loud, what repeats?',
+          explain: 'Blue! The bracelet goes lava bead, blue bead.',
+          bigChoices: true,
+        },
+        {
+          prompt: 'âš« âš«âš« âš«âš«âš« ... what comes next?',
+          choices: ['âš«âš«âš«âš«', 'âš«âš«', 'âš«', 'âš«âš«âš«âš«âš«'],
+          answerIndex: 0,
+          hint: 'Count how many are in each group.',
+          explain: 'Four beads! The group grows by one each time.',
+          bigChoices: true,
+        },
+        {
+          prompt: '10, 20, 30, 40 ... what comes next?',
+          choices: ['50', '45', '60', '41'],
+          answerIndex: 0,
+          hint: 'Check how much the numbers jump each time.',
+          explain: '50 comes next, the beads count up by 10.',
+        },
+        {
+          prompt: 'Volcano is to lava as glacier is to ... ?',
+          choices: ['ice', 'fire', 'sand', 'smoke'],
+          answerIndex: 0,
+          hint: 'Think how the first two go together.',
+          explain: 'Ice! Volcanoes pour lava and glaciers are ice.',
+        },
+      ],
+    },
+  ],
+
+  passages: [
+    {
+      passage: 'Birta floats in the warm pool at Vesturbaejarlaug while snowflakes land on her nose. Hot water from volcanic rock deep underground keeps the pool warm. After her swim, she eats skyr with berries.',
+      questions: [
+        {
+          prompt: 'What keeps the pool warm?',
+          choices: ['volcanic rock underground', 'snowflakes from the winter sky', 'a big campfire by the gate', 'the warm summer sun'],
+          answerIndex: 0,
+          hint: 'Reread the middle sentence.',
+          explain: 'Volcanic rock deep underground heats the pool.',
+        },
+        {
+          prompt: 'What does Birta eat after her swim?',
+          choices: ['skyr with berries', 'warm bread by the pool', 'a hot dog with everything', 'an ice cream cone'],
+          answerIndex: 0,
+          hint: 'Look at the last sentence.',
+          explain: 'She eats skyr with berries after swimming.',
+        },
+      ],
+    },
+    {
+      passage: 'Pip the puffin whirrs his little wings over the harbor. He dives and pops up with a beak full of silvery fish. Then he zooms home to his burrow on Akurey island.',
+      questions: [
+        {
+          prompt: 'What does Pip carry in his beak?',
+          choices: ['silvery fish', 'little harbor stones', 'a piece of seaweed', 'one big crab'],
+          answerIndex: 0,
+          hint: 'Look at what he dives for.',
+          explain: 'His beak is full of silvery fish.',
+        },
+        {
+          prompt: 'Where does Pip zoom home to?',
+          choices: ['his burrow on Akurey island', 'a cozy nest above the harbor boats', 'a tall city rooftop'],
+          answerIndex: 0,
+          hint: 'Find the very last sentence.',
+          explain: 'Pip zooms home to Akurey island.',
+        },
+      ],
+    },
+    {
+      passage: 'Birta visits Stjarna the Icelandic horse at a farm near the city. Stjarna glides in her smooth tolt, and Birta laughs out loud. On the ride home, Amma tells a story about hidden folk in the rocks.',
+      questions: [
+        {
+          prompt: 'What is the smooth gliding gait called?',
+          choices: ['the tolt', 'a smooth trot', 'the gallop'],
+          answerIndex: 0,
+          hint: 'The answer hides in the second sentence.',
+          explain: 'Stjarna glides in her smooth tolt.',
+        },
+        {
+          prompt: 'Who tells a story on the ride home?',
+          choices: ['Amma', 'Stjarna', 'a farmer'],
+          answerIndex: 0,
+          hint: 'Check the ride home sentence.',
+          explain: 'Amma tells the story on the way home.',
+        },
+      ],
+    },
+  ],
+
+  souvenirs: [
+    { id: 'rey-sweater', name: 'Tiny wool sweater', emoji: 'ðŸ§¶' },
+    { id: 'rey-lavarock', name: 'Lava bead bracelet', emoji: 'ðŸ“¿' },
+  ],
+
+  landmark: {
+    name: 'Hallgrimskirkja',
+    beats: [
+      'Birta leads Charlie up the tower of Hallgrimskirkja church.',
+      'Its walls rise like basalt columns from real Icelandic cliffs.',
+      'Pip zooms past as the rooftops glow rainbow colors. Showtime!',
+    ],
+  },
+
+  showtime: {
+    backdrop: 'Hallgrimskirkja tower at golden hour',
+    returnBackdrop: 'Hallgrimskirkja under dancing northern lights',
+    farewell: { text: 'Bless bless, Charlie!', lang: '', respell: 'bless bless' },
+  },
+};
+
+// === src/content/destinations/mar.js ===
+// src/content/destinations/mar.js - Marrakesh.
+// Facts verified against two sources each (one local); `src` annotations are
+// stripped at build time and never ship. Timeless phrasing enforced by the
+// validator (no exact big counts, no named individual animals).
+const DestMar = {
+  id: 'mar',
+  name: 'Marrakesh',
+  utcOffset: 1,
+  mapEmoji: 'ðŸ•Œ',
+  palette: { a: '#fb923c', b: '#f0abfc' },
+  motif: { source: 'gnawa krakeb pulse (iron castanet clack)', bpm: 120, notes: ['D4', 'F4', 'G4', 'A4'] },
+
+  hostKid: {
+    name: 'Aya',
+    age: 7,
+    neighborhood: 'Mouassine quarter, Marrakesh medina',
+    intro: 'Salam! I am Aya. Welcome to my medina!',
+    life: [
+      'I pour mint tea from way up high without spilling.',
+      'I know a shortcut through Rahba Kedima, the spice square.',
+      'After school I watch storytellers at Jemaa el-Fnaa.',
+      'My aunt sews babouche slippers in her Mouassine shop.',
+      'I practice cartwheels on our riad rooftop terrace.',
+    ],
+  },
+
+  animal: {
+    id: 'mar-saffron',
+    name: 'Saffron the Dromedary Camel',
+    species: 'dromedary camel',
+    emoji: 'ðŸª',
+    line: 'Climb up, I sway like a slow desert boat!',
+    move: 'slow-sway',
+  },
+  shyAnimal: {
+    id: 'mar-clatter',
+    name: 'Clatter the White Stork',
+    species: 'white stork',
+    emoji: 'ðŸ¦¢',
+    line: 'I clack my beak from my nest on the old wall!',
+  },
+
+  wonder: {
+    q: 'Why do the walls of Marrakesh look rosy red?',
+    a: 'They are built from red local clay that glows at sunset.',
+  },
+
+  facts: [
+    {
+      id: 'mar-redcity',
+      stage: 0,
+      text: 'Marrakesh is called the Red City because its walls are built from red local clay.',
+      recognition: {
+        prompt: 'Why is Marrakesh called the Red City?',
+        choices: ['its walls are red clay', 'its roofs are painted red', 'red flowers cover the streets'],
+        answerIndex: 0,
+        hint: 'Look at what the walls are made of.',
+        explain: 'The walls are built from red local clay.',
+      },
+      cued: { prompt: 'Red clay walls make Marrakesh the Red...', answer: 'CITY' },
+      tiles: { word: 'CLAY', emoji: 'ðŸ§±', clue: 'The red walls are made of this.' },
+    },
+    {
+      id: 'mar-tea',
+      stage: 0,
+      text: 'Tea makers pour mint tea from high up so the glass gets a bubbly foam.',
+      recognition: {
+        prompt: 'Why is mint tea poured from high up?',
+        choices: ['to make a bubbly foam', 'to cool the teapot down', 'to water the mint plants'],
+        answerIndex: 0,
+        hint: 'Watch what appears on top of the glass.',
+        explain: 'The high pour makes the bubbly foam.',
+      },
+      cued: { prompt: 'Mint tea gets bubbly when poured from up...', answer: 'HIGH' },
+      tiles: { word: 'MINT', emoji: 'ðŸŒ¿', clue: 'The leaf that makes the tea fresh.' },
+    },
+    {
+      id: 'mar-square',
+      stage: 0,
+      text: 'Every evening, Jemaa el-Fnaa square fills with storytellers, musicians, and food stalls.',
+      recognition: {
+        prompt: 'Who fills Jemaa el-Fnaa in the evening?',
+        choices: ['storytellers and musicians', 'snowplow drivers', 'deep sea divers'],
+        answerIndex: 0,
+        hint: 'Think of who Aya loves to watch.',
+        explain: 'Storytellers and musicians fill the square each evening.',
+      },
+      cued: { prompt: 'At night the big square fills with music and...', answer: 'STORIES' },
+      tiles: { word: 'SQUARE', emoji: 'ðŸŽª', clue: 'Jemaa el-Fnaa, the city living room.' },
+    },
+    {
+      id: 'mar-souks',
+      stage: 0,
+      text: 'In the medina souks, each craft has its own lane: slippers here, lanterns there, carpets nearby.',
+      thread: { pairId: 'markets' },
+      recognition: {
+        prompt: 'How are the souk lanes organized?',
+        choices: ['each craft has its own lane', 'by the color of the doors', 'biggest shops go first'],
+        answerIndex: 0,
+        hint: 'Slipper makers all share one lane.',
+        explain: 'Each craft gets its very own lane.',
+      },
+      cued: { prompt: 'The market lanes of the medina are called...', answer: 'SOUKS' },
+      tiles: { word: 'SOUK', emoji: 'ðŸ®', clue: 'A market lane in the medina.' },
+    },
+    {
+      id: 'mar-stork',
+      stage: 1,
+      text: 'White storks build huge stick nests right on the old walls of Marrakesh.',
+      recognition: {
+        prompt: 'Where do white storks build their nests?',
+        choices: ['on the old city walls', 'under the souk roofs', 'inside the tea shops'],
+        answerIndex: 0,
+        hint: 'Clatter lives way up high.',
+        explain: 'Storks nest on the old city walls.',
+      },
+      cued: { prompt: 'On the old walls, white storks build big...', answer: 'NESTS' },
+      tiles: { word: 'STORK', emoji: 'ðŸ¦¢', clue: 'The white bird nesting on the walls.' },
+    },
+    {
+      id: 'mar-camel',
+      stage: 1,
+      text: 'A dromedary camel has one hump, and the hump stores fat for long desert trips.',
+      recognition: {
+        prompt: 'What does a camel hump store?',
+        choices: ['fat', 'water', 'sand'],
+        answerIndex: 0,
+        hint: 'It is fuel, not a drink.',
+        explain: 'The hump stores fat, not water.',
+      },
+      cued: { prompt: 'A dromedary camel has just one...', answer: 'HUMP' },
+      tiles: { word: 'CAMEL', emoji: 'ðŸª', clue: 'Saffron, the one-hump desert walker.' },
+    },
+    {
+      id: 'mar-books',
+      stage: 2,
+      text: 'Koutoubia means place of the booksellers, because book stalls once filled the streets beside the tower.',
+      recognition: {
+        prompt: 'What does the name Koutoubia mean?',
+        choices: ['place of the booksellers', 'tower of a giant king', 'garden of orange trees'],
+        answerIndex: 0,
+        hint: 'Think about stalls full of stories.',
+        explain: 'Koutoubia means place of the booksellers.',
+      },
+      cued: { prompt: 'Koutoubia is named for sellers of...', answer: 'BOOKS' },
+      tiles: { word: 'BOOKS', emoji: 'ðŸ“š', clue: 'Koutoubia is named for their sellers.' },
+    },
+    {
+      id: 'mar-gnawa',
+      stage: 2,
+      text: 'Gnawa musicians keep the beat with krakebs, large iron clackers that snap and ring.',
+      recognition: {
+        prompt: 'What are krakebs made of?',
+        choices: ['iron', 'palm wood', 'seashells'],
+        answerIndex: 0,
+        hint: 'They clang like little cymbals.',
+        explain: 'Krakebs are big iron clackers.',
+      },
+      cued: { prompt: 'Gnawa players clack big iron...', answer: 'KRAKEBS' },
+      tiles: { word: 'KRAKEB', emoji: 'ðŸŽ¶', clue: 'The iron clacker of gnawa music.' },
+    },
+  ],
+
+  phrases: [
+    { id: 'mar-salam', text: 'Salam', lang: '', respell: 'sah-LAM', gloss: 'Hello! It also means peace.' },
+    { id: 'mar-shukran', text: 'Shukran', lang: '', respell: 'SHOO-krahn', gloss: 'Thank you.' },
+    { id: 'mar-atay', text: 'Atay', lang: '', respell: 'ah-TY', gloss: 'Tea, the bubbly mint kind.' },
+  ],
+
+  words: [
+    { tier: 1, word: 'TEA', emoji: 'ðŸµ', clue: 'Aya pours it from way up high.' },
+    { tier: 1, word: 'SUN', emoji: 'â˜€ï¸', clue: 'It warms the rosy city walls.' },
+    { tier: 1, word: 'RUG', emoji: 'ðŸ§¶', clue: 'A woven one warms the riad floor.' },
+    { tier: 2, word: 'MINT', emoji: 'ðŸŒ¿', clue: 'The fresh leaf in every teapot.' },
+    { tier: 2, word: 'SOUK', emoji: 'ðŸ›ï¸', clue: 'A market lane in the medina.' },
+    { tier: 2, word: 'CAMEL', emoji: 'ðŸª', clue: 'A one-hump friend like Saffron.' },
+    { tier: 3, word: 'MARKET', emoji: 'ðŸ§º', clue: 'Where the souk sellers call hello.' },
+    { tier: 3, word: 'DESERT', emoji: 'ðŸœï¸', clue: 'Sandy land where camels love to walk.' },
+    { tier: 4, word: 'LANTERN', emoji: 'ðŸ®', clue: 'Brass light that glows with star shapes.' },
+    { tier: 4, word: 'SLIPPER', emoji: 'ðŸ¥¿', clue: 'A soft pointy babouche for your foot.' },
+    { tier: 5, word: 'FOUNTAIN', emoji: 'â›²', clue: 'Cool splashing water in the courtyard.' },
+    { tier: 5, word: 'COURTYARD', emoji: 'ðŸ¡', clue: 'The open middle of a riad home.' },
+    { tier: 5, word: 'MUSICIAN', emoji: 'ðŸŽ¶', clue: 'A gnawa player keeping the beat.' },
+  ],
+
+  rhymes: [
+    {
+      prompt: 'Which word rhymes with tea?',
+      choices: ['bee', 'tray', 'cup'],
+      answerIndex: 0,
+      hint: 'Say the endings out loud.',
+      explain: 'Bee rhymes with tea, both say "ee".',
+    },
+    {
+      prompt: 'Which word rhymes with mint?',
+      choices: ['print', 'mat', 'moon'],
+      answerIndex: 0,
+      hint: 'Trust your ears, not your eyes.',
+      explain: 'Print rhymes with mint, both end with -int.',
+    },
+    {
+      prompt: 'Which word rhymes with lane?',
+      choices: ['train', 'lamp', 'door'],
+      answerIndex: 0,
+      hint: 'Say each word and match the endings.',
+      explain: 'Train rhymes with lane, both say "ain".',
+    },
+    {
+      prompt: 'Tap the TWO words that rhyme!',
+      choices: ['hump', 'jump', 'tea', 'wall'],
+      answerIndices: [0, 1],
+      hint: 'Say each word and match the endings.',
+      explain: 'Hump and jump rhyme, both say "ump".',
+    },
+    {
+      prompt: 'Which word does NOT rhyme with the others?',
+      choices: ['light', 'night', 'bright', 'lamp'],
+      answerIndex: 3,
+      hint: 'Three endings match, one does not.',
+      explain: 'Lamp does not end with -ight.',
+    },
+    {
+      prompt: 'I rhyme with star, and I hold treats in the souk.',
+      choices: ['jar', 'bowl', 'basket'],
+      answerIndex: 0,
+      hint: 'The answer must rhyme AND fit the clue.',
+      explain: 'A jar! Jar rhymes with star.',
+    },
+  ],
+
+  patterns: [
+    {
+      artisan: 'Maalem Brahim',
+      name: 'Zellige tile mosaic',
+      items: [
+        {
+          prompt: 'ðŸ”· ðŸ”¶ ðŸ”· ðŸ”¶ ðŸ”· ... what comes next?',
+          choices: ['ðŸ”¶', 'ðŸ”·', 'â­', 'ðŸŸ¥'],
+          answerIndex: 0,
+          hint: 'Say the pattern out loud, what repeats?',
+          explain: 'Orange! The tiles go blue, orange, blue, orange.',
+          bigChoices: true,
+        },
+        {
+          prompt: 'ðŸ”· ðŸ”· â­ ðŸ”· ðŸ”· â­ ðŸ”· ðŸ”· ... what comes next?',
+          choices: ['â­', 'ðŸ”·', 'ðŸ”¶', 'ðŸŸ¥'],
+          answerIndex: 0,
+          hint: 'Chant the pattern and feel the beat.',
+          explain: 'Star! The tiles go blue, blue, star.',
+          bigChoices: true,
+        },
+        {
+          prompt: 'ðŸ”· ðŸ”·ðŸ”· ðŸ”·ðŸ”·ðŸ”· ... what comes next?',
+          choices: ['ðŸ”·ðŸ”·ðŸ”·ðŸ”·', 'ðŸ”·ðŸ”·', 'ðŸ”·', 'ðŸ”·ðŸ”·ðŸ”·ðŸ”·ðŸ”·'],
+          answerIndex: 0,
+          hint: 'Count how many are in each group.',
+          explain: 'Four tiles! Each group grows by one.',
+          bigChoices: true,
+        },
+        {
+          prompt: '3, 6, 9, 12 ... what comes next?',
+          choices: ['15', '13', '18', '14'],
+          answerIndex: 0,
+          hint: 'Check how much the numbers jump each time.',
+          explain: '15 comes next, the tiles count up by 3.',
+        },
+      ],
+    },
+    {
+      artisan: 'Lalla Fatima',
+      name: 'Brass lantern shaping',
+      items: [
+        {
+          prompt: 'ðŸ® ðŸŒ™ ðŸ® ðŸŒ™ ðŸ® ... what comes next?',
+          choices: ['ðŸŒ™', 'ðŸ®', 'â­', 'ðŸ””'],
+          answerIndex: 0,
+          hint: 'Say the pattern out loud, what repeats?',
+          explain: 'Moon! It goes lantern, moon, lantern, moon.',
+          bigChoices: true,
+        },
+        {
+          prompt: 'ðŸ® ðŸ® â­ ðŸ® ðŸ® â­ ðŸ® ðŸ® ... what comes next?',
+          choices: ['â­', 'ðŸ®', 'ðŸŒ™', 'ðŸ”¶'],
+          answerIndex: 0,
+          hint: 'Chant the pattern and feel the beat.',
+          explain: 'Star! The punches go tap, tap, star.',
+          bigChoices: true,
+        },
+        {
+          prompt: '4, 8, 12, 16 ... what comes next?',
+          choices: ['20', '18', '24', '17'],
+          answerIndex: 0,
+          hint: 'Check how much the numbers jump each time.',
+          explain: '20 comes next, the taps count up by 4.',
+        },
+        {
+          prompt: 'Lantern is to glow as krakeb is to ... ?',
+          choices: ['clack', 'melt', 'sleep', 'fly'],
+          answerIndex: 0,
+          hint: 'Think how the first two go together.',
+          explain: 'Clack! Lanterns glow and krakebs clack.',
+        },
+      ],
+    },
+  ],
+
+  passages: [
+    {
+      passage: 'Aya carried the silver teapot to the low table. She poured the mint tea from way up high, and bubbles danced in every glass. Grandpa said the foam means the tea is happy.',
+      questions: [
+        {
+          prompt: 'How did Aya pour the mint tea?',
+          choices: ['from way up high', 'from down very low', 'with both eyes closed', 'into a big soup bowl'],
+          answerIndex: 0,
+          hint: 'Watch where the teapot goes.',
+          explain: 'She poured from way up high.',
+        },
+        {
+          prompt: 'What danced in every glass?',
+          choices: ['bubbles', 'tiny glass beads', 'silver spoons', 'two little birds'],
+          answerIndex: 0,
+          hint: 'Look at the pouring sentence.',
+          explain: 'Bubbles danced in every glass.',
+        },
+      ],
+    },
+    {
+      passage: 'Saffron the camel waited by the palm grove, chewing slowly. Charlie climbed up, and Saffron rose with a gentle sway. From up high she could see the rosy walls of the city.',
+      questions: [
+        {
+          prompt: 'What did Saffron do when Charlie climbed up?',
+          choices: ['rose with a gentle sway', 'chewed one more palm leaf', 'galloped into the square', 'hid behind a tall tree'],
+          answerIndex: 0,
+          hint: 'Reread the climbing sentence.',
+          explain: 'Saffron rose with a gentle sway.',
+        },
+        {
+          prompt: 'What could Charlie see from up high?',
+          choices: ['the rosy walls', 'the tall palm grove', 'a deep blue lake', 'a snowy mountain'],
+          answerIndex: 0,
+          hint: 'The last sentence tells you.',
+          explain: 'She saw the rosy city walls.',
+        },
+      ],
+    },
+    {
+      passage: 'In the evening, Aya and Charlie sat in the big square to hear the storyteller. He spread his arms wide, and the crowd leaned in close. Up on the old wall, Clatter the stork clacked her beak like applause.',
+      questions: [
+        {
+          prompt: 'Where did the friends sit to listen?',
+          choices: ['in the big square', 'up on the old wall', 'inside a slipper shop', 'on the riad rooftop'],
+          answerIndex: 0,
+          hint: 'Look at the first sentence.',
+          explain: 'They sat in the big square.',
+        },
+        {
+          prompt: 'What did Clatter do like applause?',
+          choices: ['clacked her beak', 'flapped her wide wings', 'sang a long song', 'stamped both feet'],
+          answerIndex: 0,
+          hint: 'Find the very last sentence.',
+          explain: 'Clatter clacked her beak.',
+        },
+      ],
+    },
+  ],
+
+  souvenirs: [
+    { id: 'mar-teaglass', name: 'Painted tea glass', emoji: 'ðŸµ' },
+    { id: 'mar-babouche', name: 'Yellow babouche slippers', emoji: 'ðŸ¥¿' },
+  ],
+
+  landmark: {
+    name: 'Koutoubia Mosque tower',
+    beats: [
+      'Aya leads Charlie across Jemaa el-Fnaa as lanterns flicker on.',
+      'From the square they admire the Koutoubia tower glowing rosy gold.',
+      'Gnawa drummers strike up, krakebs clacking under the stars: Showtime!',
+    ],
+  },
+
+  showtime: {
+    backdrop: 'Jemaa el-Fnaa glowing at dusk',
+    returnBackdrop: 'Riad rooftop under desert stars',
+    farewell: { text: 'Bslama, Charlie!', lang: '', respell: 'buh-SLEH-mah' },
+  },
+};
+
+// === src/content/destinations/acc.js ===
+// src/content/destinations/acc.js â€” Accra, Ghana.
+// Facts verified against two sources each (one local); `src` annotations are
+// stripped at build time and never ship. Timeless phrasing enforced by the
+// validator (no exact big counts, no named individual animals).
+const DestAcc = {
+  id: 'acc',
+  name: 'Accra',
+  utcOffset: 0,
+  mapEmoji: 'ðŸ¥',
+  palette: { a: '#fbbf24', b: '#34d399' },
+  motif: { source: 'highlife guitar line', bpm: 116, notes: ['C4', 'E4', 'G4', 'A4'] },
+
+  hostKid: {
+    name: 'Adjeley',
+    age: 7,
+    neighborhood: 'Jamestown, Accra',
+    intro: 'Ojekoo! I am Adjeley. Akwaaba to Accra!',
+    life: [
+      'I play gutter-to-gutter football in our lane after school.',
+      'I help my auntie sell wax-print cloth at Makola Market.',
+      'On kelewele nights the whole lane smells of ginger.',
+      'My grandpa fishes from a painted canoe at the harbour.',
+      'Waakye, rice and beans, is my market-day breakfast.',
+    ],
+  },
+
+  animal: {
+    id: 'acc-mango',
+    name: 'Mango the Mona Monkey',
+    species: 'mona monkey',
+    emoji: 'ðŸ’',
+    line: 'Swing through the branches with me!',
+    move: 'branch-swing',
+  },
+  shyAnimal: {
+    id: 'acc-tide',
+    name: 'Tide the Green Sea Turtle',
+    species: 'green sea turtle',
+    emoji: 'ðŸ¢',
+    line: 'I crawl ashore on quiet nights to nest.',
+  },
+
+  wonder: {
+    q: 'Why do the Jamestown canoes stay home on Tuesdays?',
+    a: 'Ga fishermen give the sea a rest day, so the fish get quiet time too.',
+  },
+
+  facts: [
+    {
+      id: 'acc-akwaaba',
+      stage: 0,
+      text: 'A giant sign at the Accra airport says Akwaaba, which means welcome.',
+      recognition: {
+        prompt: 'What does the word Akwaaba mean?',
+        choices: ['welcome', 'goodbye', 'hurry up'],
+        answerIndex: 0,
+        hint: 'The airport sign greets every visitor.',
+        explain: 'Akwaaba means welcome.',
+      },
+      cued: { prompt: 'The airport sign greets every visitor with...', answer: 'AKWAABA' },
+      tiles: { word: 'AKWAABA', emoji: 'ðŸ›¬', clue: 'The welcome word on the airport sign.' },
+    },
+    {
+      id: 'acc-makola',
+      stage: 0,
+      text: 'Makola Market is one of the great markets of West Africa, and most of its traders are women.',
+      thread: { pairId: 'markets' },
+      recognition: {
+        prompt: 'Who runs most stalls at Makola Market?',
+        choices: ['women traders', 'robot helpers', 'sea captains'],
+        answerIndex: 0,
+        hint: 'Adjeley helps her auntie there.',
+        explain: 'Most Makola traders are women.',
+      },
+      cued: { prompt: 'Most Makola stalls are run by women...', answer: 'TRADERS' },
+      tiles: { word: 'MARKET', emoji: 'ðŸ§º', clue: 'Makola is a famous one.' },
+    },
+    {
+      id: 'acc-lighthouse',
+      stage: 0,
+      text: 'The Jamestown Lighthouse watches over a harbour full of painted wooden fishing canoes.',
+      recognition: {
+        prompt: 'What fills the harbour below the lighthouse?',
+        choices: ['painted wooden canoes', 'giant cruise ships', 'yellow submarines'],
+        answerIndex: 0,
+        hint: 'Fishermen paddle and paint them.',
+        explain: 'The harbour is full of wooden canoes.',
+      },
+      cued: { prompt: 'Below the lighthouse bob painted wooden...', answer: 'CANOES' },
+      tiles: { word: 'CANOE', emoji: 'ðŸ›¶', clue: 'A painted fishing boat in Jamestown.' },
+    },
+    {
+      id: 'acc-kelewele',
+      stage: 0,
+      text: 'Kelewele is a spicy evening snack of fried plantain with ginger and pepper.',
+      recognition: {
+        prompt: 'What is kelewele made from?',
+        choices: ['spicy fried plantain', 'waakye rice and beans', 'jollof rice'],
+        answerIndex: 0,
+        hint: 'It starts out looking like a banana.',
+        explain: 'Kelewele is spicy fried plantain with ginger.',
+      },
+      cued: { prompt: 'Kelewele is made of spicy fried...', answer: 'PLANTAIN' },
+      tiles: { word: 'PLANTAIN', emoji: 'ðŸŒ', clue: 'Fry it with ginger for kelewele.' },
+    },
+    {
+      id: 'acc-highlife',
+      stage: 1,
+      text: 'Highlife music was born in Ghana, mixing sweet guitar lines with local rhythms.',
+      recognition: {
+        prompt: 'Which instrument sings the highlife melody?',
+        choices: ['guitar', 'tuba', 'violin'],
+        answerIndex: 0,
+        hint: 'Charlie hears its strings everywhere.',
+        explain: 'Highlife loves a sweet guitar line.',
+      },
+      cued: { prompt: 'Highlife melodies ring out on the...', answer: 'GUITAR' },
+      tiles: { word: 'GUITAR', emoji: 'ðŸŽ¸', clue: 'It plays the highlife melody.' },
+    },
+    {
+      id: 'acc-mona',
+      stage: 1,
+      text: 'Mona monkeys stuff food into their cheek pouches to snack on later.',
+      recognition: {
+        prompt: 'Where do mona monkeys store extra food?',
+        choices: ['in their cheek pouches', 'under heavy rocks', 'inside hollow logs'],
+        answerIndex: 0,
+        hint: 'Look at their round puffy cheeks.',
+        explain: 'Cheek pouches hold snacks for later.',
+      },
+      cued: { prompt: 'Mona monkeys keep snacks inside cheek...', answer: 'POUCHES' },
+      tiles: { word: 'MONKEY', emoji: 'ðŸ’', clue: 'Mango is this kind of friend.' },
+    },
+    {
+      id: 'acc-turtle',
+      stage: 2,
+      text: 'Green sea turtles crawl onto quiet Ghana beaches at night to lay their eggs.',
+      recognition: {
+        prompt: 'When do green sea turtles come ashore to nest?',
+        choices: ['at night', 'at noon', 'at breakfast time'],
+        answerIndex: 0,
+        hint: 'They like the dark and quiet.',
+        explain: 'They nest on the beach at night.',
+      },
+      cued: { prompt: 'At night sea turtles come ashore to lay...', answer: 'EGGS' },
+      tiles: { word: 'TURTLE', emoji: 'ðŸ¢', clue: 'It nests on quiet beaches at night.' },
+    },
+    {
+      id: 'acc-blackstar',
+      stage: 2,
+      text: 'A black star shines on the flag of Ghana as a sign of freedom.',
+      recognition: {
+        prompt: 'What shape shines on the flag of Ghana?',
+        choices: ['a black star', 'a golden sun', 'a silver moon'],
+        answerIndex: 0,
+        hint: 'Accra even has a square named for it.',
+        explain: 'A black star sits on the flag.',
+      },
+      cued: { prompt: 'The flag of Ghana holds one big black...', answer: 'STAR' },
+      tiles: { word: 'STAR', emoji: 'â­', clue: 'It shines on the flag of Ghana.' },
+    },
+  ],
+
+  phrases: [
+    { id: 'acc-akwaaba-word', text: 'Akwaaba', lang: '', respell: 'ah-KWAH-bah', gloss: 'Welcome! The airport sign greets you with it.' },
+    { id: 'acc-ojekoo', text: 'Ojekoo', lang: '', respell: 'oh-jay-KOH', gloss: 'A friendly Ga hello in Jamestown.' },
+    { id: 'acc-medaase', text: 'Medaase', lang: '', respell: 'meh-DAH-seh', gloss: 'Thank you in Twi.' },
+  ],
+
+  words: [
+    { tier: 1, word: 'YAM', emoji: 'ðŸ ', clue: 'A big root that makes a tasty mash.' },
+    { tier: 1, word: 'SEA', emoji: 'ðŸŒŠ', clue: 'The big blue beside Jamestown.' },
+    { tier: 1, word: 'NET', emoji: 'ðŸŽ£', clue: 'Fishermen toss it to catch fish.' },
+    { tier: 2, word: 'DRUM', emoji: 'ðŸ¥', clue: 'It keeps the highlife beat.' },
+    { tier: 2, word: 'CANOE', emoji: 'ðŸ›¶', clue: 'A painted wooden fishing boat.' },
+    { tier: 2, word: 'CLOTH', emoji: 'ðŸ§µ', clue: 'Bright wax prints sold at Makola.' },
+    { tier: 3, word: 'MARKET', emoji: 'ðŸ§º', clue: 'Makola is a famous one.' },
+    { tier: 3, word: 'JOLLOF', emoji: 'ðŸš', clue: 'A famous one-pot rice dish.' },
+    { tier: 3, word: 'GUITAR', emoji: 'ðŸŽ¸', clue: 'It sings the highlife melody.' },
+    { tier: 4, word: 'FOOTBALL', emoji: 'âš½', clue: 'Kids play it gutter to gutter.' },
+    { tier: 4, word: 'HARBOUR', emoji: 'âš“', clue: 'Where the fishing canoes come home.' },
+    { tier: 5, word: 'KELEWELE', emoji: 'ðŸŒ', clue: 'Spicy fried plantain for evening snacking.' },
+    { tier: 5, word: 'LIGHTHOUSE', emoji: 'ðŸ—¼', clue: 'It blinks over Jamestown harbour.' },
+    { tier: 5, word: 'FISHERMAN', emoji: 'ðŸŽ£', clue: 'He paddles out before sunrise.' },
+  ],
+
+  rhymes: [
+    {
+      prompt: 'Which word rhymes with drum?',
+      choices: ['hum', 'net', 'sea'],
+      answerIndex: 0,
+      hint: 'Say the endings out loud.',
+      explain: 'Hum rhymes with drum â€” both end with -um.',
+    },
+    {
+      prompt: 'Which word rhymes with net?',
+      choices: ['wet', 'yam', 'canoe'],
+      answerIndex: 0,
+      hint: 'Trust your ears, not your eyes.',
+      explain: 'Wet rhymes with net â€” both say "et".',
+    },
+    {
+      prompt: 'Which word rhymes with goal?',
+      choices: ['bowl', 'kick', 'cheer'],
+      answerIndex: 0,
+      hint: 'Say each word and match the endings.',
+      explain: 'Bowl rhymes with goal â€” both say "ole".',
+    },
+    {
+      prompt: 'Tap the TWO words that rhyme!',
+      choices: ['light', 'drum', 'kite', 'boat'],
+      answerIndices: [0, 2],
+      hint: 'Say each word and match the endings.',
+      explain: 'Light and kite rhyme â€” both say "ite".',
+    },
+    {
+      prompt: 'Which word does NOT rhyme with the others?',
+      choices: ['tide', 'ride', 'wide', 'drum'],
+      answerIndex: 3,
+      hint: 'Three endings match â€” one does not.',
+      explain: 'Drum does not end with -ide.',
+    },
+    {
+      prompt: 'I rhyme with sweet, and you stamp me to the beat.',
+      choices: ['feet', 'hands', 'knees'],
+      answerIndex: 0,
+      hint: 'The answer must rhyme AND fit the clue.',
+      explain: 'Feet! Feet rhymes with sweet.',
+    },
+  ],
+
+  patterns: [
+    {
+      artisan: 'Auntie Naa',
+      name: 'Wax-print cloth',
+      items: [
+        {
+          prompt: 'ðŸŒ€ â­ ðŸŒ€ â­ ðŸŒ€ â€” what comes next?',
+          choices: ['â­', 'ðŸŒ€', 'ðŸŸ¡', 'ðŸŸ¢'],
+          answerIndex: 0,
+          hint: 'Say the pattern out loud â€” what repeats?',
+          explain: 'Star! The cloth goes swirl, star, swirl, star.',
+          bigChoices: true,
+        },
+        {
+          prompt: 'ðŸŸ¡ ðŸŸ¡ ðŸŸ¢ ðŸŸ¡ ðŸŸ¡ ðŸŸ¢ ðŸŸ¡ ðŸŸ¡ â€” what comes next?',
+          choices: ['ðŸŸ¢', 'ðŸŸ¡', 'ðŸŒ€', 'â­'],
+          answerIndex: 0,
+          hint: 'Chant the pattern and feel the beat.',
+          explain: 'Green! The print goes gold, gold, green.',
+          bigChoices: true,
+        },
+        {
+          prompt: 'ðŸŒ€ ðŸŒ€ðŸŒ€ ðŸŒ€ðŸŒ€ðŸŒ€ â€” what comes next?',
+          choices: ['ðŸŒ€ðŸŒ€ðŸŒ€ðŸŒ€', 'ðŸŒ€ðŸŒ€', 'ðŸŒ€', 'ðŸŒ€ðŸŒ€ðŸŒ€ðŸŒ€ðŸŒ€'],
+          answerIndex: 0,
+          hint: 'Count how many are in each group.',
+          explain: 'Four swirls! The group grows by one each time.',
+          bigChoices: true,
+        },
+        {
+          prompt: '3, 6, 9, 12 â€” what comes next?',
+          choices: ['15', '13', '18', '14'],
+          answerIndex: 0,
+          hint: 'Check how much the numbers jump each time.',
+          explain: '15 comes next â€” the stamps count up by 3.',
+        },
+      ],
+    },
+    {
+      artisan: 'Mr. Nii',
+      name: 'Highlife drum rhythm',
+      items: [
+        {
+          prompt: 'ðŸ¥ ðŸŽ¸ ðŸ¥ ðŸŽ¸ ðŸ¥ â€” what comes next?',
+          choices: ['ðŸŽ¸', 'ðŸ¥', 'ðŸŽº', 'ðŸ””'],
+          answerIndex: 0,
+          hint: 'Say the pattern out loud â€” what repeats?',
+          explain: 'Guitar! The band goes drum, guitar, drum, guitar.',
+          bigChoices: true,
+        },
+        {
+          prompt: 'ðŸ¥ ðŸ¥ ðŸ”” ðŸ¥ ðŸ¥ ðŸ”” ðŸ¥ ðŸ¥ â€” what comes next?',
+          choices: ['ðŸ””', 'ðŸ¥', 'ðŸŽ¸', 'ðŸŽº'],
+          answerIndex: 0,
+          hint: 'Chant the pattern and feel the beat.',
+          explain: 'Bell! The beat is drum, drum, bell.',
+          bigChoices: true,
+        },
+        {
+          prompt: '4, 8, 12, 16 â€” what comes next?',
+          choices: ['20', '17', '24', '18'],
+          answerIndex: 0,
+          hint: 'Check how much the numbers jump each time.',
+          explain: '20 comes next â€” the beats count up by 4.',
+        },
+        {
+          prompt: 'Drum is to tap as guitar is to â€¦ ?',
+          choices: ['strum', 'ring', 'blow', 'clap'],
+          answerIndex: 0,
+          hint: 'Think how the first two go together.',
+          explain: 'Strum! You tap a drum and strum a guitar.',
+        },
+      ],
+    },
+  ],
+
+  passages: [
+    {
+      passage: 'Adjeley folds bright cloth at the family stall in Makola Market. A lady asks for a print with gold swirls. Adjeley finds it in a blink, and the lady laughs with joy.',
+      questions: [
+        {
+          prompt: 'What kind of print does the lady want?',
+          choices: ['gold swirls', 'gold stripes', 'blue fishes', 'red diamonds'],
+          answerIndex: 0,
+          hint: 'Look back at what the lady asks for.',
+          explain: 'She asks for a print with gold swirls.',
+        },
+        {
+          prompt: 'What does the lady do at the end?',
+          choices: ['she laughs with joy', 'she folds more cloth', 'she hurries home', 'she takes a nap'],
+          answerIndex: 0,
+          hint: 'Find the very last sentence.',
+          explain: 'The lady laughs with joy.',
+        },
+      ],
+    },
+    {
+      passage: 'Mango the mona monkey found a ripe banana by the garden wall. He stuffed it into his cheek pouch for later. Then he swung away through the branches, cheeks puffed out like balloons.',
+      questions: [
+        {
+          prompt: 'Where did Mango put the banana?',
+          choices: ['in his cheek pouch', 'under the garden wall', 'high in the branches', 'inside a little basket'],
+          answerIndex: 0,
+          hint: 'Reread the second sentence.',
+          explain: 'He stuffed it into his cheek pouch.',
+        },
+        {
+          prompt: 'What did his puffed cheeks look like?',
+          choices: ['balloons', 'big ripe bananas', 'garden walls', 'round drums'],
+          answerIndex: 0,
+          hint: 'The last sentence paints the picture.',
+          explain: 'His cheeks puffed out like balloons.',
+        },
+      ],
+    },
+    {
+      passage: 'One quiet night, Tide the green sea turtle crawled onto the beach near Jamestown. She dug a nest in the soft sand and laid her eggs. The lighthouse blinked far away, like a friend saying goodnight.',
+      questions: [
+        {
+          prompt: 'What did Tide do in the soft sand?',
+          choices: ['dug a nest', 'built a sandcastle', 'chased little crabs', 'took a long nap'],
+          answerIndex: 0,
+          hint: 'Find the sentence about digging.',
+          explain: 'Tide dug a nest for her eggs.',
+        },
+        {
+          prompt: 'What did the lighthouse seem to say?',
+          choices: ['goodnight', 'come back soon', 'breakfast time', 'swim away now'],
+          answerIndex: 0,
+          hint: 'The very last word tells you.',
+          explain: 'It blinked like a friend saying goodnight.',
+        },
+      ],
+    },
+  ],
+
+  souvenirs: [
+    { id: 'acc-cloth', name: 'Wax-print cloth square', emoji: 'ðŸ§µ' },
+    { id: 'acc-football', name: 'Little street football', emoji: 'âš½' },
+  ],
+
+  landmark: {
+    name: 'Jamestown Lighthouse',
+    beats: [
+      'Adjeley leads Charlie up the winding lighthouse stairs at sunset.',
+      'Below, fishermen pull painted canoes onto the sand, singing together.',
+      'The great lamp blinks awake over the harbour â€” Showtime!',
+    ],
+  },
+
+  showtime: {
+    backdrop: 'Jamestown harbour at golden hour',
+    returnBackdrop: 'Jamestown harbour at night, lighthouse beam sweeping',
+    farewell: { text: 'Nante yie', lang: '', respell: 'NAN-teh YEE-eh' },
+  },
+};
+
+// === src/content/destinations/che.js ===
+// src/content/destinations/che.js - Chengdu.
+// Facts verified against two sources each (one local); `src` annotations are
+// stripped at build time and never ship. Timeless phrasing enforced by the
+// validator (no exact big counts, no named individual animals).
+const DestChe = {
+  id: 'che',
+  name: 'Chengdu',
+  utcOffset: 8,
+  mapEmoji: 'ðŸ¼',
+  palette: { a: '#4ade80', b: '#f9a8d4' },
+  motif: { source: 'Sichuan opera percussion (gongs and drums)', bpm: 132, notes: ['E4', 'G4', 'A4', 'D5'] },
+
+  hostKid: {
+    name: 'Lele',
+    age: 7,
+    neighborhood: 'Qingyang District, near People\'s Park',
+    intro: 'Ni hao! I am Lele. Welcome to Chengdu!',
+    life: [
+      'Grandpa takes me to his favorite teahouse on Sundays.',
+      'At hotpot I always ask for the mild bowl.',
+      'My class takes school trips to the panda base.',
+      'I practice cartwheels on the grass in People\'s Park.',
+      'My favorite treat is sweet tang yuan rice balls.',
+    ],
+  },
+
+  animal: {
+    id: 'che-tumble',
+    name: 'Tumble the Giant Panda',
+    species: 'giant panda',
+    emoji: 'ðŸ¼',
+    line: 'Watch me roll down the hill, roly-poly!',
+    move: 'roly-poly roll',
+  },
+  shyAnimal: {
+    id: 'che-rusty',
+    name: 'Rusty the Red Panda',
+    species: 'red panda',
+    emoji: 'ðŸ¦Š',
+    line: 'I peek from the treetops with my stripy tail!',
+  },
+
+  wonder: {
+    q: 'Why do pandas munch bamboo all day long?',
+    a: 'Bamboo is not very filling, so pandas keep munching for hours and hours.',
+  },
+
+  facts: [
+    {
+      id: 'che-panda',
+      stage: 0,
+      text: 'Chengdu is the hometown of giant pandas, and pandas born here travel to zoos all around the world.',
+      thread: { pairId: 'pandas' },
+      recognition: {
+        prompt: 'What is Chengdu the hometown of?',
+        choices: ['giant pandas', 'polar bears', 'kangaroos'],
+        answerIndex: 0,
+        hint: 'Think of Tumble and his roly-poly friends.',
+        explain: 'Chengdu is the hometown of giant pandas.',
+      },
+      cued: { prompt: 'Chengdu is the hometown of the giant...', answer: 'PANDA' },
+      tiles: { word: 'PANDA', emoji: 'ðŸ¼', clue: 'The black and white bear of Chengdu.' },
+    },
+    {
+      id: 'che-bamboo',
+      stage: 0,
+      text: 'Giant pandas munch bamboo for most of the day, because bamboo is not very filling.',
+      recognition: {
+        prompt: 'What do giant pandas munch most of the day?',
+        choices: ['bamboo', 'honey', 'fish'],
+        answerIndex: 0,
+        hint: 'It is green, tall, and crunchy.',
+        explain: 'Pandas munch bamboo for most of the day.',
+      },
+      cued: { prompt: 'Pandas spend most of the day munching crunchy...', answer: 'BAMBOO' },
+      tiles: { word: 'BAMBOO', emoji: 'ðŸŽ', clue: 'The crunchy green plant pandas love.' },
+    },
+    {
+      id: 'che-gaiwan',
+      stage: 0,
+      text: 'In Chengdu teahouses, tea comes in a special cup with its own lid, called a gaiwan.',
+      recognition: {
+        prompt: 'What does a gaiwan tea cup have?',
+        choices: ['its own lid', 'a long straw', 'two handles'],
+        answerIndex: 0,
+        hint: 'It keeps the tea cozy and warm.',
+        explain: 'A gaiwan is a tea cup with a lid.',
+      },
+      cued: { prompt: 'A gaiwan is a tea cup with its own...', answer: 'LID' },
+      tiles: { word: 'GAIWAN', emoji: 'ðŸµ', clue: 'The lidded tea cup at the teahouse.' },
+    },
+    {
+      id: 'che-mask',
+      stage: 0,
+      text: 'In Sichuan opera, performers swap their painted masks faster than a blink.',
+      recognition: {
+        prompt: 'What do Sichuan opera performers swap super fast?',
+        choices: ['painted masks', 'tall hats', 'red shoes'],
+        answerIndex: 0,
+        hint: 'It covers the face.',
+        explain: 'They change painted masks faster than a blink.',
+      },
+      cued: { prompt: 'Sichuan opera performers swap their painted...', answer: 'MASKS' },
+      tiles: { word: 'MASK', emoji: 'ðŸŽ­', clue: 'Opera performers change it in a blink.' },
+    },
+    {
+      id: 'che-tail',
+      stage: 1,
+      text: 'A red panda wraps its big fluffy tail around itself like a cozy blanket.',
+      recognition: {
+        prompt: 'What does a red panda use as a blanket?',
+        choices: ['its fluffy tail', 'a bamboo leaf', 'its round ears'],
+        answerIndex: 0,
+        hint: 'It is long, stripy, and attached.',
+        explain: 'A red panda wraps up in its tail.',
+      },
+      cued: { prompt: 'A red panda snuggles up in its fluffy...', answer: 'TAIL' },
+      tiles: { word: 'TAIL', emoji: 'ðŸ¦Š', clue: 'The red panda blanket that never falls off.' },
+    },
+    {
+      id: 'che-dandan',
+      stage: 1,
+      text: 'Dan dan noodles are named for the shoulder pole sellers once used to carry them.',
+      recognition: {
+        prompt: 'What are dan dan noodles named for?',
+        choices: ['a shoulder pole', 'a dancing drum', 'a noodle bird'],
+        answerIndex: 0,
+        hint: 'Sellers carried the noodles on it.',
+        explain: 'The name comes from the carrying pole.',
+      },
+      cued: { prompt: 'Noodle sellers carried dan dan noodles on a shoulder...', answer: 'POLE' },
+      tiles: { word: 'NOODLE', emoji: 'ðŸœ', clue: 'Dan dan ones come in a mild bowl too.' },
+    },
+    {
+      id: 'che-brocade',
+      stage: 2,
+      text: 'Long ago Chengdu wove so much shiny silk brocade that people called it the Brocade City.',
+      recognition: {
+        prompt: 'What did people call Chengdu long ago?',
+        choices: ['the Brocade City', 'the Bamboo City', 'the Noodle City'],
+        answerIndex: 0,
+        hint: 'Think of shiny woven silk.',
+        explain: 'Weavers made Chengdu the Brocade City.',
+      },
+      cued: { prompt: 'So much brocade made Chengdu the Brocade...', answer: 'CITY' },
+      tiles: { word: 'SILK', emoji: 'ðŸ§µ', clue: 'Shiny thread woven into brocade.' },
+    },
+    {
+      id: 'che-water',
+      stage: 2,
+      text: 'Near Chengdu, an old waterworks called Dujiangyan still guides river water to the farms today.',
+      recognition: {
+        prompt: 'What does Dujiangyan still do today?',
+        choices: ['guides river water to farms', 'makes silk for the city', 'keeps pandas warm and dry'],
+        answerIndex: 0,
+        hint: 'Think of the river and the fields.',
+        explain: 'Dujiangyan still waters the farms.',
+      },
+      cued: { prompt: 'Dujiangyan still guides river water to the...', answer: 'FARMS' },
+      tiles: { word: 'RIVER', emoji: 'ðŸžï¸', clue: 'Dujiangyan shares its water with farms.' },
+    },
+  ],
+
+  phrases: [
+    { id: 'che-nihao', text: 'ni hao', lang: 'zh-CN', respell: 'nee-HOW', gloss: 'Hello, the friendly Chinese greeting.' },
+    { id: 'che-xiongmao', text: 'xiong mao', lang: 'zh-CN', respell: 'shyong-MAOW', gloss: 'Giant panda, it means bear-cat.' },
+    { id: 'che-xiexie', text: 'xie xie', lang: 'zh-CN', respell: 'SHYEH-shyeh', gloss: 'Thank you.' },
+  ],
+
+  words: [
+    { tier: 1, word: 'TEA', emoji: 'ðŸµ', clue: 'Grandpa sips it from a lidded gaiwan.' },
+    { tier: 1, word: 'CUB', emoji: 'ðŸ¼', clue: 'A baby panda, roly-poly and fluffy.' },
+    { tier: 1, word: 'POT', emoji: 'ðŸ²', clue: 'Hotpot bubbles away in this.' },
+    { tier: 2, word: 'BEAR', emoji: 'ðŸ»', clue: 'A giant panda is one, black and white.' },
+    { tier: 2, word: 'OPERA', emoji: 'ðŸŽ­', clue: 'A show with drums, gongs, and changing masks.' },
+    { tier: 2, word: 'SPICE', emoji: 'ðŸŒ¶ï¸', clue: 'Sichuan food is famous for it. Lele goes mild!' },
+    { tier: 3, word: 'GARDEN', emoji: 'ðŸŒ¸', clue: 'A green place to sip tea and play.' },
+    { tier: 3, word: 'HOTPOT', emoji: 'ðŸ¥˜', clue: 'A bubbling pot with a mild side for Lele.' },
+    { tier: 3, word: 'BASKET', emoji: 'ðŸ§º', clue: 'Woven from bamboo strips by clever hands.' },
+    { tier: 4, word: 'LANTERN', emoji: 'ðŸ®', clue: 'It glows red over the old streets at night.' },
+    { tier: 4, word: 'TEAHOUSE', emoji: 'ðŸµ', clue: 'Where Lele and Grandpa sip and chat.' },
+    { tier: 4, word: 'BROCADE', emoji: 'ðŸ§µ', clue: 'Shiny woven silk that named the city.' },
+    { tier: 5, word: 'DUMPLINGS', emoji: 'ðŸ¥Ÿ', clue: 'Little pillows of food you dip in hotpot.' },
+    { tier: 5, word: 'CHOPSTICKS', emoji: 'ðŸ¥¢', clue: 'Two sticks that pick up noodles.' },
+  ],
+
+  rhymes: [
+    {
+      prompt: 'Which word rhymes with tea?',
+      choices: ['bee', 'cup', 'pot'],
+      answerIndex: 0,
+      hint: 'Say the endings out loud.',
+      explain: 'Bee rhymes with tea, both say "ee".',
+    },
+    {
+      prompt: 'Which word rhymes with bear?',
+      choices: ['chair', 'panda', 'fur'],
+      answerIndex: 0,
+      hint: 'Trust your ears, not your eyes.',
+      explain: 'Chair rhymes with bear, both say "air".',
+    },
+    {
+      prompt: 'Which word rhymes with bowl?',
+      choices: ['roll', 'spoon', 'soup'],
+      answerIndex: 0,
+      hint: 'Say each word and match the endings.',
+      explain: 'Roll rhymes with bowl, both say "ohl".',
+    },
+    {
+      prompt: 'Tap the TWO words that rhyme!',
+      choices: ['cub', 'noodle', 'tub', 'mask'],
+      answerIndices: [0, 2],
+      hint: 'Say each word and match the endings.',
+      explain: 'Cub and tub rhyme, both say "ub".',
+    },
+    {
+      prompt: 'Which word does NOT rhyme with the others?',
+      choices: ['hill', 'still', 'will', 'tail'],
+      answerIndex: 3,
+      hint: 'Three endings match, one does not.',
+      explain: 'Tail does not end with -ill.',
+    },
+    {
+      prompt: 'I rhyme with moon, and you scoop soup with me.',
+      choices: ['spoon', 'fork', 'ladle'],
+      answerIndex: 0,
+      hint: 'The answer must rhyme AND fit the clue.',
+      explain: 'A spoon! Spoon rhymes with moon.',
+    },
+  ],
+
+  patterns: [
+    {
+      artisan: 'Auntie Lan',
+      name: 'Shu brocade weaving',
+      items: [
+        {
+          prompt: 'ðŸ§µ ðŸŒ¸ ðŸ§µ ðŸŒ¸ ðŸ§µ - what comes next?',
+          choices: ['ðŸŒ¸', 'ðŸ§µ', 'ðŸ¼', 'ðŸµ'],
+          answerIndex: 0,
+          hint: 'Say the pattern out loud, what repeats?',
+          explain: 'Flower! The weave goes thread, flower, thread, flower.',
+          bigChoices: true,
+        },
+        {
+          prompt: 'ðŸ§µ ðŸ§µ ðŸ¼ ðŸ§µ ðŸ§µ ðŸ¼ ðŸ§µ ðŸ§µ - what comes next?',
+          choices: ['ðŸ¼', 'ðŸ§µ', 'ðŸŒ¸', 'ðŸ®'],
+          answerIndex: 0,
+          hint: 'Chant the pattern and feel the beat.',
+          explain: 'Panda! The weave is thread, thread, panda.',
+          bigChoices: true,
+        },
+        {
+          prompt: '3, 6, 9, 12 - what comes next?',
+          choices: ['15', '13', '18', '16'],
+          answerIndex: 0,
+          hint: 'Check how much the numbers jump each time.',
+          explain: '15 comes next, the stitches count up by 3.',
+        },
+        {
+          prompt: 'Loom is to weave as needle is to ... ?',
+          choices: ['sew', 'cook', 'dig', 'sing'],
+          answerIndex: 0,
+          hint: 'Think how the first two go together.',
+          explain: 'Sew! A loom weaves and a needle sews.',
+        },
+      ],
+    },
+    {
+      artisan: 'Mr. Zhang',
+      name: 'Bamboo basket weaving',
+      items: [
+        {
+          prompt: 'ðŸŽ ðŸ§º ðŸŽ ðŸ§º ðŸŽ - what comes next?',
+          choices: ['ðŸ§º', 'ðŸŽ', 'ðŸ¼', 'ðŸƒ'],
+          answerIndex: 0,
+          hint: 'Say the pattern out loud, what repeats?',
+          explain: 'Basket! It goes bamboo, basket, bamboo, basket.',
+          bigChoices: true,
+        },
+        {
+          prompt: 'ðŸŽ ðŸŽðŸŽ ðŸŽðŸŽðŸŽ - what comes next?',
+          choices: ['ðŸŽðŸŽðŸŽðŸŽ', 'ðŸŽðŸŽ', 'ðŸŽ', 'ðŸŽðŸŽðŸŽðŸŽðŸŽ'],
+          answerIndex: 0,
+          hint: 'Count how many are in each group.',
+          explain: 'Four stalks! The group grows by one each time.',
+          bigChoices: true,
+        },
+        {
+          prompt: '10, 20, 30, 40 - what comes next?',
+          choices: ['50', '45', '60', '44'],
+          answerIndex: 0,
+          hint: 'Check how much the numbers jump each time.',
+          explain: '50 comes next, the strips count up by 10.',
+        },
+        {
+          prompt: 'Bamboo is to basket as wool is to ... ?',
+          choices: ['sweater', 'soup', 'brick', 'glass'],
+          answerIndex: 0,
+          hint: 'Think how the first two go together.',
+          explain: 'A sweater! Bamboo weaves baskets, wool knits sweaters.',
+        },
+      ],
+    },
+  ],
+
+  passages: [
+    {
+      passage: 'Lele and Grandpa walk to the teahouse in People\'s Park. Grandpa orders jasmine tea in a cup with a little lid. Lele sips warm milk and watches the steam curl up.',
+      questions: [
+        {
+          prompt: 'What does Lele sip at the teahouse?',
+          choices: ['warm milk', 'jasmine tea', 'steam soup', 'park juice'],
+          answerIndex: 0,
+          hint: 'Find the sentence about Lele sipping.',
+          explain: 'Lele sips warm milk at the teahouse.',
+        },
+        {
+          prompt: 'What does the tea cup have?',
+          choices: ['a little lid', 'a long straw', 'a curly handle', 'a panda sticker'],
+          answerIndex: 0,
+          hint: 'Look at the tea cup sentence.',
+          explain: 'The tea cup has its own little lid.',
+        },
+      ],
+    },
+    {
+      passage: 'Lele\'s class rides the bus to the panda base. A panda cub tumbles down the grassy hill, roly-poly. The keeper says the cubs practice climbing every single day.',
+      questions: [
+        {
+          prompt: 'What does the panda cub do on the hill?',
+          choices: ['tumbles down', 'eats dumplings', 'rides a bus', 'paints a mask'],
+          answerIndex: 0,
+          hint: 'Look at the second sentence.',
+          explain: 'The cub tumbles down, roly-poly.',
+        },
+        {
+          prompt: 'What does the keeper say the cubs practice?',
+          choices: ['climbing', 'taking grassy naps', 'sipping tea', 'counting buses'],
+          answerIndex: 0,
+          hint: 'Find the keeper sentence.',
+          explain: 'The cubs practice climbing every day.',
+        },
+      ],
+    },
+    {
+      passage: 'At family hotpot night, Lele asks for the mild bowl. The pot bubbles in the middle of the table. She dips noodles and a wobbly dumpling with her chopsticks.',
+      questions: [
+        {
+          prompt: 'Which bowl does Lele ask for?',
+          choices: ['the mild bowl', 'the spicy bowl', 'the bubbles bowl', 'the noodle pot'],
+          answerIndex: 0,
+          hint: 'Reread the first sentence.',
+          explain: 'Lele asks for the mild bowl.',
+        },
+        {
+          prompt: 'What does Lele dip with her chopsticks?',
+          choices: ['a wobbly dumpling', 'a wobbly table leg', 'a cup of tea', 'a spicy spoon'],
+          answerIndex: 0,
+          hint: 'Find the dipping sentence.',
+          explain: 'She dips a wobbly dumpling.',
+        },
+      ],
+    },
+  ],
+
+  souvenirs: [
+    { id: 'che-plush', name: 'Tiny panda plush', emoji: 'ðŸ§¸' },
+    { id: 'che-teacup', name: 'Gaiwan tea cup', emoji: 'ðŸµ' },
+  ],
+
+  landmark: {
+    name: 'Chengdu Panda Base',
+    beats: [
+      'Lele leads Charlie up the misty path at the panda base.',
+      'A roly-poly cub tumbles down the grassy hill right past them.',
+      'Tumble waves his paw as the opera drums ring. Showtime!',
+    ],
+  },
+
+  showtime: {
+    backdrop: 'Panda base bamboo grove at golden hour',
+    returnBackdrop: 'Teahouse lanterns glowing over People\'s Park at night',
+    farewell: { text: 'Zai jian, Charlie!', lang: 'zh-CN', respell: 'dzye-JYEN' },
+  },
+};
+
+// === src/content/destinations/tok.js ===
+// src/content/destinations/tok.js - Tokyo.
+// Facts verified against two sources each (one local); `src` annotations are
+// stripped at build time and never ship. Timeless phrasing enforced by the
+// validator (no exact big counts, no named individual animals).
+const DestTok = {
+  id: 'tok',
+  name: 'Tokyo',
+  utcOffset: 9,
+  mapEmoji: 'ðŸ¯',
+  palette: { a: '#f0abfc', b: '#7dd3fc' },
+  motif: { source: 'koto melody (plucked zither tune)', bpm: 92, notes: ['D4', 'E4', 'G4', 'A4'] },
+
+  hostKid: {
+    name: 'Mei',
+    age: 7,
+    neighborhood: 'Yanaka, Taito City',
+    intro: 'Hi! I am Mei. Welcome to Tokyo!',
+    life: [
+      'I ride the quiet train two stops to school.',
+      'My class cleans our own classroom after lunch.',
+      'I pick little plates off the belt at the sushi shop.',
+      'In spring we picnic under the cherry blossoms in Ueno Park.',
+      'I buy warm taiyaki on Yanaka Ginza street.',
+    ],
+  },
+
+  animal: {
+    id: 'tok-maru',
+    name: 'Maru the Tanuki',
+    species: 'Japanese raccoon dog',
+    emoji: 'ðŸ¦',
+    line: 'I trot through moonlit Tokyo gardens, quiet as a whisper!',
+    move: 'pitter-pat trot',
+  },
+  shyAnimal: {
+    id: 'tok-nami',
+    name: 'Nami the Koi',
+    species: 'koi carp',
+    emoji: 'ðŸŸ',
+    line: 'I glide through the garden pond like a silky ribbon!',
+  },
+
+  wonder: {
+    q: 'Why do Tokyo train stations play little songs?',
+    a: 'Each station has its own melody, so riders know just where they are.',
+  },
+
+  facts: [
+    {
+      id: 'tok-onigiri',
+      stage: 0,
+      text: 'Onigiri are rice balls, often wrapped in a crisp sheet of seaweed.',
+      recognition: {
+        prompt: 'What is inside the seaweed wrap of an onigiri?',
+        choices: ['rice', 'noodles', 'cheese'],
+        answerIndex: 0,
+        hint: 'Think of a ball you can eat.',
+        explain: 'Onigiri are tasty rice balls.',
+      },
+      cued: { prompt: 'Onigiri are little balls made of...', answer: 'RICE' },
+      tiles: { word: 'ONIGIRI', emoji: 'ðŸ™', clue: 'A rice ball snack wrapped in seaweed.' },
+    },
+    {
+      id: 'tok-belt',
+      stage: 0,
+      text: 'At conveyor-belt sushi shops, little plates ride a moving belt right to your seat.',
+      recognition: {
+        prompt: 'How does the sushi reach your seat?',
+        choices: ['on a moving belt', 'a waiter on skates', 'a tiny elevator'],
+        answerIndex: 0,
+        hint: 'The plates take a little ride.',
+        explain: 'Plates ride the moving belt to you.',
+      },
+      cued: { prompt: 'At conveyor sushi shops, plates ride a moving...', answer: 'BELT' },
+      tiles: { word: 'SUSHI', emoji: 'ðŸ£', clue: 'Little plates of rice and fish.' },
+    },
+    {
+      id: 'tok-tanuki',
+      stage: 0,
+      text: 'Wild tanuki, real raccoon dogs, trot through Tokyo parks and gardens at night.',
+      recognition: {
+        prompt: 'What kind of animal is a tanuki?',
+        choices: ['a raccoon dog', 'a small bear', 'a striped cat'],
+        answerIndex: 0,
+        hint: 'It is a dog cousin with a little mask.',
+        explain: 'Tanuki are real raccoon dogs.',
+      },
+      cued: { prompt: 'The masked animal trotting through Tokyo gardens is the...', answer: 'TANUKI' },
+      tiles: { word: 'TANUKI', emoji: 'ðŸ¦', clue: 'A real raccoon dog like Maru.' },
+    },
+    {
+      id: 'tok-hanami',
+      stage: 0,
+      text: 'In spring, families picnic under cherry blossoms. The flower-viewing party is called hanami.',
+      recognition: {
+        prompt: 'What is a hanami party for?',
+        choices: ['viewing cherry blossoms', 'watching fireworks', 'flying paper kites'],
+        answerIndex: 0,
+        hint: 'It happens under pink spring trees.',
+        explain: 'Hanami means flower viewing.',
+      },
+      cued: { prompt: 'A picnic under cherry blossoms is called...', answer: 'HANAMI' },
+      tiles: { word: 'BLOSSOM', emoji: 'ðŸŒ¸', clue: 'The pink flower of Tokyo springtime.' },
+    },
+    {
+      id: 'tok-melody',
+      stage: 1,
+      text: 'Many Tokyo train stations play their own short melody when a train leaves.',
+      recognition: {
+        prompt: 'What do many Tokyo stations play?',
+        choices: ['their own short melody', 'a loud drum roll', 'one long whistle'],
+        answerIndex: 0,
+        hint: 'Every stop sounds a little different.',
+        explain: 'Each station has its own little tune.',
+      },
+      cued: { prompt: 'When a train leaves, Tokyo stations play a short...', answer: 'MELODY' },
+      tiles: { word: 'TRAIN', emoji: 'ðŸš†', clue: 'Mei rides a quiet one to school.' },
+    },
+    {
+      id: 'tok-tower',
+      stage: 1,
+      text: 'Tokyo Tower is painted bright orange and white, and painters refresh it by hand.',
+      recognition: {
+        prompt: 'What colors is Tokyo Tower?',
+        choices: ['orange and white', 'silver and blue', 'green and gold'],
+        answerIndex: 0,
+        hint: 'Think of a tangerine in the sky.',
+        explain: 'Tokyo Tower wears orange and white.',
+      },
+      cued: { prompt: 'Tokyo Tower is painted white and bright...', answer: 'ORANGE' },
+      tiles: { word: 'TOWER', emoji: 'ðŸ—¼', clue: 'It glows orange over Tokyo at night.' },
+    },
+    {
+      id: 'tok-pandas',
+      stage: 2,
+      text: 'The first giant pandas in Japan arrived at Ueno Zoo from China.',
+      thread: { pairId: 'pandas' },
+      recognition: {
+        prompt: 'Where did the first Ueno Zoo pandas come from?',
+        choices: ['China', 'Brazil', 'Egypt'],
+        answerIndex: 0,
+        hint: 'A neighbor country across the sea.',
+        explain: 'The first Ueno pandas came from China.',
+      },
+      cued: { prompt: 'Ueno Zoo pandas first came all the way from...', answer: 'CHINA' },
+      tiles: { word: 'PANDA', emoji: 'ðŸ¼', clue: 'The bamboo muncher Japan first met at Ueno Zoo.' },
+    },
+    {
+      id: 'tok-edo',
+      stage: 2,
+      text: 'Long ago, Tokyo had a different name. The city was called Edo.',
+      recognition: {
+        prompt: 'What was Tokyo called long ago?',
+        choices: ['Edo', 'Kyoto', 'Osaka'],
+        answerIndex: 0,
+        hint: 'A short name with just two beats.',
+        explain: 'Tokyo was once called Edo.',
+      },
+      cued: { prompt: 'Long ago, the city of Tokyo was named...', answer: 'EDO' },
+      tiles: { word: 'EDO', emoji: 'ðŸ¯', clue: 'The old name for Tokyo.' },
+    },
+  ],
+
+  phrases: [
+    { id: 'tok-konnichiwa', text: 'konnichiwa', lang: 'ja-JP', respell: 'kohn-NEE-chee-wah', gloss: 'Hello in Japanese.' },
+    { id: 'tok-arigatou', text: 'arigatou', lang: 'ja-JP', respell: 'ah-ree-GAH-toh', gloss: 'Thank you.' },
+    { id: 'tok-itadakimasu', text: 'itadakimasu', lang: 'ja-JP', respell: 'ee-tah-dah-kee-MAHS', gloss: 'Said with thanks before eating a meal.' },
+  ],
+
+  words: [
+    { tier: 1, word: 'KOI', emoji: 'ðŸŸ', clue: 'A silky fish in the garden pond.' },
+    { tier: 1, word: 'TEA', emoji: 'ðŸµ', clue: 'A warm green cup to sip.' },
+    { tier: 2, word: 'TRAIN', emoji: 'ðŸš†', clue: 'Mei rides a quiet one to school.' },
+    { tier: 2, word: 'SUSHI', emoji: 'ðŸ£', clue: 'Rice and fish riding the belt.' },
+    { tier: 2, word: 'BENTO', emoji: 'ðŸ±', clue: 'A lunch box packed with little snacks.' },
+    { tier: 3, word: 'TANUKI', emoji: 'ðŸ¦', clue: 'A raccoon dog like Maru.' },
+    { tier: 3, word: 'SAKURA', emoji: 'ðŸŒ¸', clue: 'The Japanese word for cherry blossom.' },
+    { tier: 3, word: 'GARDEN', emoji: 'ðŸª´', clue: 'A green place where koi ponds hide.' },
+    { tier: 4, word: 'ONIGIRI', emoji: 'ðŸ™', clue: 'A rice ball wrapped in seaweed.' },
+    { tier: 4, word: 'TAIYAKI', emoji: 'ðŸ ', clue: 'A fish-shaped cake with sweet filling.' },
+    { tier: 4, word: 'LANTERN', emoji: 'ðŸ®', clue: 'A red paper light on shop streets.' },
+    { tier: 5, word: 'CHOPSTICKS', emoji: 'ðŸ¥¢', clue: 'Two sticks for picking up noodles.' },
+    { tier: 5, word: 'CROSSWALK', emoji: 'ðŸš¦', clue: 'Crowds cross the famous Shibuya scramble here.' },
+    { tier: 5, word: 'BLOSSOMS', emoji: 'ðŸŒ¸', clue: 'Pink petals that fall like snow.' },
+  ],
+
+  rhymes: [
+    {
+      prompt: 'Which word rhymes with train?',
+      choices: ['rain', 'track', 'station'],
+      answerIndex: 0,
+      hint: 'Say the endings out loud.',
+      explain: 'Rain rhymes with train. Both end with -ain.',
+    },
+    {
+      prompt: 'Which word rhymes with koi?',
+      choices: ['toy', 'fish', 'pond'],
+      answerIndex: 0,
+      hint: 'Trust your ears, not your eyes.',
+      explain: 'Toy rhymes with koi. Both say "oy".',
+    },
+    {
+      prompt: 'Which word rhymes with park?',
+      choices: ['shark', 'tree', 'bench'],
+      answerIndex: 0,
+      hint: 'Say each word and match the endings.',
+      explain: 'Shark rhymes with park. Both say "ark".',
+    },
+    {
+      prompt: 'Tap the TWO words that rhyme!',
+      choices: ['tower', 'flower', 'sushi', 'belt'],
+      answerIndices: [0, 1],
+      hint: 'Say each word and match the endings.',
+      explain: 'Tower and flower rhyme. Both say "ower".',
+    },
+    {
+      prompt: 'Which word does NOT rhyme with the others?',
+      choices: ['snack', 'track', 'pack', 'rice'],
+      answerIndex: 3,
+      hint: 'Three endings match. One does not.',
+      explain: 'Rice does not end with -ack.',
+    },
+    {
+      prompt: 'I rhyme with night, and I soar in the spring sky.',
+      choices: ['kite', 'cloud', 'plane'],
+      answerIndex: 0,
+      hint: 'The answer must rhyme AND fit the clue.',
+      explain: 'A kite! Kite rhymes with night.',
+    },
+  ],
+
+  patterns: [
+    {
+      artisan: 'Mr. Sato',
+      name: 'Edo kiriko cut glass',
+      items: [
+        {
+          prompt: 'ðŸ”· â­ ðŸ”· â­ ðŸ”· ... what comes next?',
+          choices: ['â­', 'ðŸ”·', 'ðŸŒ¸', 'ðŸŸ'],
+          answerIndex: 0,
+          hint: 'Say the pattern out loud. What repeats?',
+          explain: 'Star! The glass goes diamond, star, diamond, star.',
+          bigChoices: true,
+        },
+        {
+          prompt: 'ðŸ”· ðŸ”· â„ï¸ ðŸ”· ðŸ”· â„ï¸ ðŸ”· ðŸ”· ... what comes next?',
+          choices: ['â„ï¸', 'ðŸ”·', 'â­', 'ðŸ®'],
+          answerIndex: 0,
+          hint: 'Chant the pattern and feel the beat.',
+          explain: 'Snowflake! The cut is diamond, diamond, snowflake.',
+          bigChoices: true,
+        },
+        {
+          prompt: '3, 6, 9, 12 ... what comes next?',
+          choices: ['15', '13', '18', '14'],
+          answerIndex: 0,
+          hint: 'Check how much the numbers jump each time.',
+          explain: '15 comes next. The cuts count up by 3.',
+        },
+        {
+          prompt: 'Glass is to cut as paper is to ... ?',
+          choices: ['fold', 'pour', 'melt', 'sip'],
+          answerIndex: 0,
+          hint: 'Think how the first two go together.',
+          explain: 'Fold! You cut glass and fold paper.',
+        },
+      ],
+    },
+    {
+      artisan: 'Miss Yuki',
+      name: 'Origami paper folding',
+      items: [
+        {
+          prompt: 'ðŸŒ¸ ðŸ¦ ðŸŒ¸ ðŸ¦ ðŸŒ¸ ... what comes next?',
+          choices: ['ðŸ¦', 'ðŸŒ¸', 'ðŸ¸', 'â­'],
+          answerIndex: 0,
+          hint: 'Say the pattern out loud. What repeats?',
+          explain: 'Bird! The folds go flower, bird, flower, bird.',
+          bigChoices: true,
+        },
+        {
+          prompt: 'ðŸ“„ ðŸ“„ðŸ“„ ðŸ“„ðŸ“„ðŸ“„ ... what comes next?',
+          choices: ['ðŸ“„ðŸ“„ðŸ“„ðŸ“„', 'ðŸ“„ðŸ“„', 'ðŸ“„', 'ðŸ“„ðŸ“„ðŸ“„ðŸ“„ðŸ“„'],
+          answerIndex: 0,
+          hint: 'Count how many are in each group.',
+          explain: 'Four papers! The group grows by one each time.',
+          bigChoices: true,
+        },
+        {
+          prompt: '4, 8, 12, 16 ... what comes next?',
+          choices: ['20', '18', '24', '17'],
+          answerIndex: 0,
+          hint: 'Check how much the numbers jump each time.',
+          explain: '20 comes next. The folds count up by 4.',
+        },
+        {
+          prompt: 'Crane is to bird as koi is to ... ?',
+          choices: ['fish', 'frog', 'kite', 'flower'],
+          answerIndex: 0,
+          hint: 'Think what kind of animal each one is.',
+          explain: 'Fish! A crane is a bird and a koi is a fish.',
+        },
+      ],
+    },
+  ],
+
+  passages: [
+    {
+      passage: 'Mei sits at the sushi shop with her grandpa. Little plates glide past on the moving belt. She waits for the tamago plate, her favorite yellow one. When it slides by, she lifts it with both hands.',
+      questions: [
+        {
+          prompt: 'What does Mei wait for?',
+          choices: ['the tamago plate', 'a plate of pickles', 'a cup of green tea'],
+          answerIndex: 0,
+          hint: 'Look for her favorite yellow one.',
+          explain: 'Mei waits for the tamago plate.',
+        },
+        {
+          prompt: 'How does Mei lift her plate?',
+          choices: ['with both hands', 'with long chopsticks', 'with help from grandpa'],
+          answerIndex: 0,
+          hint: 'Reread the very last sentence.',
+          explain: 'She lifts it with both hands.',
+        },
+      ],
+    },
+    {
+      passage: 'Maru the tanuki naps in a quiet Tokyo garden all day. When the moon rises, he trots out on his little paws. He sniffs around the pond, and the koi peek up at him.',
+      questions: [
+        {
+          prompt: 'When does Maru trot out?',
+          choices: ['when the moon rises', 'when the garden opens', 'right after breakfast'],
+          answerIndex: 0,
+          hint: 'Find the sentence about the moon.',
+          explain: 'Maru trots out when the moon rises.',
+        },
+        {
+          prompt: 'Who peeks up at Maru?',
+          choices: ['the koi', 'the pandas', 'a sleepy crow'],
+          answerIndex: 0,
+          hint: 'Look by the pond.',
+          explain: 'The koi peek up from the pond.',
+        },
+      ],
+    },
+    {
+      passage: 'In spring, Mei and her family spread a blue mat under the cherry trees in Ueno Park. Petals drift down like pink snow. Mei catches one petal on her open hand and makes a happy wish.',
+      questions: [
+        {
+          prompt: 'Where does the family spread the mat?',
+          choices: ['under the cherry trees', 'inside a warm train car', 'on top of the pink snow'],
+          answerIndex: 0,
+          hint: 'Reread the first sentence.',
+          explain: 'They spread it under the cherry trees.',
+        },
+        {
+          prompt: 'What does Mei catch on her hand?',
+          choices: ['one petal', 'a pink kite', 'one snowflake'],
+          answerIndex: 0,
+          hint: 'Find what drifts down.',
+          explain: 'She catches one petal and makes a wish.',
+        },
+      ],
+    },
+  ],
+
+  souvenirs: [
+    { id: 'tok-keychain', name: 'Tiny bullet train keychain', emoji: 'ðŸš„' },
+    { id: 'tok-eraser', name: 'Cherry blossom eraser', emoji: 'ðŸŒ¸' },
+  ],
+
+  landmark: {
+    name: 'Tokyo Tower',
+    beats: [
+      'Mei leads Charlie up Tokyo Tower just before sunset.',
+      'Below them, trains glide through the city like ribbons of light.',
+      'Maru pitter-pats as the tower lights blink on. Showtime!',
+    ],
+  },
+
+  showtime: {
+    backdrop: 'Tokyo Tower deck at sunset',
+    returnBackdrop: 'Tokyo at night, tower glowing orange',
+    farewell: { text: 'Mata ne, Charlie!', lang: 'ja-JP', respell: 'MAH-tah neh' },
+  },
+};
+
+// === src/content/destinations/syd.js ===
+// src/content/destinations/syd.js - Sydney, Australia.
+// Facts verified against two sources each (one local); `src` annotations are
+// stripped at build time and never ship. Timeless phrasing enforced by the
+// validator (no exact big counts, no named individual animals).
+const DestSyd = {
+  id: 'syd',
+  name: 'Sydney',
+  utcOffset: 10,
+  mapEmoji: 'ðŸŒ‰',
+  palette: { a: '#38bdf8', b: '#fbbf24' },
+  motif: { source: 'surf rock guitar (twangy reverb riff)', bpm: 124, notes: ['C4', 'E4', 'G4', 'C5'] },
+
+  hostKid: {
+    name: 'Ruby',
+    age: 7,
+    neighborhood: 'Manly, Sydney',
+    intro: 'G\'day! I am Ruby. Welcome to my sunny harbour city!',
+    life: [
+      'I do Nippers with my surf club on Sunday mornings.',
+      'I always swim between the red and yellow flags.',
+      'The Manly ferry takes me right past the Opera House.',
+      'Dad and I share a meat pie at the footy.',
+      'My birthday parties always have fairy bread with sprinkles.',
+    ],
+  },
+
+  animal: {
+    id: 'syd-banjo',
+    name: 'Banjo the Laughing Kookaburra',
+    species: 'laughing kookaburra',
+    emoji: 'ðŸ¦',
+    line: 'My laugh rings out across the gum trees!',
+    move: 'head-back laugh',
+  },
+  shyAnimal: {
+    id: 'syd-gumnut',
+    name: 'Gumnut the Koala',
+    species: 'koala',
+    emoji: 'ðŸ¨',
+    line: 'I nap all day in my favourite gum tree.',
+  },
+
+  wonder: {
+    q: 'Why does the kookaburra laugh?',
+    a: 'Its laugh is a call that says, this tree is our home.',
+  },
+
+  facts: [
+    {
+      id: 'syd-flags',
+      stage: 0,
+      text: 'Surf lifesavers plant red and yellow flags to mark the safest swimming spot.',
+      recognition: {
+        prompt: 'What do the red and yellow flags mark?',
+        choices: ['the safest place to swim', 'the hottest patch of sand', 'where the boats park'],
+        answerIndex: 0,
+        hint: 'Ruby checks them before every swim.',
+        explain: 'The flags mark the safest swimming spot.',
+      },
+      cued: { prompt: 'Always swim between the red and yellow...', answer: 'FLAGS' },
+      tiles: { word: 'FLAGS', emoji: 'ðŸš©', clue: 'Red and yellow swim markers.' },
+    },
+    {
+      id: 'syd-kooka',
+      stage: 0,
+      text: 'The kookaburra call sounds just like loud laughing in the gum trees.',
+      recognition: {
+        prompt: 'What does a kookaburra call sound like?',
+        choices: ['loud laughing', 'soft meowing', 'quiet humming'],
+        answerIndex: 0,
+        hint: 'Banjo does it every morning.',
+        explain: 'A kookaburra call sounds like loud laughing.',
+      },
+      cued: { prompt: 'The kookaburra call sounds just like loud...', answer: 'LAUGHING' },
+      tiles: { word: 'KOOKABURRA', emoji: 'ðŸ¦', clue: 'The bird with the laughing call.' },
+    },
+    {
+      id: 'syd-sails',
+      stage: 0,
+      text: 'The Sydney Opera House roof looks like giant white sails on the harbour.',
+      thread: { pairId: 'opera' },
+      recognition: {
+        prompt: 'What does the Opera House roof look like?',
+        choices: ['giant white sails', 'tall green trees', 'golden crowns'],
+        answerIndex: 0,
+        hint: 'Think of boats on the harbour.',
+        explain: 'The roof looks like giant white sails.',
+      },
+      cued: { prompt: 'The Opera House roof looks like giant white...', answer: 'SAILS' },
+      tiles: { word: 'SAILS', emoji: 'â›µ', clue: 'The shape of the Opera House roof.' },
+    },
+    {
+      id: 'syd-bridge',
+      stage: 0,
+      text: 'Sydneysiders call the Harbour Bridge the Coathanger because of its curved shape.',
+      recognition: {
+        prompt: 'What is the Harbour Bridge nickname?',
+        choices: ['the Coathanger', 'the Big Banana', 'the Steel Snake'],
+        answerIndex: 0,
+        hint: 'Look at the curve of the steel.',
+        explain: 'Its curve looks like a giant coathanger.',
+      },
+      cued: { prompt: 'The Harbour Bridge funny nickname is the...', answer: 'COATHANGER' },
+      tiles: { word: 'BRIDGE', emoji: 'ðŸŒ‰', clue: 'The steel Coathanger over the harbour.' },
+    },
+    {
+      id: 'syd-bondi',
+      stage: 1,
+      text: 'Bondi Beach started one of the very first surf lifesaving clubs anywhere.',
+      thread: { pairId: 'beaches' },
+      recognition: {
+        prompt: 'What began long ago at Bondi Beach?',
+        choices: ['one of the first lifesaving clubs', 'the first ice cream truck', 'the first train line'],
+        answerIndex: 0,
+        hint: 'Think about who guards the beach.',
+        explain: 'Bondi began one of the first lifesaving clubs.',
+      },
+      cued: { prompt: 'One of the very first lifesaving clubs began at...', answer: 'BONDI' },
+      tiles: { word: 'BONDI', emoji: 'ðŸ–ï¸', clue: 'Sydney\'s most famous beach.' },
+    },
+    {
+      id: 'syd-nippers',
+      stage: 1,
+      text: 'Beach kids called Nippers train with real surf lifesavers on the sand.',
+      recognition: {
+        prompt: 'What are junior surf lifesavers called?',
+        choices: ['Nippers', 'Splashers', 'Paddlers'],
+        answerIndex: 0,
+        hint: 'Ruby is one every Sunday.',
+        explain: 'Junior surf lifesavers are called Nippers.',
+      },
+      cued: { prompt: 'Junior surf lifesavers like Ruby are called...', answer: 'NIPPERS' },
+      tiles: { word: 'NIPPERS', emoji: 'ðŸŠ', clue: 'Junior surf lifesavers like Ruby.' },
+    },
+    {
+      id: 'syd-koala',
+      stage: 2,
+      text: 'Koalas nap most of the day because gum leaves give them little energy.',
+      recognition: {
+        prompt: 'Why do koalas nap so much?',
+        choices: ['gum leaves give little energy', 'the sun makes them dizzy', 'they swim all night long'],
+        answerIndex: 0,
+        hint: 'Think about what koalas eat.',
+        explain: 'Gum leaves give koalas very little energy.',
+      },
+      cued: { prompt: 'Koalas snooze because gum leaves give little...', answer: 'ENERGY' },
+      tiles: { word: 'KOALA', emoji: 'ðŸ¨', clue: 'The sleepy gum tree friend.' },
+    },
+    {
+      id: 'syd-harbour',
+      stage: 2,
+      text: 'Sydney Harbour is one of the biggest natural harbours in the whole world.',
+      recognition: {
+        prompt: 'What is special about Sydney Harbour?',
+        choices: ['one of the biggest natural harbours', 'the coldest water on Earth', 'a giant freshwater lake'],
+        answerIndex: 0,
+        hint: 'Think big, blue, and natural.',
+        explain: 'It is one of the biggest natural harbours.',
+      },
+      cued: { prompt: 'Sydney sits beside a giant natural...', answer: 'HARBOUR' },
+      tiles: { word: 'HARBOUR', emoji: 'âš“', clue: 'Sydney\'s big blue front yard.' },
+    },
+  ],
+
+  phrases: [
+    { id: 'syd-gday', text: 'G\'day, mate!', lang: 'en-AU', respell: 'guh-DAY mayt', gloss: 'A friendly Aussie hello.' },
+    { id: 'syd-arvo', text: 'arvo', lang: 'en-AU', respell: 'AH-voh', gloss: 'Aussie short word for afternoon.' },
+    { id: 'syd-noworries', text: 'no worries', lang: 'en-AU', respell: 'noh WUH-reez', gloss: 'Aussie way to say it is all fine.' },
+  ],
+
+  words: [
+    { tier: 1, word: 'SEA', emoji: 'ðŸŒŠ', clue: 'It sparkles all around the harbour.' },
+    { tier: 1, word: 'GUM', emoji: 'ðŸŒ³', clue: 'The tree koalas love to munch.' },
+    { tier: 2, word: 'SURF', emoji: 'ðŸ„', clue: 'Riding waves at Bondi Beach.' },
+    { tier: 2, word: 'WAVE', emoji: 'ðŸŒŠ', clue: 'It rolls in for the surfers.' },
+    { tier: 2, word: 'FERRY', emoji: 'â›´ï¸', clue: 'It glides past the Opera House.' },
+    { tier: 3, word: 'BRIDGE', emoji: 'ðŸŒ‰', clue: 'The Coathanger over the harbour.' },
+    { tier: 3, word: 'NIPPER', emoji: 'ðŸŠ', clue: 'A junior surf lifesaver.' },
+    { tier: 4, word: 'HARBOUR', emoji: 'âš“', clue: 'Sydney\'s big blue front yard.' },
+    { tier: 4, word: 'WALLABY', emoji: 'ðŸ¦˜', clue: 'A small kangaroo cousin that hops.' },
+    { tier: 5, word: 'KOOKABURRA', emoji: 'ðŸ¦', clue: 'The laughing bird of the gum trees.' },
+    { tier: 5, word: 'LAMINGTON', emoji: 'ðŸ°', clue: 'A sponge cake rolled in coconut.' },
+    { tier: 5, word: 'SURFBOARD', emoji: 'ðŸ„', clue: 'You ride waves standing on it.' },
+  ],
+
+  rhymes: [
+    {
+      prompt: 'Which word rhymes with surf?',
+      choices: ['turf', 'sand', 'wave'],
+      answerIndex: 0,
+      hint: 'Say the endings out loud.',
+      explain: 'Turf rhymes with surf. Both end with -urf.',
+    },
+    {
+      prompt: 'Which word rhymes with sail?',
+      choices: ['whale', 'ship', 'sea'],
+      answerIndex: 0,
+      hint: 'Trust your ears, not your eyes.',
+      explain: 'Whale rhymes with sail. Both say "ail".',
+    },
+    {
+      prompt: 'Which word rhymes with bridge?',
+      choices: ['ridge', 'road', 'bend'],
+      answerIndex: 0,
+      hint: 'Say each word and match the endings.',
+      explain: 'Ridge rhymes with bridge. Both say "idge".',
+    },
+    {
+      prompt: 'Tap the TWO words that rhyme!',
+      choices: ['pie', 'sky', 'surf', 'flag'],
+      answerIndices: [0, 1],
+      hint: 'Say each word and match the endings.',
+      explain: 'Pie and sky rhyme. Both say "eye".',
+    },
+    {
+      prompt: 'Which word does NOT rhyme with the others?',
+      choices: ['day', 'bay', 'play', 'reef'],
+      answerIndex: 3,
+      hint: 'Three endings match. One does not.',
+      explain: 'Reef does not end with -ay.',
+    },
+    {
+      prompt: 'I rhyme with ferry, and I am a small sweet fruit.',
+      choices: ['berry', 'apple', 'peach'],
+      answerIndex: 0,
+      hint: 'The answer must rhyme AND fit the clue.',
+      explain: 'A berry! Berry rhymes with ferry.',
+    },
+  ],
+
+  patterns: [
+    {
+      artisan: 'Mr. Macca',
+      name: 'Surfboard shaping',
+      items: [
+        {
+          prompt: 'ðŸ„ ðŸŒŠ ðŸ„ ðŸŒŠ ðŸ„ ... what comes next?',
+          choices: ['ðŸŒŠ', 'ðŸ„', 'â­', 'ðŸ¬'],
+          answerIndex: 0,
+          hint: 'Say the pattern out loud. What repeats?',
+          explain: 'Wave! The board art goes surfer, wave, surfer, wave.',
+          bigChoices: true,
+        },
+        {
+          prompt: 'ðŸŒŠ ðŸŒŠ â­ ðŸŒŠ ðŸŒŠ â­ ðŸŒŠ ðŸŒŠ ... what comes next?',
+          choices: ['â­', 'ðŸŒŠ', 'ðŸ„', 'ðŸš'],
+          answerIndex: 0,
+          hint: 'Chant the pattern and feel the beat.',
+          explain: 'Star! The beat is wave, wave, star.',
+          bigChoices: true,
+        },
+        {
+          prompt: 'ðŸŒŠ ðŸŒŠðŸŒŠ ðŸŒŠðŸŒŠðŸŒŠ ... what comes next?',
+          choices: ['ðŸŒŠðŸŒŠðŸŒŠðŸŒŠ', 'ðŸŒŠðŸŒŠ', 'ðŸŒŠ', 'ðŸŒŠðŸŒŠðŸŒŠðŸŒŠðŸŒŠ'],
+          answerIndex: 0,
+          hint: 'Count how many are in each group.',
+          explain: 'Four waves! The set grows by one each time.',
+          bigChoices: true,
+        },
+        {
+          prompt: '3, 6, 9, 12 ... what comes next?',
+          choices: ['15', '13', '18', '14'],
+          answerIndex: 0,
+          hint: 'Check how much the numbers jump each time.',
+          explain: '15 comes next. The waves count up by 3.',
+        },
+      ],
+    },
+    {
+      artisan: 'Miss Daisy',
+      name: 'Lamington baking',
+      items: [
+        {
+          prompt: 'ðŸ° ðŸ¥¥ ðŸ° ðŸ¥¥ ðŸ° ... what comes next?',
+          choices: ['ðŸ¥¥', 'ðŸ°', 'ðŸ“', 'ðŸ«'],
+          answerIndex: 0,
+          hint: 'Say the pattern out loud. What repeats?',
+          explain: 'Coconut! The tray goes cake, coconut, cake, coconut.',
+          bigChoices: true,
+        },
+        {
+          prompt: 'ðŸ« ðŸ« ðŸ¥¥ ðŸ« ðŸ« ðŸ¥¥ ðŸ« ðŸ« ... what comes next?',
+          choices: ['ðŸ¥¥', 'ðŸ«', 'ðŸ°', 'ðŸ“'],
+          answerIndex: 0,
+          hint: 'Chant the pattern and feel the beat.',
+          explain: 'Coconut! The dip is choc, choc, coconut.',
+          bigChoices: true,
+        },
+        {
+          prompt: '4, 8, 12, 16 ... what comes next?',
+          choices: ['20', '17', '24', '18'],
+          answerIndex: 0,
+          hint: 'Check how much the numbers jump each time.',
+          explain: '20 comes next. The cakes count up by 4.',
+        },
+        {
+          prompt: 'Lamington is to coconut as fairy bread is to ... ?',
+          choices: ['sprinkles', 'butter', 'jam', 'honey'],
+          answerIndex: 0,
+          hint: 'Think how the first two go together.',
+          explain: 'Sprinkles! Each treat gets its own coat.',
+        },
+      ],
+    },
+  ],
+
+  passages: [
+    {
+      passage: 'On Sunday morning, Ruby pulls on her pink Nippers cap. She checks the red and yellow flags before she runs into the sea. Her coach cheers as she paddles her board over a small wave.',
+      questions: [
+        {
+          prompt: 'What does Ruby check before she runs in?',
+          choices: ['the red and yellow flags', 'her favourite paddle board', 'the snack stand line', 'her shiny goggles'],
+          answerIndex: 0,
+          hint: 'Look back at the flags sentence.',
+          explain: 'Ruby checks the red and yellow flags first.',
+        },
+        {
+          prompt: 'What does Ruby paddle over?',
+          choices: ['a small wave', 'a sleepy shark', 'a yellow flag', 'a coral reef'],
+          answerIndex: 0,
+          hint: 'Find the very last sentence.',
+          explain: 'She paddles her board over a small wave.',
+        },
+      ],
+    },
+    {
+      passage: 'Banjo the kookaburra perches on a gum branch near the ferry wharf. When the sun comes up, he throws back his head and laughs. Ruby laughs too, all the way down the pier.',
+      questions: [
+        {
+          prompt: 'Where does Banjo perch?',
+          choices: ['on a gum branch', 'on the ferry roof', 'on a beach umbrella'],
+          answerIndex: 0,
+          hint: 'The answer hides in the first sentence.',
+          explain: 'Banjo perches on a gum branch.',
+        },
+        {
+          prompt: 'What does Banjo do when the sun comes up?',
+          choices: ['throws back his head and laughs', 'dives straight down into the water', 'flies down to the ferry wharf'],
+          answerIndex: 0,
+          hint: 'Reread the second sentence.',
+          explain: 'He throws back his head and laughs.',
+        },
+      ],
+    },
+    {
+      passage: 'Gumnut the koala dozes high in a gum tree above the trail. Ruby spots two fluffy ears poking out of the leaves. They stay quiet and let the sleepy koala dream.',
+      questions: [
+        {
+          prompt: 'Where does Gumnut doze?',
+          choices: ['high in a gum tree', 'down on the quiet trail', 'inside a hollow log'],
+          answerIndex: 0,
+          hint: 'The first sentence tells you.',
+          explain: 'Gumnut dozes high in a gum tree.',
+        },
+        {
+          prompt: 'What does Ruby spot in the leaves?',
+          choices: ['two fluffy ears', 'a sleepy gray possum', 'two shiny green parrots'],
+          answerIndex: 0,
+          hint: 'Find the sentence about the ears.',
+          explain: 'Two fluffy ears poke out of the leaves.',
+        },
+      ],
+    },
+  ],
+
+  souvenirs: [
+    { id: 'syd-cap', name: 'Nippers swim cap', emoji: 'ðŸ§¢' },
+    { id: 'syd-lamington', name: 'Lamington in a paper bag', emoji: 'ðŸ°' },
+  ],
+
+  landmark: {
+    name: 'Sydney Opera House',
+    beats: [
+      'Ruby and Charlie ride the ferry under the great Coathanger bridge.',
+      'The Opera House sails glow white as the boat slides past.',
+      'Banjo laughs as the harbour lights twinkle on. Showtime!',
+    ],
+  },
+
+  showtime: {
+    backdrop: 'Opera House sails at sunset',
+    returnBackdrop: 'Harbour Bridge lights over dark water',
+    farewell: { text: 'Hooroo, Charlie!', lang: 'en-AU', respell: 'huh-ROO CHAR-lee' },
+  },
+};
+
+// === src/content/destinations/rot.js ===
+// src/content/destinations/rot.js - Rotorua, New Zealand.
+// Facts verified against two sources each (one local); `src` annotations are
+// stripped at build time and never ship. Timeless phrasing enforced by the
+// validator (no exact big counts, no named individual animals).
+const DestRot = {
+  id: 'rot',
+  name: 'Rotorua',
+  utcOffset: 12,
+  mapEmoji: 'â™¨ï¸',
+  palette: { a: '#5eead4', b: '#a78bfa' },
+  motif: { source: 'korimako (New Zealand bellbird) bell-note song', bpm: 88, notes: ['G4', 'B4', 'D5', 'G5'] },
+
+  hostKid: {
+    name: 'Aroha',
+    age: 7,
+    neighborhood: 'Whakarewarewa Village, Rotorua',
+    intro: 'Kia ora! I am Aroha. Welcome to Rotorua!',
+    life: [
+      'I practice kapa haka with my school group on Wednesdays.',
+      'I am learning to swing poi while we sing waiata.',
+      'My nana cooks sweet corn in the hot pool steam.',
+      'Steam rises right between the houses on my street.',
+      'My favorite treat is hokey pokey ice cream.',
+    ],
+  },
+
+  animal: {
+    id: 'rot-pip',
+    name: 'Pip the Kiwi',
+    species: 'North Island brown kiwi',
+    emoji: 'ðŸ¦',
+    line: 'I sniff out supper with my long, long beak!',
+    move: 'sniff-shuffle',
+  },
+  shyAnimal: {
+    id: 'rot-tua',
+    name: 'Tua the Tuatara',
+    species: 'tuatara',
+    emoji: 'ðŸ¦Ž',
+    line: 'My kind watched the dinosaurs come and go!',
+  },
+
+  wonder: {
+    q: 'Why does steam rise out of the ground in Rotorua?',
+    a: 'Hot rock deep below heats rainwater until it bubbles and steams up.',
+  },
+
+  facts: [
+    {
+      id: 'rot-steam',
+      stage: 0,
+      text: 'In Rotorua, steam hisses from the ground and mud pools bubble right in the middle of town.',
+      thread: { pairId: 'hotsprings' },
+      recognition: {
+        prompt: 'What bubbles and hisses right in town?',
+        choices: ['steam and mud pools', 'snow and ice', 'paint and glue'],
+        answerIndex: 0,
+        hint: 'Think about the warm ground below.',
+        explain: 'Hot ground makes steam and bubbling mud.',
+      },
+      cued: { prompt: 'All over town, the warm ground puffs out...', answer: 'STEAM' },
+      tiles: { word: 'STEAM', emoji: 'â™¨ï¸', clue: 'It rises from the warm ground everywhere.' },
+    },
+    {
+      id: 'rot-kiwi',
+      stage: 0,
+      text: 'A kiwi bird smells with nostrils at the very tip of its long beak.',
+      recognition: {
+        prompt: 'Where does a kiwi keep its nostrils?',
+        choices: ['at the tip of its beak', 'on top of its head', 'under its wings'],
+        answerIndex: 0,
+        hint: 'Think about how a kiwi sniffs the dirt.',
+        explain: 'Kiwi nostrils sit right at the beak tip.',
+      },
+      cued: { prompt: 'A kiwi sniffs with nostrils on the tip of its...', answer: 'BEAK' },
+      tiles: { word: 'KIWI', emoji: 'ðŸ¦', clue: 'The round night bird that sniffs for worms.' },
+    },
+    {
+      id: 'rot-poi',
+      stage: 0,
+      text: 'At kapa haka, groups sing waiata and swing soft balls on strings called poi.',
+      recognition: {
+        prompt: 'What is a poi?',
+        choices: ['a soft ball on a string', 'a wooden flute', 'a paper kite'],
+        answerIndex: 0,
+        hint: 'Aroha swings them while she sings.',
+        explain: 'A poi is a soft ball on a string.',
+      },
+      cued: { prompt: 'Aroha sings waiata and swings her...', answer: 'POI' },
+      tiles: { word: 'POI', emoji: 'ðŸŽµ', clue: 'A soft ball on a string, swung to song.' },
+    },
+    {
+      id: 'rot-hokey',
+      stage: 0,
+      text: 'Hokey pokey ice cream is vanilla ice cream with crunchy bits of golden honeycomb toffee.',
+      recognition: {
+        prompt: 'What makes hokey pokey ice cream crunch?',
+        choices: ['golden toffee bits', 'frozen peas', 'tiny pebbles'],
+        answerIndex: 0,
+        hint: 'The crunchy bits are sweet and golden.',
+        explain: 'Crunchy honeycomb toffee hides in the vanilla.',
+      },
+      cued: { prompt: 'Hokey pokey crunches with bits of golden...', answer: 'TOFFEE' },
+      tiles: { word: 'TOFFEE', emoji: 'ðŸ¦', clue: 'The crunchy gold bits in hokey pokey.' },
+    },
+    {
+      id: 'rot-hangi',
+      stage: 1,
+      text: 'For a special hangi feast, food cooks slowly in an oven dug into the earth.',
+      recognition: {
+        prompt: 'Where does hangi food cook?',
+        choices: ['in an oven dug into the earth', 'in a microwave', 'on a tall stove'],
+        answerIndex: 0,
+        hint: 'Look down, way down.',
+        explain: 'A hangi cooks food in the warm earth.',
+      },
+      cued: { prompt: 'Hangi food cooks in an oven dug into the...', answer: 'EARTH' },
+      tiles: { word: 'HANGI', emoji: 'ðŸ ', clue: 'A special feast cooked in the earth.' },
+    },
+    {
+      id: 'rot-geyser',
+      stage: 1,
+      text: 'Pohutu Geyser whooshes hot water high above the trees, many times every day.',
+      recognition: {
+        prompt: 'What does Pohutu Geyser shoot into the sky?',
+        choices: ['hot water', 'cold milk', 'green leaves'],
+        answerIndex: 0,
+        hint: 'It comes from deep, warm places.',
+        explain: 'Pohutu shoots jets of hot water skyward.',
+      },
+      cued: { prompt: 'Pohutu whooshes up a tall jet of hot...', answer: 'WATER' },
+      tiles: { word: 'GEYSER', emoji: 'â›²', clue: 'A fountain of hot water from the ground.' },
+    },
+    {
+      id: 'rot-tuatara',
+      stage: 2,
+      text: 'A baby tuatara hatches with a tiny third eye spot on top of its head.',
+      recognition: {
+        prompt: 'What do baby tuatara have on their heads?',
+        choices: ['a tiny third eye spot', 'a little blue horn', 'a fluffy feather'],
+        answerIndex: 0,
+        hint: 'It is one more than two eyes.',
+        explain: 'Baby tuatara have a tiny third eye spot.',
+      },
+      cued: { prompt: 'On its head, a baby tuatara has a third...', answer: 'EYE' },
+      tiles: { word: 'TUATARA', emoji: 'ðŸ¦Ž', clue: 'A reptile whose kind outlived the dinosaurs.' },
+    },
+    {
+      id: 'rot-caldera',
+      stage: 2,
+      text: 'Lake Rotorua fills the wide bowl of an old volcano called a caldera.',
+      recognition: {
+        prompt: 'What does Lake Rotorua fill?',
+        choices: ['the bowl of an old volcano', 'a giant swimming pool', 'an old gold mine'],
+        answerIndex: 0,
+        hint: 'Think about what made the big dip.',
+        explain: 'The lake sits in an old volcano bowl.',
+      },
+      cued: { prompt: 'Lake Rotorua fills the bowl of an old...', answer: 'VOLCANO' },
+      tiles: { word: 'VOLCANO', emoji: 'ðŸŒ‹', clue: 'Lake Rotorua rests inside an old one.' },
+    },
+  ],
+
+  phrases: [
+    { id: 'rot-kiaora', text: 'Kia ora', lang: '', respell: 'KEE-ah OH-rah', gloss: 'Hello, and be well.' },
+    { id: 'rot-kapai', text: 'Ka pai', lang: '', respell: 'kah PIE', gloss: 'Well done, very good.' },
+    { id: 'rot-kumara', text: 'kumara', lang: '', respell: 'KOO-mah-rah', gloss: 'A sweet potato grown all over New Zealand.' },
+  ],
+
+  words: [
+    { tier: 1, word: 'MUD', emoji: 'ðŸŸ¤', clue: 'It bubbles and plops in the hot pools.' },
+    { tier: 1, word: 'EGG', emoji: 'ðŸ¥š', clue: 'A kiwi lays a great big one.' },
+    { tier: 1, word: 'HOT', emoji: 'â™¨ï¸', clue: 'How the steamy pools feel.' },
+    { tier: 2, word: 'LAKE', emoji: 'ðŸŒŠ', clue: 'Rotorua sits right beside a big one.' },
+    { tier: 2, word: 'FERN', emoji: 'ðŸŒ¿', clue: 'The silver one is a New Zealand emblem.' },
+    { tier: 2, word: 'CANOE', emoji: 'ðŸ›¶', clue: 'A waka glides across the lake.' },
+    { tier: 3, word: 'BUBBLE', emoji: 'ðŸ«§', clue: 'The mud pools blow these, plop plop.' },
+    { tier: 3, word: 'FOREST', emoji: 'ðŸŒ²', clue: 'The giant redwoods make a shady one.' },
+    { tier: 4, word: 'SPRINGS', emoji: 'ðŸ’§', clue: 'Hot water rises from these underground.' },
+    { tier: 4, word: 'BELLBIRD', emoji: 'ðŸ””', clue: 'Its song rings like little bells.' },
+    { tier: 5, word: 'WATERFALL', emoji: 'ðŸ’¦', clue: 'Okere Falls tumbles down near Rotorua.' },
+    { tier: 5, word: 'HONEYCOMB', emoji: 'ðŸ¯', clue: 'The crunchy gold inside hokey pokey.' },
+  ],
+
+  rhymes: [
+    {
+      prompt: 'Which word rhymes with steam?',
+      choices: ['dream', 'stone', 'stick'],
+      answerIndex: 0,
+      hint: 'Say the endings out loud.',
+      explain: 'Dream rhymes with steam, both say "eem".',
+    },
+    {
+      prompt: 'Which word rhymes with lake?',
+      choices: ['cake', 'log', 'leaf'],
+      answerIndex: 0,
+      hint: 'Trust your ears, not your eyes.',
+      explain: 'Cake rhymes with lake, both say "ake".',
+    },
+    {
+      prompt: 'Which word rhymes with mud?',
+      choices: ['thud', 'mat', 'mop'],
+      answerIndex: 0,
+      hint: 'Say each word and match the endings.',
+      explain: 'Thud rhymes with mud, both say "ud".',
+    },
+    {
+      prompt: 'Tap the TWO words that rhyme!',
+      choices: ['fern', 'bird', 'turn', 'pool'],
+      answerIndices: [0, 2],
+      hint: 'Say each word and match the endings.',
+      explain: 'Fern and turn rhyme, both say "ern".',
+    },
+    {
+      prompt: 'Which word does NOT rhyme with the others?',
+      choices: ['spray', 'day', 'play', 'pool'],
+      answerIndex: 3,
+      hint: 'Three endings match, one does not.',
+      explain: 'Pool does not end with the "ay" sound.',
+    },
+    {
+      prompt: 'I rhyme with pool, and I am where kids learn.',
+      choices: ['school', 'park', 'library'],
+      answerIndex: 0,
+      hint: 'The answer must rhyme AND fit the clue.',
+      explain: 'A school! School rhymes with pool.',
+    },
+  ],
+
+  patterns: [
+    {
+      artisan: 'Aunty Mere',
+      name: 'Flax weaving',
+      items: [
+        {
+          prompt: 'ðŸŒ¿ ðŸ§º ðŸŒ¿ ðŸ§º ðŸŒ¿ - what comes next?',
+          choices: ['ðŸ§º', 'ðŸŒ¿', 'â­', 'ðŸŒº'],
+          answerIndex: 0,
+          hint: 'Say the pattern out loud, what repeats?',
+          explain: 'Basket! The weave goes leaf, basket, leaf, basket.',
+          bigChoices: true,
+        },
+        {
+          prompt: 'ðŸŒ¿ ðŸŒ¿ ðŸŒº ðŸŒ¿ ðŸŒ¿ ðŸŒº ðŸŒ¿ ðŸŒ¿ - what comes next?',
+          choices: ['ðŸŒº', 'ðŸŒ¿', 'ðŸ§º', 'â­'],
+          answerIndex: 0,
+          hint: 'Chant the pattern and feel the beat.',
+          explain: 'Flower! The weave goes leaf, leaf, flower.',
+          bigChoices: true,
+        },
+        {
+          prompt: 'ðŸŒ¿ ðŸŒ¿ðŸŒ¿ ðŸŒ¿ðŸŒ¿ðŸŒ¿ - what comes next?',
+          choices: ['ðŸŒ¿ðŸŒ¿ðŸŒ¿ðŸŒ¿', 'ðŸŒ¿ðŸŒ¿', 'ðŸŒ¿', 'ðŸŒ¿ðŸŒ¿ðŸŒ¿ðŸŒ¿ðŸŒ¿'],
+          answerIndex: 0,
+          hint: 'Count how many are in each group.',
+          explain: 'Four leaves! Each group grows by one.',
+          bigChoices: true,
+        },
+        {
+          prompt: '3, 6, 9, 12 - what comes next?',
+          choices: ['15', '13', '18', '14'],
+          answerIndex: 0,
+          hint: 'Check how much the numbers jump each time.',
+          explain: '15 comes next, the strands count up by 3.',
+        },
+      ],
+    },
+    {
+      artisan: 'Matua Hemi',
+      name: 'Poi rhythm',
+      items: [
+        {
+          prompt: 'âšª ðŸŽµ âšª ðŸŽµ âšª - what comes next?',
+          choices: ['ðŸŽµ', 'âšª', 'ðŸ¥', 'ðŸ””'],
+          answerIndex: 0,
+          hint: 'Say the pattern out loud, what repeats?',
+          explain: 'Note! The swing goes poi, note, poi, note.',
+          bigChoices: true,
+        },
+        {
+          prompt: 'âšª âšª ðŸ¥ âšª âšª ðŸ¥ âšª âšª - what comes next?',
+          choices: ['ðŸ¥', 'âšª', 'ðŸŽµ', 'ðŸ””'],
+          answerIndex: 0,
+          hint: 'Chant the pattern and feel the beat.',
+          explain: 'Drum! The beat is swing, swing, drum.',
+          bigChoices: true,
+        },
+        {
+          prompt: '4, 8, 12, 16 - what comes next?',
+          choices: ['20', '18', '24', '17'],
+          answerIndex: 0,
+          hint: 'Check how much the numbers jump each time.',
+          explain: '20 comes next, the swings count up by 4.',
+        },
+        {
+          prompt: 'Poi is to swing as bell is to ... ?',
+          choices: ['ring', 'tap', 'hum', 'strum'],
+          answerIndex: 0,
+          hint: 'Think how the first two go together.',
+          explain: 'Ring! You swing a poi and ring a bell.',
+        },
+      ],
+    },
+  ],
+
+  passages: [
+    {
+      passage: 'On Wednesdays, Aroha and her school group practice kapa haka in the hall. She swings her poi in big circles while everyone sings a waiata. Charlie sits with the teachers and watches, learning like a good guest.',
+      questions: [
+        {
+          prompt: 'What does Aroha swing in big circles?',
+          choices: ['her poi', 'her school bag', 'her singing voice', 'her blue ribbon'],
+          answerIndex: 0,
+          hint: 'Look back at the second sentence.',
+          explain: 'Aroha swings her poi in big circles.',
+        },
+        {
+          prompt: 'What does Charlie do at practice?',
+          choices: ['he sits and watches', 'he leads the waiata', 'he spins the poi', 'he bangs a drum'],
+          answerIndex: 0,
+          hint: 'Find the sentence about Charlie.',
+          explain: 'Charlie sits and watches, learning as a guest.',
+        },
+      ],
+    },
+    {
+      passage: 'Pip the kiwi snuffles through the dark night house. His nostrils sit right at the tip of his long beak. Sniff, sniff! He finds a wriggly worm under the leaves.',
+      questions: [
+        {
+          prompt: 'Where does Pip keep his nostrils?',
+          choices: ['at the tip of his beak', 'on top of his fluffy head', 'under the leaves by his feet', 'behind his little eyes'],
+          answerIndex: 0,
+          hint: 'The second sentence tells you.',
+          explain: 'Kiwi nostrils sit at the very beak tip.',
+        },
+        {
+          prompt: 'What does Pip find under the leaves?',
+          choices: ['a wriggly worm', 'a pile of crunchy leaves', 'a shiny stone', 'a sleepy beetle'],
+          answerIndex: 0,
+          hint: 'Sniff, sniff, then check the last sentence.',
+          explain: 'He finds a wriggly worm to munch.',
+        },
+      ],
+    },
+    {
+      passage: 'Steam curls up between the houses on the street where Aroha lives. Her nana lowers a basket of sweet corn into a bubbling hot pool. Soon the whole street smells like dinner.',
+      questions: [
+        {
+          prompt: 'What does Nana lower into the hot pool?',
+          choices: ['a basket of sweet corn', 'a basket of muddy boots', 'a string of little fish'],
+          answerIndex: 0,
+          hint: 'Look at the second sentence.',
+          explain: 'Nana steams sweet corn in the hot pool.',
+        },
+        {
+          prompt: 'What does the street smell like soon?',
+          choices: ['dinner', 'sweet roses', 'fresh paint', 'wet socks'],
+          answerIndex: 0,
+          hint: 'The last sentence tells you.',
+          explain: 'The corn makes the street smell like dinner.',
+        },
+      ],
+    },
+  ],
+
+  souvenirs: [
+    { id: 'rot-jandals', name: 'Pair of jandals', emoji: 'ðŸ©´' },
+    { id: 'rot-toffee', name: 'Bag of hokey pokey toffee', emoji: 'ðŸ¬' },
+  ],
+
+  landmark: {
+    name: 'Pohutu Geyser at Te Puia',
+    beats: [
+      'Aroha leads Charlie along the warm boardwalk at Te Puia.',
+      'The ground rumbles, then Pohutu whooshes a tower of hot water.',
+      'Pip whistles as the drifting steam turns gold. Showtime!',
+    ],
+  },
+
+  showtime: {
+    backdrop: 'Pohutu Geyser steaming at golden hour',
+    returnBackdrop: 'Te Puia at night, steam glowing under the stars',
+    farewell: { text: 'Haere ra', lang: '', respell: 'HIGH-reh RAH' },
+  },
+};
+
 // === src/content/destinations.js ===
 // src/content/destinations.js — aggregator + accessors over destination data.
 
 const Destinations = (() => {
-  const list = [DestTCI, DestNYC];
+  const list = [
+    DestTCI, DestNYC, DestMex, DestRio, DestPar, DestRey,
+    DestMar, DestAcc, DestChe, DestTok, DestSyd, DestRot,
+  ];
   const byId = {};
   for (const d of list) byId[d.id] = d;
 
@@ -3051,20 +6955,28 @@ const Visit = (() => {
       steps.push({ type: 'skill', domain: domains[i % domains.length] });
     }
 
-    // facts: stage 0 on the first visit, stage `returns+1` (capped 2) after
+    // facts: stage 0 on the first visit, then everything not yet met up to
+    // stage `returns+1` (capped 2), lowest stage first — a fact deferred at
+    // the active cap is reconsidered on every later visit, never stranded
     const stage = first ? 0 : Math.min(2, returns + 1);
-    const facts = dest.facts.filter((f) => f.stage === stage && !ctx.scheduler.isIntroduced(f.id));
+    const facts = dest.facts
+      .filter((f) => f.stage <= stage && !ctx.scheduler.isIntroduced(f.id))
+      .sort((a, b) => a.stage - b.stage);
     const factSlots = first ? [2, 4, 6, 8] : [2, 5];
     facts.slice(0, factSlots.length).forEach((f, i) => {
       insertAfterSkill(steps, factSlots[i], { type: 'fact', fact: f });
     });
 
-    // retrieval beats: returns only, this destination's due facts first,
-    // hard-capped at 2 (<=1 per 3 skill items with 7 slots)
-    if (!first) {
+    // retrieval beats ride along on EVERY visit (the mail travels with her):
+    // returns prefer this destination's due facts; first visits carry other
+    // destinations' due mail. Hard cap 2 (<=1 per 3 skill items either way).
+    {
       const destIds = new Set(dest.facts.map((f) => f.id));
-      const due = ctx.scheduler.due(ctx.session, 6).filter((id) => destIds.has(id)).slice(0, 2);
-      due.forEach((factId, i) => {
+      const due = ctx.scheduler.due(ctx.session, 6);
+      const mine = due.filter((id) => destIds.has(id));
+      const others = due.filter((id) => !destIds.has(id));
+      const picks = (first ? others : mine.concat(others)).slice(0, 2);
+      picks.forEach((factId, i) => {
         insertAfterSkill(steps, i === 0 ? 3 : 6, { type: 'retrieval', factId });
       });
     }
@@ -3083,6 +6995,8 @@ const Visit = (() => {
       steps.unshift({ type: 'wonder', wonder: dest.wonder });
       steps.unshift({ type: 'phrase', phrase: dest.phrases[0] });
       steps.unshift({ type: 'arrival', dest: { id: dest.id, name: dest.name }, kid: dest.hostKid });
+      // the curiosity loop closes before the landmark: wonder answered
+      steps.push({ type: 'wonder-answer', wonder: dest.wonder });
       steps.push({ type: 'landmark', landmark: dest.landmark });
     } else {
       const p = dest.phrases[Math.min(returns + 1, dest.phrases.length - 1)];
@@ -3328,8 +7242,23 @@ const Visit = (() => {
 // src/engine/engine.js — the adventure facade: the only thing the UI talks to.
 
 const Engine = (() => {
-  // unlock chain for the prototype: TCI opens the journey, NYC follows
-  const ROUTE = ['tci', 'nyc'];
+  // The world tour, organized as continent chapters. Destinations unlock
+  // sequentially through the flattened route; finishing the last stop of a
+  // chapter opens the next continent.
+  const CHAPTERS = [
+    { name: 'The Journey Begins', dests: ['tci', 'nyc'] },
+    { name: 'The Americas', dests: ['mex', 'rio'] },
+    { name: 'Europe', dests: ['par', 'rey'] },
+    { name: 'Africa', dests: ['mar', 'acc'] },
+    { name: 'Asia', dests: ['che', 'tok'] },
+    { name: 'Oceania', dests: ['syd', 'rot'] },
+  ];
+  const ROUTE = CHAPTERS.reduce((a, c) => a.concat(c.dests), []);
+
+  function chapterOf(destId) {
+    for (const c of CHAPTERS) if (c.dests.indexOf(destId) > -1) return c;
+    return null;
+  }
 
   function freshState() {
     return {
@@ -3449,7 +7378,16 @@ const Engine = (() => {
           done: v.done,
           returns: v.returns,
           shine: scheduler.stampShine(factIds, v.done),
+          chapter: chapterOf(destId),
         };
+      },
+      // the destination a finished visit just unlocked, if any (for toasts)
+      nextAfter(destId) {
+        const i = ROUTE.indexOf(destId);
+        const next = i > -1 ? ROUTE[i + 1] : null;
+        return next && Destinations.byId[next]
+          ? { id: next, chapter: chapterOf(next), chapterStart: chapterOf(next) !== chapterOf(destId) }
+          : null;
       },
       // golden threads light when both endpoints reach strength >= 2
       litThreads() {
@@ -3486,7 +7424,7 @@ const Engine = (() => {
     return game;
   }
 
-  return { ROUTE, create, todayKey };
+  return { ROUTE, CHAPTERS, create, todayKey };
 })();
 
 // === src/speech/speech.js ===
@@ -3506,7 +7444,7 @@ const Engine = (() => {
 const Speech = (() => {
   const RATE_NORMAL = 0.95;
   const RATE_SLOW = 0.7; // floor — slower is handled by chunking
-  const WATCHDOG_MS = 1500;
+  const WATCHDOG_MS = 2500; // generous: it only signals onSilent, never cancels
   const HEARTBEAT_MS = 4000;
 
   let synth = null;
@@ -3514,6 +7452,7 @@ const Speech = (() => {
   let primed = false;
   let muted = false;
   let heartbeat = 0;
+  let gen = 0; // generation counter: a newer speak()/stop() invalidates older chains
   const liveUtterances = []; // GC guard — iOS drops unreferenced utterances
 
   // Languages allowed to use a real voice. Populated at runtime by probe()
@@ -3563,9 +7502,11 @@ const Speech = (() => {
     return true;
   }
 
-  // exact lang tag -> prefix match -> null
+  // exact lang tag -> prefix match -> null (lazy refresh closes the
+  // voiceschanged race on the very first arrival)
   function voiceFor(lang) {
     if (!lang) return null;
+    if (!voices.length && synth) refreshVoices();
     const exact = voices.find((v) => v.lang === lang);
     if (exact) return exact;
     const prefix = lang.split('-')[0];
@@ -3582,6 +7523,7 @@ const Speech = (() => {
   function setMuted(m) { muted = !!m; }
 
   function stop() {
+    gen += 1; // invalidate any in-flight chunk chain and its watchdog
     try { if (synth) synth.cancel(); } catch (e) { /* harmless */ }
     liveUtterances.length = 0;
   }
@@ -3600,17 +7542,19 @@ const Speech = (() => {
     }
     init();
     stop();
+    const myGen = ++gen; // this chain owns the synth until superseded
     const chunks = o.slow ? String(text).split(/\s+/).filter(Boolean) : [String(text)];
     let started = false;
     let idx = 0;
-    const watchdog = setTimeout(() => {
-      if (!started) {
-        stop();
-        if (o.onSilent) o.onSilent();
-      }
+    // watchdog signals the UI fallback but never cancels: a slow voice load
+    // beyond the window can still speak, and a NEWER speak() must not be
+    // killed by an OLDER watchdog (generation-checked)
+    setTimeout(() => {
+      if (gen === myGen && !started && o.onSilent) o.onSilent();
     }, WATCHDOG_MS);
 
     const next = () => {
+      if (gen !== myGen) return; // superseded mid-chain: stop quietly
       if (idx >= chunks.length) {
         if (o.onDone) o.onDone();
         return;
@@ -3619,7 +7563,6 @@ const Speech = (() => {
       try {
         u = new globalThis.SpeechSynthesisUtterance(chunks[idx]);
       } catch (e) {
-        clearTimeout(watchdog);
         if (o.onSilent) o.onSilent();
         return;
       }
@@ -3630,7 +7573,7 @@ const Speech = (() => {
         u.voice = v;
         u.lang = v.lang;
       }
-      u.onstart = () => { started = true; clearTimeout(watchdog); };
+      u.onstart = () => { started = true; };
       u.onend = () => {
         const at = liveUtterances.indexOf(u);
         if (at > -1) liveUtterances.splice(at, 1);
@@ -3641,7 +7584,6 @@ const Speech = (() => {
       try {
         synth.speak(u);
       } catch (e) {
-        clearTimeout(watchdog);
         if (o.onSilent) o.onSilent();
       }
     };
@@ -4323,17 +8265,21 @@ const Particles = (() => {
 })();
 
 // === src/ui/routemap.js ===
-// RouteMap — the journey map: two floating destinations on a flight path,
-// sky tinted by Charlie's real local time, each destination chip showing the
-// REAL current local time there (device clock + fixed UTC offset). Golden
-// threads draw between destinations once both endpoint facts are strong.
+// RouteMap — the world tour map: destinations snake across the sky in
+// continent order, each a floating island tinted by its own palette with its
+// landmark glyph, real local time, and a stamp-shine ring. Golden threads
+// draw between destinations once both endpoint facts are strong.
 // API: RouteMap.render(container, view, onSelect)
-//   view = { dests: [{id,name,unlocked,done,shine,utcOffset,palette}],
-//            threads: ['humpbacks'], hour: 0-23 }
+//   view = { dests: [{id,name,unlocked,done,shine,utcOffset,palette,mapEmoji}],
+//            threadPairs: [[destIdA, destIdB]], hour: 0-23, now: Date }
 const RouteMap = (() => {
-  const SPOTS = { tci: { x: 290, y: 420 }, nyc: { x: 700, y: 270 } };
+  // serpentine layout, 3 rows of 4, in flattened chapter order
+  const SPOT_LIST = [
+    { x: 130, y: 492 }, { x: 380, y: 470 }, { x: 630, y: 492 }, { x: 880, y: 462 },
+    { x: 880, y: 322 }, { x: 630, y: 300 }, { x: 380, y: 322 }, { x: 130, y: 300 },
+    { x: 130, y: 152 }, { x: 380, y: 130 }, { x: 630, y: 152 }, { x: 880, y: 130 },
+  ];
 
-  // sky ramps by Charlie's local hour: night / dawn / day / dusk
   function skyFor(hour) {
     if (hour >= 21 || hour < 6) return ['#0d0b30', '#1d1b4b', '#34255e'];
     if (hour < 9) return ['#2a2160', '#6d4a9e', '#d98a82'];
@@ -4348,54 +8294,24 @@ const RouteMap = (() => {
     h = ((h % 24) + 24) % 24;
     const ampm = h >= 12 ? 'pm' : 'am';
     const h12 = h % 12 === 0 ? 12 : h % 12;
-    return h12 + ':' + String(m).padStart(2, '0') + ' ' + ampm + ' there';
+    return h12 + ':' + String(m).padStart(2, '0') + ' ' + ampm;
   }
 
   function islandBase(w, top, side) {
     const hw = w / 2;
     return (
-      '<ellipse cx="0" cy="0" rx="' + hw + '" ry="' + hw * 0.32 + '" fill="' + top + '"/>' +
-      '<path d="M' + -hw * 0.92 + ' 6 L' + -hw * 0.5 + ' ' + hw * 0.75 + ' L0 ' + hw * 0.95 +
-      ' L' + hw * 0.55 + ' ' + hw * 0.7 + ' L' + hw * 0.92 + ' 6 Q0 ' + hw * 0.42 + ' ' + -hw * 0.92 + ' 6 Z" fill="' + side + '"/>'
+      '<ellipse cx="0" cy="0" rx="' + hw + '" ry="' + hw * 0.3 + '" fill="' + top + '"/>' +
+      '<path d="M' + -hw * 0.92 + ' 5 L' + -hw * 0.5 + ' ' + hw * 0.7 + ' L0 ' + hw * 0.88 +
+      ' L' + hw * 0.55 + ' ' + hw * 0.65 + ' L' + hw * 0.92 + ' 5 Q0 ' + hw * 0.4 + ' ' + -hw * 0.92 + ' 5 Z" fill="' + side + '"/>'
     );
   }
 
-  function decorTci() {
-    let s = islandBase(170, '#3fd1c4', '#c9a36b');
-    // palm
-    s += '<path d="M-30 -6 Q-34 -34 -28 -52" fill="none" stroke="#8c6b33" stroke-width="6" stroke-linecap="round"/>';
-    s += '<path d="M-28 -52 Q-8 -62 6 -52 M-28 -52 Q-46 -60 -56 -48 M-28 -52 Q-20 -70 -2 -70 M-28 -52 Q-44 -72 -58 -64" fill="none" stroke="#2f8a55" stroke-width="6" stroke-linecap="round"/>';
-    // beach + wave + conch
-    s += '<path d="M-60 -4 Q0 -22 60 -4" fill="none" stroke="#fff3d9" stroke-width="6" stroke-linecap="round" opacity="0.8"/>';
-    s += '<circle cx="30" cy="-14" r="6" fill="#ffb3a3"/>';
-    s += '<circle cx="44" cy="-8" r="3" fill="#f7f5ff"/>';
-    return s;
-  }
-
-  function decorNyc() {
-    let s = islandBase(176, '#7d92c9', '#4a4470');
-    const bldg = (x, w, h, c) =>
-      '<rect x="' + (x - w / 2) + '" y="' + -h + '" width="' + w + '" height="' + h + '" rx="3" fill="' + c + '"/>' +
-      '<rect x="' + (x - w / 2 + 4) + '" y="' + (-h + 6) + '" width="5" height="5" fill="#ffe9a8"/>' +
-      '<rect x="' + (x + w / 2 - 9) + '" y="' + (-h + 14) + '" width="5" height="5" fill="#ffe9a8"/>';
-    s += bldg(-44, 24, 54, '#5d5890');
-    s += bldg(-12, 28, 78, '#6f6a9c');
-    s += bldg(20, 22, 62, '#5d5890');
-    s += '<path d="M20 -62 L20 -78 L26 -70 Z" fill="#b9a7ff"/>';
-    // torch of the green lady
-    s += '<path d="M48 -10 L48 -34" stroke="#3fae8c" stroke-width="6" stroke-linecap="round"/>';
-    s += '<circle cx="48" cy="-40" r="6" fill="#ffd166"/>';
-    return s;
-  }
-
-  const DECOR = { tci: decorTci, nyc: decorNyc };
-
   function lockIcon() {
     return (
-      '<g transform="translate(0 -40)">' +
-      '<path d="M-9 -4 L-9 -11 Q-9 -21 0 -21 Q9 -21 9 -11 L9 -4" fill="none" stroke="#dcd6ff" stroke-width="4.5" stroke-linecap="round"/>' +
-      '<path d="M-14 -4 L14 -4 L11 19 L0 24 L-11 19 Z" fill="#bfb6ea"/>' +
-      '<circle cx="0" cy="7" r="4" fill="#4d4880"/>' +
+      '<g transform="translate(0 -30)">' +
+      '<path d="M-7 -3 L-7 -9 Q-7 -17 0 -17 Q7 -17 7 -9 L7 -3" fill="none" stroke="#dcd6ff" stroke-width="4" stroke-linecap="round"/>' +
+      '<path d="M-11 -3 L11 -3 L9 15 L0 19 L-9 15 Z" fill="#bfb6ea"/>' +
+      '<circle cx="0" cy="5" r="3.2" fill="#4d4880"/>' +
       '</g>'
     );
   }
@@ -4403,46 +8319,66 @@ const RouteMap = (() => {
   function stampRing(shine) {
     if (!shine) return '';
     const color = shine === 3 ? '#ffd166' : shine === 2 ? '#7ef0e2' : 'rgba(247,245,255,0.6)';
-    const dash = shine === 1 ? ' stroke-dasharray="8 7"' : '';
-    let s = '<ellipse cx="0" cy="-12" rx="104" ry="76" fill="none" stroke="' + color + '" stroke-width="4"' + dash + ' opacity="0.8"/>';
-    if (shine === 3) s += '<ellipse cx="0" cy="-12" rx="112" ry="84" fill="none" stroke="#ffd166" stroke-width="2" opacity="0.5"/>';
+    const dash = shine === 1 ? ' stroke-dasharray="7 6"' : '';
+    let s = '<ellipse cx="0" cy="-14" rx="76" ry="56" fill="none" stroke="' + color + '" stroke-width="3.5"' + dash + ' opacity="0.85"/>';
+    if (shine === 3) s += '<ellipse cx="0" cy="-14" rx="84" ry="63" fill="none" stroke="#ffd166" stroke-width="2" opacity="0.5"/>';
     return s;
   }
 
-  function destGroup(dest, now) {
-    const spot = SPOTS[dest.id];
+  function destGroup(dest, idx, now) {
+    const spot = SPOT_LIST[idx];
     if (!spot) return '';
     const state = !dest.unlocked ? 'locked' : dest.done ? 'done' : 'open';
+    const pal = dest.palette || { a: '#7ef0e2', b: '#a78bfa' };
+    const locked = state === 'locked';
     return (
       '<g class="rm-dest" data-dest="' + dest.id + '" data-state="' + state +
-      '" role="button" aria-label="' + dest.name + '" transform="translate(' + spot.x + ' ' + spot.y + ')">' +
+      '" role="button" aria-label="' + dest.name + '" transform="translate(' + spot.x + ' ' + spot.y + ')"' +
+      (locked ? ' opacity="0.55"' : '') + '>' +
       stampRing(dest.shine) +
       '<g class="rm-float">' +
-      (DECOR[dest.id] ? DECOR[dest.id]() : islandBase(160, '#888', '#555')) +
-      (state === 'locked' ? lockIcon() : '') +
-      '<text class="rm-name" x="0" y="64" text-anchor="middle" font-size="24" fill="#f7f5ff" stroke="#12103a" stroke-width="4" paint-order="stroke">' + dest.name + '</text>' +
+      islandBase(118, locked ? '#8d89a8' : pal.a, '#4a4470') +
+      '<text y="-26" text-anchor="middle" font-size="46"' + (locked ? ' opacity="0.5"' : '') + '>' + (dest.mapEmoji || '🌍') + '</text>' +
+      (locked ? lockIcon() : '') +
+      '<text class="rm-name" x="0" y="42" text-anchor="middle" font-size="19" fill="#f7f5ff" stroke="#12103a" stroke-width="4" paint-order="stroke">' + dest.name + '</text>' +
       (dest.unlocked
-        ? '<text class="rm-time" x="0" y="90" text-anchor="middle" font-size="17" fill="#ffe9a8" stroke="#12103a" stroke-width="3" paint-order="stroke">🕐 ' + localTimeText(dest.utcOffset, now) + '</text>'
+        ? '<text class="rm-time" x="0" y="63" text-anchor="middle" font-size="14" fill="#ffe9a8" stroke="#12103a" stroke-width="3" paint-order="stroke">🕐 ' + localTimeText(dest.utcOffset, now) + '</text>'
         : '') +
       '</g>' +
-      '<rect x="-120" y="-130" width="240" height="240" fill="none" pointer-events="all"/>' +
+      '<rect x="-92" y="-92" width="184" height="172" fill="none" pointer-events="all"/>' +
       '</g>'
     );
   }
 
-  function flightPath(threadsLit) {
-    const a = SPOTS.tci;
-    const b = SPOTS.nyc;
-    const mx = (a.x + b.x) / 2;
-    const my = Math.min(a.y, b.y) - 120;
-    const d = 'M' + a.x + ' ' + (a.y - 30) + ' Q' + mx + ' ' + my + ' ' + b.x + ' ' + (b.y + 40);
-    let s = '<path d="' + d + '" fill="none" stroke="#f7f5ff" stroke-width="4" stroke-dasharray="3 14" stroke-linecap="round" opacity="0.6"/>';
-    if (threadsLit) {
-      s += '<path class="rm-thread" d="' + d + '" fill="none" stroke="#ffd166" stroke-width="3" stroke-linecap="round" opacity="0.8"/>';
+  function routePath(count) {
+    let d = '';
+    for (let i = 0; i < Math.min(count, SPOT_LIST.length); i++) {
+      const p = SPOT_LIST[i];
+      if (i === 0) {
+        d = 'M' + p.x + ' ' + p.y;
+      } else {
+        const prev = SPOT_LIST[i - 1];
+        const mx = (prev.x + p.x) / 2;
+        const my = (prev.y + p.y) / 2 - 36;
+        d += ' Q' + mx + ' ' + my + ' ' + p.x + ' ' + p.y;
+      }
     }
-    // little plane riding the midpoint
-    s += '<g class="rm-plane" transform="translate(' + mx + ' ' + (my + 64) + ')">' +
-      '<text text-anchor="middle" font-size="34">✈️</text></g>';
+    return '<path d="' + d + '" fill="none" stroke="#f7f5ff" stroke-width="3.5" stroke-dasharray="2 12" stroke-linecap="round" opacity="0.5"/>';
+  }
+
+  function threadLines(pairs, idsInOrder) {
+    let s = '';
+    for (const [a, b] of pairs || []) {
+      const ia = idsInOrder.indexOf(a);
+      const ib = idsInOrder.indexOf(b);
+      if (ia < 0 || ib < 0) continue;
+      const pa = SPOT_LIST[ia];
+      const pb = SPOT_LIST[ib];
+      const mx = (pa.x + pb.x) / 2;
+      const my = Math.min(pa.y, pb.y) - 70;
+      s += '<path class="rm-thread" d="M' + pa.x + ' ' + (pa.y - 24) + ' Q' + mx + ' ' + my + ' ' + pb.x + ' ' + (pb.y - 24) +
+        '" fill="none" stroke="#ffd166" stroke-width="2.5" stroke-linecap="round" opacity="0.75"/>';
+    }
     return s;
   }
 
@@ -4452,17 +8388,17 @@ const RouteMap = (() => {
     if (night) {
       const seeds = [60, 150, 260, 410, 530, 640, 760, 880, 940, 340, 200, 700];
       for (const x of seeds) {
-        const y = 20 + ((x * 7919) % 220);
+        const y = 14 + ((x * 7919) % 90);
         s += '<circle class="wm-skystar" cx="' + x + '" cy="' + y + '" r="' + (1.2 + ((x * 31) % 10) / 6).toFixed(1) +
           '" fill="#f7f5ff" style="animation-delay:' + (-(x % 24) / 10) + 's"/>';
       }
     }
     const cloud = (cls, y, sc) =>
-      '<g class="wm-cloud ' + cls + '" opacity="0.5" transform="translate(0 ' + y + ') scale(' + sc + ')">' +
+      '<g class="wm-cloud ' + cls + '" opacity="0.4" transform="translate(0 ' + y + ') scale(' + sc + ')">' +
       '<ellipse cx="0" cy="0" rx="46" ry="16" fill="#f7f5ff" opacity="0.5"/>' +
       '<ellipse cx="-26" cy="6" rx="28" ry="11" fill="#f7f5ff" opacity="0.4"/>' +
       '<ellipse cx="30" cy="7" rx="26" ry="10" fill="#f7f5ff" opacity="0.4"/></g>';
-    s += cloud('', 110, 1) + cloud('c2', 210, 0.8) + cloud('c3', 60, 0.6);
+    s += cloud('', 230, 0.9) + cloud('c2', 390, 0.7) + cloud('c3', 70, 0.55);
     return s;
   }
 
@@ -4472,10 +8408,18 @@ const RouteMap = (() => {
     container.style.background =
       'linear-gradient(180deg, ' + sky[0] + ' 0%, ' + sky[1] + ' 52%, ' + sky[2] + ' 100%)';
     const now = view.now;
-    let svg = '<svg viewBox="0 0 1000 620" preserveAspectRatio="xMidYMid meet" aria-label="Adventure map">';
+    const ids = view.dests.map((d) => d.id);
+    let svg = '<svg viewBox="0 0 1000 620" preserveAspectRatio="xMidYMid meet" aria-label="World tour map">';
     svg += skyBits(hour);
-    svg += flightPath((view.threads || []).length > 0);
-    for (const d of view.dests) svg += destGroup(d, now);
+    svg += routePath(view.dests.length);
+    svg += threadLines(view.threadPairs, ids);
+    view.dests.forEach((d, i) => { svg += destGroup(d, i, now); });
+    // the little plane rides beside the first not-done unlocked stop
+    const nextIdx = view.dests.findIndex((d) => d.unlocked && !d.done);
+    if (nextIdx > -1) {
+      const p = SPOT_LIST[nextIdx];
+      svg += '<g class="rm-plane" transform="translate(' + (p.x - 86) + ' ' + (p.y - 86) + ')"><text text-anchor="middle" font-size="30">✈️</text></g>';
+    }
     svg += '</svg>';
     container.innerHTML = svg;
 
@@ -4630,8 +8574,9 @@ const Screens = (() => {
   // ---------- route map shell ----------
   function route(el, opts) {
     const o = opts || {};
+    // never a backlog count — just a glowing envelope when letters wait
     const mail = o.mailCount
-      ? '<button class="btn btn-ghost" data-action="mailbag" data-press>📬 Mail<span class="mail-badge">' + o.mailCount + '</span></button>'
+      ? '<button class="btn btn-ghost btn-travel" data-action="mailbag" data-press>📬 Mail!</button>'
       : '';
     el.innerHTML =
       '<section class="screen screen-route">' +
@@ -4712,6 +8657,17 @@ const Screens = (() => {
       '<h2 class="step-title">I wonder…</h2>' +
       '<p class="step-text">' + esc(step.wonder.q) + '</p>' +
       '<button class="btn btn-primary btn-big" data-action="step-next" data-press>Let&#39;s find out! ➜</button>' +
+      '</div>';
+  }
+
+  function stepWonderAnswer(host, step) {
+    host.innerHTML =
+      '<div class="card step-card">' +
+      '<span class="step-emoji">💡</span>' +
+      '<h2 class="step-title">Remember what we wondered?</h2>' +
+      '<p class="step-sub">' + esc(step.wonder.q) + '</p>' +
+      '<p class="step-text">' + esc(step.wonder.a) + '</p>' +
+      '<button class="btn btn-primary btn-big" data-action="step-next" data-press>Now I know! ➜</button>' +
       '</div>';
   }
 
@@ -4818,16 +8774,49 @@ const Screens = (() => {
       '<div class="hint-line">💡 <span data-hint-line></span></div></div>' +
       '<div class="reveal-card" data-reveal hidden>' +
       '<div class="reveal-top" data-reveal-top></div>' +
-      '<div class="reveal-line" data-reveal-line></div></div>' +
+      '<div class="reveal-line" data-reveal-line></div>' +
+      '<button class="btn btn-primary reveal-go" data-action="reveal-continue" data-press>Keep going ➜</button>' +
+      '</div>' +
       '</div>';
   }
 
+  // ---------- leave-visit confirm overlay ----------
+  function leaveConfirm(host) {
+    const wrap = document.createElement('div');
+    wrap.className = 'overlay';
+    wrap.setAttribute('data-leave-overlay', '');
+    wrap.innerHTML =
+      '<div class="card settings-card">' +
+      '<h2>Fly back to the map?</h2>' +
+      '<p class="settings-note">This visit will wait for another day.</p>' +
+      '<button class="btn btn-primary btn-big" data-action="leave-stay" data-press>Keep exploring!</button>' +
+      '<button class="btn btn-big" data-action="leave-go" data-press>🌍 Fly back</button>' +
+      '</div>';
+    host.appendChild(wrap);
+    return wrap;
+  }
+
   // ---------- showtime ----------
+  // The stage paints itself from the destination palette: golden hour on the
+  // first visit, a starrier night variant on returns. The landmark glyph
+  // stands large behind her — every destination gets a scene for free.
   function showtime(host, dest, isReturn, animal) {
-    const bg = 'bg-' + dest.id + (isReturn ? '-night' : '');
+    const pal = dest.palette || { a: '#7ef0e2', b: '#a78bfa' };
+    const sky = isReturn
+      ? 'background:linear-gradient(180deg,#0d0b30 0%,#1d1b4b 55%,' + pal.b + ' 130%)'
+      : 'background:linear-gradient(180deg,#f9a8d4 0%,#ffd166 48%,' + pal.a + ' 100%)';
+    const ground = isReturn
+      ? 'background:linear-gradient(180deg, rgba(13,11,48,0.55), rgba(13,11,48,0.8)),' +
+        'linear-gradient(180deg,' + pal.b + ',' + pal.b + ')'
+      : 'background:linear-gradient(180deg, rgba(20,16,58,0.2), rgba(20,16,58,0.5)),' +
+        'linear-gradient(180deg,' + pal.b + ',' + pal.b + ')';
+    const sun = isReturn ? 'background:#f7f5ff;box-shadow:0 0 40px 14px rgba(126,240,226,0.5);width:58px;height:58px' : '';
     host.innerHTML =
-      '<div class="showtime-stage ' + bg + '" data-stage>' +
-      '<div class="st-sky"></div><div class="st-sun"></div><div class="st-ground"></div>' +
+      '<div class="showtime-stage" data-stage>' +
+      '<div class="st-sky" style="' + sky + '"></div>' +
+      '<div class="st-sun" style="' + sun + '"></div>' +
+      '<div class="st-ground" style="' + ground + '"></div>' +
+      '<div class="st-landmark" aria-hidden="true">' + esc(dest.mapEmoji || '🌍') + '</div>' +
       '<div data-avatar></div>' +
       '<div class="st-animal" data-st-animal>' + esc(animal.emoji) + '</div>' +
       '<div class="polaroid-frame" data-polaroid>' +
@@ -5004,8 +8993,8 @@ const Screens = (() => {
 
   return {
     title, route, visitShell, setProgress,
-    stepArrival, stepPhrase, stepWonder, stepFact, stepFriend, stepSouvenir, stepLandmark,
-    challenge, showtime, journal, settings,
+    stepArrival, stepPhrase, stepWonder, stepWonderAnswer, stepFact, stepFriend, stepSouvenir, stepLandmark,
+    challenge, showtime, journal, settings, leaveConfirm,
     setSlot, fillSlotsWith, showFeedback, showHint, showReveal, clearNotes, markChoiceAnswer,
     muteIcon,
   };
@@ -5028,12 +9017,11 @@ const Main = (() => {
   let prefillCount = 0;
   let selection = [];
   let pendingSubmitTimer = 0;
-  let revealPending = false;
-  let revealReadyTs = 0;
   let landmarkBeat = 0;
   let showMoves = [];        // showtime choreography
   let photoTaken = false;
   let settingsEl = null;
+  let leaveEl = null;        // mid-visit leave confirmation overlay
   let journalTab = 'stamps';
   let trailUntil = 0;
   let lastTs = 0;
@@ -5144,6 +9132,7 @@ const Main = (() => {
     const t = e.target;
     if (t && t.classList && t.classList.contains('overlay')) {
       if (t.hasAttribute('data-settings-overlay')) closeSettings();
+      else if (t.hasAttribute('data-leave-overlay')) closeLeave();
       return;
     }
     const moveBtn = t && t.closest ? t.closest('[data-move]') : null;
@@ -5156,13 +9145,6 @@ const Main = (() => {
       handleAction(actBtn.getAttribute('data-action'), actBtn);
       return;
     }
-    if (screen === 'visit' && revealPending) {
-      if (performance.now() >= revealReadyTs) {
-        revealPending = false;
-        advanceNow();
-      }
-      return;
-    }
     if (screen !== 'visit' || busy || !run) return;
     const tile = t.closest ? t.closest('[data-tile]') : null;
     if (tile) {
@@ -5173,9 +9155,23 @@ const Main = (() => {
     if (ch) tapChoice(ch);
   }
 
+  function closeLeave() {
+    if (leaveEl) {
+      leaveEl.remove();
+      leaveEl = null;
+    }
+  }
+
   function handleAction(action, btn) {
     if (action === 'play') showMap();
-    else if (action === 'back-map') { clearTimers(); run = null; showMap(); }
+    else if (action === 'back-map') {
+      // mid-visit, a run is unresumable: confirm before discarding it
+      if (screen === 'visit' && run && !(leaveEl && leaveEl.isConnected)) leaveEl = Screens.leaveConfirm(app);
+      else if (!(screen === 'visit' && run)) { clearTimers(); run = null; showMap(); }
+    }
+    else if (action === 'leave-stay') closeLeave();
+    else if (action === 'leave-go') { closeLeave(); clearTimers(); run = null; showMap(); }
+    else if (action === 'reveal-continue') advanceNow();
     else if (action === 'journal') showJournal(journalTab);
     else if (action === 'journal-tab') showJournal(btn.getAttribute('data-tab'));
     else if (action === 'settings') openSettings();
@@ -5221,24 +9217,36 @@ const Main = (() => {
   // ---------------- routing ----------------
   function showTitle() {
     clearTimers();
+    Speech.stop();
     screen = 'title';
     Screens.title(app);
   }
 
   function showMap() {
     clearTimers();
+    Speech.stop(); // a greeting must never narrate over the route map
     run = null;
     visitDest = null;
     screen = 'map';
     Screens.route(app, { mailCount: game.mailbagIds().length });
     const container = app.querySelector('[data-routemap]');
-    const dests = Destinations.list.map((d) => {
-      const st = game.destStatus(d.id);
-      return { id: d.id, name: d.name, unlocked: st.unlocked, done: st.done, shine: st.shine, utcOffset: d.utcOffset };
-    });
+    // list destinations in route order so the serpentine layout matches chapters
+    const dests = Engine.ROUTE
+      .map((id) => Destinations.byId[id])
+      .filter(Boolean)
+      .map((d) => {
+        const st = game.destStatus(d.id);
+        return {
+          id: d.id, name: d.name, unlocked: st.unlocked, done: st.done,
+          shine: st.shine, utcOffset: d.utcOffset, palette: d.palette, mapEmoji: d.mapEmoji,
+        };
+      });
+    const threadPairs = game.litThreads().map((pairId) =>
+      Destinations.threads[pairId].map((fid) => Destinations.factIndex[fid].dest.id)
+    );
     RouteMap.render(container, {
       dests,
-      threads: game.litThreads(),
+      threadPairs,
       hour: new Date().getHours(),
       now: new Date(),
     }, startVisit);
@@ -5246,6 +9254,7 @@ const Main = (() => {
 
   function showJournal(tab) {
     clearTimers();
+    Speech.stop();
     journalTab = tab || 'stamps';
     screen = 'journal';
     const sch = game.scheduler;
@@ -5255,7 +9264,7 @@ const Main = (() => {
         : st.shine >= 3 ? 'Gold! You remember it all!'
           : st.shine >= 2 ? 'Full color — keep remembering!'
             : 'Stamped! Memories make it shine.';
-      return { name: d.name, emoji: d.id === 'tci' ? '🏝️' : '🗽', shine: st.shine, note };
+      return { name: d.name, emoji: d.mapEmoji || '🌍', shine: st.shine, note };
     });
     const facts = [];
     for (const d of Destinations.list) {
@@ -5347,7 +9356,6 @@ const Main = (() => {
     prefillCount = 0;
     selection = [];
     busy = false;
-    revealPending = false;
     landmarkBeat = landmarkBeat || 0;
     Screens.setProgress(app, cur.index, cur.total);
     const host = stepHost();
@@ -5364,6 +9372,10 @@ const Main = (() => {
       return;
     }
     if (cur.type === 'arrival') Screens.stepArrival(host, cur.step);
+    else if (cur.type === 'wonder-answer') {
+      Screens.stepWonderAnswer(host, cur.step);
+      AudioKit.play('levelup');
+    }
     else if (cur.type === 'phrase') {
       Screens.stepPhrase(host, cur.step);
       timer(450, () => sayPhrase(cur.step.phrase, false)); // the host kid greets her
@@ -5569,6 +9581,9 @@ const Main = (() => {
       return;
     }
 
+    // friendly reveal: she reads at her own pace and taps Keep going —
+    // no hidden tap gate, no auto-advance clock (the only timer this game
+    // ever pointed at a learning moment is gone)
     AudioKit.play('pop');
     Screens.showReveal(app, Copy.reveal(Math.random), out.explain || '');
     if (curView.item.type === 'tiles') {
@@ -5576,14 +9591,6 @@ const Main = (() => {
     } else {
       Screens.markChoiceAnswer(app, out.correctAnswer);
     }
-    revealPending = true;
-    revealReadyTs = performance.now() + 2800;
-    timer(7000, () => {
-      if (revealPending) {
-        revealPending = false;
-        advanceNow();
-      }
-    });
   }
 
   function advanceNow() {
@@ -5596,7 +9603,12 @@ const Main = (() => {
     const res = run.advance();
     if (res && res.finished) {
       if (res.kind === 'first') {
-        try { Juice.toast('🛂 A new stamp in your passport!', 3200); } catch (e) { /* toast only */ }
+        const next = game.nextAfter(res.destId);
+        if (next && next.chapterStart && next.chapter) {
+          try { Juice.toast('✈️ A new continent opens: ' + next.chapter.name + '!', 3600); } catch (e) { /* toast only */ }
+        } else {
+          try { Juice.toast('🛂 A new stamp in your passport!', 3200); } catch (e) { /* toast only */ }
+        }
       }
       run = null;
       showMap();
